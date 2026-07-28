@@ -131,3 +131,7 @@ struct ProfileView: View {
         static let favoriteNftTitle = "Избранные NFT"
     }
 }
+
+#Preview {
+    ProfileView(profileService: ProfileServiceMock())
+}

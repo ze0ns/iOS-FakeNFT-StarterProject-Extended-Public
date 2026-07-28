@@ -47,6 +47,7 @@
 		B9DCA1776CEB2BE45D4F2AA3 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8EC1FEA6154938DD331535 /* ProfileRequest.swift */; };
 		DCF2C72C06F5012ABF339E5B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B74EC999A5D19D59EC1F0D8 /* Profile.swift */; };
 		DDD488524F5EAD46DB2A9F71 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106DC136B9A0F7B087542473 /* ProfileView.swift */; };
+		F73A4E8F3A0B27376C4F7222 /* ProfileServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEFDA4ACF33DDF93F6E139 /* ProfileServiceMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		106DC136B9A0F7B087542473 /* ProfileView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5B74EC999A5D19D59EC1F0D8 /* Profile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		96FEFDA4ACF33DDF93F6E139 /* ProfileServiceMock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileServiceMock.swift; sourceTree = "<group>"; };
 		A871595FFB26458452D57209 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_FakeNFT_ExtendedApp.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			children = (
 				FCAA292A88F3B303126069A3 /* ProfileViewModel.swift */,
 				106DC136B9A0F7B087542473 /* ProfileView.swift */,
+				96FEFDA4ACF33DDF93F6E139 /* ProfileServiceMock.swift */,
 			);
 			name = Profile;
 			path = Profile;
@@ -501,6 +504,7 @@
 				B9DCA1776CEB2BE45D4F2AA3 /* ProfileRequest.swift in Sources */,
 				93C997DF3F1102FE4B4C9AFC /* ProfileViewModel.swift in Sources */,
 				DDD488524F5EAD46DB2A9F71 /* ProfileView.swift in Sources */,
+				F73A4E8F3A0B27376C4F7222 /* ProfileServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
