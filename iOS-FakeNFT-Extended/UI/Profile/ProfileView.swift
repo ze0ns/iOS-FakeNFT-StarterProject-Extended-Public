@@ -20,6 +20,14 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             content
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {}) {
+                            Image(systemName: Constants.editIcon)
+                                .foregroundStyle(Color.primary)
+                        }
+                    }
+                }
         }
         .task {
             await viewModel.loadProfile()
@@ -118,6 +126,7 @@ struct ProfileView: View {
 
     private enum Constants {
         static let chevronIcon = "chevron.right"
+        static let editIcon = "square.and.pencil"
         static let myNftTitle = "Мои NFT"
         static let favoriteNftTitle = "Избранные NFT"
     }
