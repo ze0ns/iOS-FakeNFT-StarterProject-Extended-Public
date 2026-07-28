@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		639F7EFC41D0D12350BA5560 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A871595FFB26458452D57209 /* ProfileService.swift */; };
+		93C997DF3F1102FE4B4C9AFC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA292A88F3B303126069A3 /* ProfileViewModel.swift */; };
 		ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */; };
 		ABC5E16E2C31F5AF002B4068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16D2C31F5AF002B4068 /* ContentView.swift */; };
 		ABC5E1702C31F5AF002B4068 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABC5E16F2C31F5AF002B4068 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		ABC5E1EB2C32084F002B4068 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABC5E1E92C32084F002B4068 /* Localizable.strings */; };
 		B9DCA1776CEB2BE45D4F2AA3 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8EC1FEA6154938DD331535 /* ProfileRequest.swift */; };
 		DCF2C72C06F5012ABF339E5B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B74EC999A5D19D59EC1F0D8 /* Profile.swift */; };
+		DDD488524F5EAD46DB2A9F71 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106DC136B9A0F7B087542473 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		106DC136B9A0F7B087542473 /* ProfileView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		5B74EC999A5D19D59EC1F0D8 /* Profile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		A871595FFB26458452D57209 /* ProfileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +107,7 @@
 		ABC5E1E72C320610002B4068 /* NftDetailBridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftDetailBridgeView.swift; sourceTree = "<group>"; };
 		ABC5E1EA2C32084F002B4068 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AD8EC1FEA6154938DD331535 /* ProfileRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
+		FCAA292A88F3B303126069A3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63D4CEEBD27AF87247B5C019 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				FCAA292A88F3B303126069A3 /* ProfileViewModel.swift */,
+				106DC136B9A0F7B087542473 /* ProfileView.swift */,
+			);
+			name = Profile;
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		ABC5E15F2C31F5AF002B4068 = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +290,7 @@
 				ABC5E1B82C31FD51002B4068 /* TestCatalogView.swift */,
 				ABC5E1E72C320610002B4068 /* NftDetailBridgeView.swift */,
 				ABC5E1C82C3203E9002B4068 /* NftDetails */,
+				63D4CEEBD27AF87247B5C019 /* Profile */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -484,6 +499,8 @@
 				DCF2C72C06F5012ABF339E5B /* Profile.swift in Sources */,
 				639F7EFC41D0D12350BA5560 /* ProfileService.swift in Sources */,
 				B9DCA1776CEB2BE45D4F2AA3 /* ProfileRequest.swift in Sources */,
+				93C997DF3F1102FE4B4C9AFC /* ProfileViewModel.swift in Sources */,
+				DDD488524F5EAD46DB2A9F71 /* ProfileView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
