@@ -52,6 +52,12 @@ struct ProfileView: View {
                 .foregroundStyle(Color.primary)
                 .padding(.top, 20)
 
+            if let websiteURL = profile.websiteURL {
+                Link(profile.website, destination: websiteURL)
+                    .font(.system(size: 15))
+                    .padding(.top, 8)
+            }
+
             Spacer()
         }
         .padding(.horizontal, 16)
