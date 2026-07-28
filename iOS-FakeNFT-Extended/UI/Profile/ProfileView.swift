@@ -11,6 +11,7 @@ import SwiftUI
 struct ProfileView: View {
 
     @State private var viewModel: ProfileViewModel
+    @State private var path: [Route] = []
 
     @MainActor
     init(profileService: ProfileService) {
@@ -18,7 +19,7 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             content
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -27,6 +28,9 @@ struct ProfileView: View {
                                 .foregroundStyle(Color.primary)
                         }
                     }
+                }
+                .navigationDestination(for: Route.self) { route in
+                    destination(for: route)
                 }
         }
         .task {
@@ -98,30 +102,54 @@ struct ProfileView: View {
 
     private func menu(for profile: Profile) -> some View {
         List {
-            menuRow(title: Constants.myNftTitle, count: profile.nfts.count)
-            menuRow(title: Constants.favoriteNftTitle, count: profile.likes.count)
+            menuRow(title: Constants.myNftTitle, count: profile.nfts.count, route: .myNft)
+            menuRow(title: Constants.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
         }
         .listStyle(.plain)
         .scrollDisabled(true)
         .frame(height: 108)
     }
 
-    private func menuRow(title: String, count: Int) -> some View {
-        HStack(spacing: 8) {
-            Text("\(title) (\(count))")
-                .font(.system(size: 17, weight: .bold))
-                .foregroundStyle(Color.primary)
+    private func menuRow(title: String, count: Int, route: Route) -> some View {
+        Button {
+            path.append(route)
+        } label: {
+            HStack(spacing: 8) {
+                Text("\(title) (\(count))")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundStyle(Color.primary)
 
-            Spacer()
+                Spacer()
 
-            Image(systemName: Constants.chevronIcon)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(Color.primary)
+                Image(systemName: Constants.chevronIcon)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.primary)
+            }
+            .frame(height: 54)
+            .contentShape(.rect)
         }
-        .frame(height: 54)
+        .buttonStyle(.plain)
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets())
-        .contentShape(.rect)
+    }
+
+    @ViewBuilder
+    private func destination(for route: Route) -> some View {
+        switch route {
+        case .myNft:
+            ContentUnavailableView(Constants.myNftTitle, systemImage: "square.stack")
+                .navigationTitle(Constants.myNftTitle)
+                .navigationBarTitleDisplayMode(.inline)
+        case .favoriteNft:
+            ContentUnavailableView(Constants.favoriteNftTitle, systemImage: "heart")
+                .navigationTitle(Constants.favoriteNftTitle)
+                .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    private enum Route: Hashable {
+        case myNft
+        case favoriteNft
     }
 
     private enum Constants {
