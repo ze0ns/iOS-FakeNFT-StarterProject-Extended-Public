@@ -28,11 +28,11 @@ struct NFTItem: Identifiable {
     extension NFTItem {
         
         
-      static let mock = NFTItem(name: "April",
+      static let mock = NFTItem(name: "Vulcan",
                            imageName: "white_vulcan_1",
                            rating: 2,
                            price: 1.78,
-                           currency: .btc,
+                                currency: .eth,
                            sellerName: "John Doe")
     }
 
