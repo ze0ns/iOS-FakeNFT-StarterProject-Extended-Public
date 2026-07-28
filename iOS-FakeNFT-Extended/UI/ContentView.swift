@@ -14,10 +14,11 @@ struct ContentView: View {
 func fetchStations() {
     Task {
         do {
-            let nft = try await NftServiceImpl(networkClient: DefaultNetworkClient(), storage: NftStorageImpl()).loadNft(id: "594aaf01-5962-4ab7-a6b5-470ea37beb93")
-            print("Successfully fetched stations: \(nft)")
+            let collections = try await CollectionServiceImpl(networkClient: DefaultNetworkClient(), storage: CollectionStorageImpl()).loadCollection()
+            print("Successfully fetched stations: \(collections)")
         } catch {
             print("Error fetching stations: \(error)")
         }
     }
 }
+//try await NftServiceImpl(networkClient: DefaultNetworkClient(), storage: NftStorageImpl()).loadNft(id: "594aaf01-5962-4ab7-a6b5-470ea37beb93")
