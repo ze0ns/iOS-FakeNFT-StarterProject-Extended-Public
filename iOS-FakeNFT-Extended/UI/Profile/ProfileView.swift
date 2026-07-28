@@ -46,6 +46,12 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 0) {
             header(for: profile)
 
+            Text(profile.description)
+                .font(.system(size: 13))
+                .lineSpacing(3)
+                .foregroundStyle(Color.primary)
+                .padding(.top, 20)
+
             Spacer()
         }
         .padding(.horizontal, 16)
