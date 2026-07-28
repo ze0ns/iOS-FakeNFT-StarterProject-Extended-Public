@@ -5,6 +5,7 @@
 //  Created by Kirill Efremov on 28.07.2026.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct ProfileView: View {
@@ -43,9 +44,32 @@ struct ProfileView: View {
 
     private func loadedContent(for profile: Profile) -> some View {
         VStack(alignment: .leading, spacing: 0) {
+            header(for: profile)
+
             Spacer()
         }
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func header(for profile: Profile) -> some View {
+        HStack(spacing: 16) {
+            KFImage(profile.avatarURL)
+                .resizable()
+                .placeholder {
+                    Circle()
+                        .fill(Color(.systemGray5))
+                }
+                .scaledToFill()
+                .frame(width: 70, height: 70)
+                .clipShape(.circle)
+
+            Text(profile.name)
+                .font(.system(size: 22, weight: .bold))
+                .foregroundStyle(Color.primary)
+
+            Spacer(minLength: 0)
+        }
+        .padding(.top, 20)
     }
 }
