@@ -65,9 +65,12 @@ struct ProfileView: View {
                 .padding(.top, 20)
 
             if let websiteURL = profile.websiteURL {
-                Link(profile.website, destination: websiteURL)
-                    .font(.system(size: 15))
-                    .padding(.top, 8)
+                Button(profile.website) {
+                    path.append(.website(websiteURL))
+                }
+                .font(.system(size: 15))
+                .foregroundStyle(Color.blue)
+                .padding(.top, 8)
             }
 
             menu(for: profile)
@@ -144,12 +147,17 @@ struct ProfileView: View {
             ContentUnavailableView(Constants.favoriteNftTitle, systemImage: "heart")
                 .navigationTitle(Constants.favoriteNftTitle)
                 .navigationBarTitleDisplayMode(.inline)
+        case let .website(url):
+            ContentUnavailableView(url.absoluteString, systemImage: "safari")
+                .navigationTitle(Constants.websiteTitle)
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 
     private enum Route: Hashable {
         case myNft
         case favoriteNft
+        case website(URL)
     }
 
     private enum Constants {
@@ -157,6 +165,7 @@ struct ProfileView: View {
         static let editIcon = "square.and.pencil"
         static let myNftTitle = "Мои NFT"
         static let favoriteNftTitle = "Избранные NFT"
+        static let websiteTitle = "Сайт пользователя"
     }
 }
 
