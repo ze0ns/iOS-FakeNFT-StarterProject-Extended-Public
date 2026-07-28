@@ -50,4 +50,10 @@ struct TabBarView: View {
 
 #Preview {
     TabBarView()
+        .environment(
+            ServicesAssembly(
+                networkClient: DefaultNetworkClient(),
+                nftStorage: NftStorageImpl()
+            )
+        )
 }
