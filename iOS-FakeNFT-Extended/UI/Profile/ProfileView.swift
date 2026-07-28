@@ -58,6 +58,9 @@ struct ProfileView: View {
                     .padding(.top, 8)
             }
 
+            menu(for: profile)
+                .padding(.top, 40)
+
             Spacer()
         }
         .padding(.horizontal, 16)
@@ -83,5 +86,39 @@ struct ProfileView: View {
             Spacer(minLength: 0)
         }
         .padding(.top, 20)
+    }
+
+    private func menu(for profile: Profile) -> some View {
+        List {
+            menuRow(title: Constants.myNftTitle, count: profile.nfts.count)
+            menuRow(title: Constants.favoriteNftTitle, count: profile.likes.count)
+        }
+        .listStyle(.plain)
+        .scrollDisabled(true)
+        .frame(height: 108)
+    }
+
+    private func menuRow(title: String, count: Int) -> some View {
+        HStack(spacing: 8) {
+            Text("\(title) (\(count))")
+                .font(.system(size: 17, weight: .bold))
+                .foregroundStyle(Color.primary)
+
+            Spacer()
+
+            Image(systemName: Constants.chevronIcon)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(Color.primary)
+        }
+        .frame(height: 54)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets())
+        .contentShape(.rect)
+    }
+
+    private enum Constants {
+        static let chevronIcon = "chevron.right"
+        static let myNftTitle = "Мои NFT"
+        static let favoriteNftTitle = "Избранные NFT"
     }
 }
