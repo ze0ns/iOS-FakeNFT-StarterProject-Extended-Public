@@ -30,4 +30,4 @@ struct UserModelElement: Codable {
     }
 }
 
-typealias UserModel = [UserModelElement]
+typealias UsersModel = [UserModelElement]

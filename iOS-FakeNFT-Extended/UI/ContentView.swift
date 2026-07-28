@@ -14,8 +14,8 @@ struct ContentView: View {
 func fetchStations() {
     Task {
         do {
-            let collections = try await CollectionServiceImpl(networkClient: DefaultNetworkClient(), storage: CollectionStorageImpl()).loadCollection()
-            print("Successfully fetched stations: \(collections)")
+            let users = try await UsersInfoImpl(networkClient: DefaultNetworkClient(), storage: UsersStorageImpl()).loadUsersInfo(page: "1")
+            print("Successfully fetched stations: \(users)")
         } catch {
             print("Error fetching stations: \(error)")
         }

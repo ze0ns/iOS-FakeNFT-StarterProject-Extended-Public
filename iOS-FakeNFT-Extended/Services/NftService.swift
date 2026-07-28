@@ -1,3 +1,5 @@
+// Получение NFT по ID , необходимо отправить ID NFT в ответ прийдет массив со ссылками на изображения NFT
+
 import Foundation
 
 protocol NftService {

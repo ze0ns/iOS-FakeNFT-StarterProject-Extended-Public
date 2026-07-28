@@ -3,7 +3,7 @@
 //  iOS-FakeNFT-Extended
 //
 //  Created by Oschepkov Aleksandr on 28.07.2026.
-//
+//  Получение коллекций NFT
 
 
 import Foundation
@@ -24,13 +24,16 @@ final class CollectionServiceImpl: CollectionService {
     }
 
     func loadCollection() async throws -> CollectionModel {
-        if let collections = await storage.getCollection() {
-            return collections
-        }
-
         let request = CollectionRequest()
-        let collections: CollectionModel = try await networkClient.send(request: request)
-        await storage.saveCollection(collections)
-        return collections
+        
+        do {
+            let collections: CollectionModel = try await networkClient.send(request: request)
+            print("✅ Данные успешно скачаны из сети")
+            await storage.saveCollection(collections)
+            return collections
+        } catch {
+            print("❌ Ошибка при загрузке из сети: \(error.localizedDescription)")
+            throw error
+        }
     }
 }

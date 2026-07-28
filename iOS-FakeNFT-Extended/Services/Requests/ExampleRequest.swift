@@ -1,7 +1,15 @@
 import Foundation
 
-struct ExampleRequest: NetworkRequest {
+enum APIRequest {
+    case users(page: String)
+    case collections
+    
     var endpoint: URL? {
-        URL(string: "INSERT_URL_HERE")
+        switch self {
+        case .users(let page):
+            return URL(string: "\(RequestConstants.baseURL)/api/v1/users?page=\(page)&size=10")
+        case .collections:
+            return URL(string: "\(RequestConstants.baseURL)/api/v1/collections")
+        }
     }
 }
