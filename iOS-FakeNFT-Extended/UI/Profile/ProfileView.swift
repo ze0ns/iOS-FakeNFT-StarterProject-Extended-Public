@@ -27,6 +27,7 @@ struct ProfileView: View {
                             Image(systemName: Constants.editIcon)
                                 .foregroundStyle(Color.primary)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .navigationDestination(for: Route.self) { route in
@@ -55,31 +56,31 @@ struct ProfileView: View {
     }
 
     private func loadedContent(for profile: Profile) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            header(for: profile)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                header(for: profile)
 
-            Text(profile.description)
-                .font(.system(size: 13))
-                .lineSpacing(3)
-                .foregroundStyle(Color.primary)
-                .padding(.top, 20)
+                Text(profile.description)
+                    .font(.system(size: 13))
+                    .lineSpacing(3)
+                    .foregroundStyle(Color.primary)
+                    .padding(.top, 20)
 
-            if let websiteURL = profile.websiteURL {
-                Button(profile.website) {
-                    path.append(.website(websiteURL))
+                if let websiteURL = profile.websiteURL {
+                    Button(profile.website) {
+                        path.append(.website(websiteURL))
+                    }
+                    .font(.system(size: 15))
+                    .foregroundStyle(Color.blue)
+                    .padding(.top, 8)
                 }
-                .font(.system(size: 15))
-                .foregroundStyle(Color.blue)
-                .padding(.top, 8)
+
+                menu(for: profile)
+                    .padding(.top, 40)
             }
-
-            menu(for: profile)
-                .padding(.top, 40)
-
-            Spacer()
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.horizontal, 16)
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func header(for profile: Profile) -> some View {
