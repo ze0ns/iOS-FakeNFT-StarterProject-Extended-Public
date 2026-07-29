@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9904D22C02FFEC57E76D242 /* TabPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC04930AC68B7D1B02C057BA /* TabPlaceholderView.swift */; };
 		3F0FA3BE301720780016C26F /* NftItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0FA3BD301720700016C26F /* NftItem.swift */; };
 		3F0FA3C0301720A80016C26F /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0FA3BF301720970016C26F /* CryptoCurrency.swift */; };
 		3F0FA44130175E650016C26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F0FA44030175E650016C26F /* LaunchScreen.storyboard */; };
@@ -104,6 +105,7 @@
 		ABC5E1E52C320585002B4068 /* LinePageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinePageControl.swift; sourceTree = "<group>"; };
 		ABC5E1E72C320610002B4068 /* NftDetailBridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftDetailBridgeView.swift; sourceTree = "<group>"; };
 		ABC5E1EA2C32084F002B4068 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CC04930AC68B7D1B02C057BA /* TabPlaceholderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TabPlaceholderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -285,6 +287,7 @@
 				ABC5E1B82C31FD51002B4068 /* TestCatalogView.swift */,
 				ABC5E1E72C320610002B4068 /* NftDetailBridgeView.swift */,
 				ABC5E1C82C3203E9002B4068 /* NftDetails */,
+				CC04930AC68B7D1B02C057BA /* TabPlaceholderView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				ABC5E1A82C31FA90002B4068 /* DateFormatters+Presets.swift in Sources */,
 				ABC5E1D12C32042C002B4068 /* NftDetailPresenter.swift in Sources */,
 				ABC5E1B02C31FB90002B4068 /* RequestConstants.swift in Sources */,
+				A9904D22C02FFEC57E76D242 /* TabPlaceholderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
