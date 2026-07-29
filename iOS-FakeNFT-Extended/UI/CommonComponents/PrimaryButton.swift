@@ -20,11 +20,15 @@ struct PrimaryButton: View {
                     .foregroundStyle(isEnabled ? .whitePrimary : .whitePrimary.opacity(0.5))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
+                    .cornerRadius(16)
                     .background(
-                        Capsule()
+                        RoundedRectangle(cornerRadius: 16)
                             .fill(isEnabled ? .blackPrimary : .blackPrimary.opacity(0.5))
                     )
+                
             }
+        
+        
             .disabled(!isEnabled)
         }
 }

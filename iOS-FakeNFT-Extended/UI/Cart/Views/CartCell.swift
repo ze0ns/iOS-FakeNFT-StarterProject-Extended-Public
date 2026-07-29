@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct NFTItemCell: View {
+struct CartCell: View {
     let item: NFTItem
     var onDeleteTap: (() -> Void)? = nil
  
@@ -20,7 +20,6 @@ struct NFTItemCell: View {
                 Text(item.name)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundColor(.blackPrimary)
- 
                 ratingView
  
                 Spacer()
@@ -33,7 +32,9 @@ struct NFTItemCell: View {
                     .font(.system(size: 17, weight: .bold))
                     .foregroundColor(.blackPrimary)
                     .lineLimit(1)
+                    
             }
+            .padding(.vertical, 8)
  
             Spacer()
  
@@ -82,8 +83,8 @@ private enum Constants {
  
 #Preview {
     List {
-        NFTItemCell(item: .mock)
-        NFTItemCell(item: .mock)
+        CartCell(item: .mock)
+        CartCell(item: .mock)
             .listRowSeparator(.hidden)
     }
     .listStyle(.plain)
