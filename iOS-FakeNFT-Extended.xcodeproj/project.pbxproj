@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		068D85A530199AE90095360F /* UserInfoCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D85A430199AE90095360F /* UserInfoCellModel.swift */; };
 		06AF81C730188A9D004D1A20 /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81C630188A9D004D1A20 /* UserInfoCell.swift */; };
 		06AF81C930188ACB004D1A20 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81C830188ACB004D1A20 /* StatisticsView.swift */; };
 		ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		068D85A430199AE90095360F /* UserInfoCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCellModel.swift; sourceTree = "<group>"; };
 		06AF81C630188A9D004D1A20 /* UserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCell.swift; sourceTree = "<group>"; };
 		06AF81C830188ACB004D1A20 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +133,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		068D85A330199AE50095360F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				068D85A430199AE90095360F /* UserInfoCellModel.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		06AF81C530188A85004D1A20 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +240,7 @@
 		ABC5E19E2C31F6C1002B4068 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				068D85A330199AE50095360F /* UI */,
 				ABC5E19F2C31F6CB002B4068 /* Network */,
 			);
 			path = Models;
@@ -480,6 +491,7 @@
 				ABC5E1AE2C31FB7F002B4068 /* NftByIdRequest.swift in Sources */,
 				ABC5E1DB2C3204CE002B4068 /* UIView+Constraints.swift in Sources */,
 				ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */,
+				068D85A530199AE90095360F /* UserInfoCellModel.swift in Sources */,
 				ABC5E1CB2C3203FC002B4068 /* NftDetailCellModel.swift in Sources */,
 				ABC5E1AB2C31FACD002B4068 /* NftService.swift in Sources */,
 				ABC5E1B22C31FBD4002B4068 /* ExampleRequest.swift in Sources */,
