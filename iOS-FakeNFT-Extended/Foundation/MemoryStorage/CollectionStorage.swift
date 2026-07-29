@@ -9,15 +9,30 @@
 import Foundation
 
 protocol CollectionStorage: AnyObject {
-    func saveCollection(_ collectionNft: CollectionModel) async
+    func saveCollection(_ collection: CollectionModelElement) async
+    func getCollection() async -> CollectionModelElement?
+}
+protocol CollectionsStorage: AnyObject {
+    func saveCollection(_ collections: CollectionModel) async
     func getCollection() async -> CollectionModel?
 }
 
-// Пример простого актора, который сохраняет данные из сети
+
 actor CollectionStorageImpl: CollectionStorage {
+    private var storage: CollectionModelElement?
+    func saveCollection(_ collection: CollectionModelElement) async {
+        storage = collection
+    }
+    
+    func getCollection() async -> CollectionModelElement? {
+        storage
+    }
+    
+}
+actor CollectionsStorageImpl: CollectionsStorage {
     private var storage: CollectionModel = []
-    func saveCollection(_ collectionNft: CollectionModel) async {
-        storage = collectionNft
+    func saveCollection(_ collections: CollectionModel) async {
+        storage = collections
     }
     
     func getCollection() async -> CollectionModel? {
