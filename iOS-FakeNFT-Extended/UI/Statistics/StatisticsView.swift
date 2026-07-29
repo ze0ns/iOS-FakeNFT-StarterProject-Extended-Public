@@ -1,14 +1,10 @@
+//
 //  StatisticsView.swift
 //  iOS-FakeNFT-Extended
 //
 //  Created by Oschepkov Aleksandr on 28.07.2026.
 //
 import SwiftUI
-
-enum SortOption {
-    case name
-    case rating
-}
 
 struct StatisticsView: View {
     @State private var users: [UserInfoCellModel] = [
