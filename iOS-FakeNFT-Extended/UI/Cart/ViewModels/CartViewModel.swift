@@ -6,6 +6,13 @@
 //
 import Foundation
 
+enum SortOption: String, CaseIterable {
+    case price = "По цене"
+    case rating = "По рейтингу"
+    case name = "По названию"
+}
+
+@Observable
 final class CartViewModel {
     
     private(set) var items: [NFTItem] = []
@@ -36,6 +43,7 @@ final class CartViewModel {
      
         do {
             items = try await service.fetchCartItems()
+            
         } catch {
             items = []
             showErrorAlert = true
@@ -44,5 +52,18 @@ final class CartViewModel {
     
     func removeItem(_ item: NFTItem) {
         items.removeAll { $0.id == item.id }
+    }
+    
+    func sort(by option: SortOption) {
+        switch option {
+        case .price:
+            items.sort { $0.price < $1.price }
+
+        case .rating:
+            items.sort { $0.rating > $1.rating }
+
+        case .name:
+            items.sort { $0.name < $1.name }
+        }
     }
 }
