@@ -10,7 +10,7 @@ enum APIRequest: NetworkRequest {
     case profile
     case updateProfile(dto: any Encodable)
     case orders
-    case updateOrders(dto: any Encodable)
+    case updateOrders(nfts: [String])
     case payOrders(dto: any Encodable)
     
     private var baseURL: String {
@@ -49,8 +49,11 @@ enum APIRequest: NetworkRequest {
     }
     var dto: Encodable? {
         switch self {
-        case .updateProfile(let dto), .updateOrders(let dto), .payOrders(let dto) :
+        case .updateProfile(let dto), .payOrders(let dto) :
             return dto
+        case .updateOrders(let nfts):
+            let nftsString = nfts.joined(separator: ", ")
+            return "nfts=\(nftsString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
         default:
             return nil
         }
@@ -79,3 +82,4 @@ enum APIRequest: NetworkRequest {
         }
     }
 }
+
