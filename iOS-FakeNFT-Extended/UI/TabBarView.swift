@@ -23,10 +23,7 @@ struct TabBarView: View {
                 }
                 .backgroundStyle(.background)
 
-            TabPlaceholderView(
-                title: NSLocalizedString("Tab.cart", comment: ""),
-                systemImage: "bag.fill"
-            )
+           CartView()
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.cart", comment: ""),
@@ -56,4 +53,5 @@ struct TabBarView: View {
                 nftStorage: NftStorageImpl()
             )
         )
+    
 }

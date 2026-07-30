@@ -7,10 +7,14 @@
 import SwiftUI
 
 struct CartView: View {
-    @State private var items: [NFTItem]
     
-    init(items: [NFTItem]) {
-        _items = State(initialValue: items)
+    @State private var items: [NFTItem] = []
+    @State private var isLoading = false
+    
+    private let service: CartServiceProtocol
+    
+    init(service: CartServiceProtocol = MockCartService()) {
+        self.service = service
     }
     
     private var totalPrice: Decimal {
@@ -30,7 +34,9 @@ struct CartView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            if items.isEmpty {
+            if isLoading {
+                ProgressView()
+            } else if items.isEmpty {
                 emptyStateView
             } else {
                 ScrollView {
@@ -48,7 +54,10 @@ struct CartView: View {
                 bottomBar
             }
         }
-        .background(Color(.systemBackground))
+        .background(Color(.whitePrimary))
+        .task {
+                    await loadItems()
+                }
     }
     
     // MARK: Header
@@ -75,7 +84,7 @@ struct CartView: View {
                     
                     Text(totalPriceText)
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(.green)
+                        .foregroundColor(.greenUniversal)
                 }
                 
                 Spacer()
@@ -102,6 +111,20 @@ struct CartView: View {
         }
         .frame(maxWidth: .infinity)
     }
+    
+    // MARK: Loading
+    private func loadItems() async {
+            isLoading = true
+            defer { isLoading = false }
+     
+            do {
+                items = try await service.fetchCartItems()
+            } catch {
+                items = []
+                // здесь можно завести @State private var errorMessage: String?
+                // и показать алерт/баннер с ошибкой
+            }
+        }
 }
 
 private enum Constants {
@@ -114,9 +137,9 @@ private enum Constants {
 // MARK: - Preview
 
 #Preview {
-    CartView(items: [.mock, .mock])
+    CartView(service: MockCartService())
 }
 
 #Preview {
-    CartView(items: [])
+    CartView(service: MockCartService())
 }

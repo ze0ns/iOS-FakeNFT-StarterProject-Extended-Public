@@ -83,8 +83,8 @@ private enum Constants {
  
 #Preview {
     List {
-        CartCell(item: .mock)
-        CartCell(item: .mock)
+        CartCell(item: .mockOlaf)
+        CartCell(item: .mockVulcan)
             .listRowSeparator(.hidden)
     }
     .listStyle(.plain)
