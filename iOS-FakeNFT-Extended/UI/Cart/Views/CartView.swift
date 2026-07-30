@@ -54,8 +54,8 @@ struct CartView: View {
         }
         .background(Color(.whitePrimary))
         .task {
-                    await loadItems()
-                }
+            await loadItems()
+        }
     }
     
     // MARK: List
@@ -104,13 +104,14 @@ struct CartView: View {
                               isEnabled: true) {
                     
                 }
-                .frame(width: 240, height: 44)
+                              .frame(width: 240, height: 44)
                 
             }
             .padding()
             .background(.lightGrayPrimary)
         }
     }
+    
     // MARK: - EmptyStateView
     private var emptyStateView: some View {
         VStack {
@@ -125,16 +126,16 @@ struct CartView: View {
     
     // MARK: - Loading
     private func loadItems() async {
-            isLoading = true
-            defer { isLoading = false }
-     
-            do {
-                items = try await service.fetchCartItems()
-            } catch {
-                items = []
-                showErrorAlert = true
-            }
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            items = try await service.fetchCartItems()
+        } catch {
+            items = []
+            showErrorAlert = true
         }
+    }
 }
 
 private enum Constants {
