@@ -21,12 +21,12 @@ protocol UsersInfoService {
 }
 
 @MainActor
-final class UsersInfoImpl: UsersInfoService {
+final class UsersInfoServiceImpl: UsersInfoService {
 
     private let networkClient: NetworkClient
-    private let storage: UsersStorage
+    private let storage: AppStorage
 
-    init(networkClient: NetworkClient, storage: UsersStorage) {
+    init(networkClient: NetworkClient, storage: AppStorage) {
         self.storage = storage
         self.networkClient = networkClient
     }
@@ -37,7 +37,7 @@ final class UsersInfoImpl: UsersInfoService {
         do {
             let users: UsersModel = try await networkClient.send(request: request)
             print("✅ Данные успешно скачаны из сети")
-            await storage.saveCollection(users)
+            await storage.saveUsers(users)
             return users
         } catch {
             print("❌ Ошибка при загрузке из сети: \(error.localizedDescription)")

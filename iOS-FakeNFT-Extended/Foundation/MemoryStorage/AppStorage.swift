@@ -7,7 +7,6 @@
 
 import Foundation
 
-// 1. Единый протокол, объединяющий все обязанности
 protocol AppStorage: AnyObject {
     // Single Collection
     func saveCollection(_ collection: CollectionModelElement) async
@@ -24,15 +23,37 @@ protocol AppStorage: AnyObject {
     // NFT
     func saveNft(_ nft: Nft) async
     func getNft(with id: String) async -> Nft?
+    
+    // Array NFT
+    func saveArrayNft(_ nft: [NftArrayElement]) async
+    func getNfts() async -> [NftArrayElement]?
+    
+    // Array Currencies
+    func saveCurrency(_ Currency: [Currency]) async
+    func getCurrency() async -> [Currency]?
+    
+    // Profile
+    func saveProfile(_ Profile: ProfileModel) async
+    func getProfile() async -> ProfileModel?
+    
+    // Orders
+    func saveOrders(_ Orders: OrdersModel) async
+    func getOrders() async -> OrdersModel?
 }
 
-// 2. Единый Actor, реализующий этот протокол
+
 actor AppStorageImpl: AppStorage {
+
+
     // Приватные хранилища для каждого типа данных
     private var collectionStorage: CollectionModelElement?
     private var collectionsStorage: CollectionModel = []
     private var usersStorage: UsersModel = []
     private var nftsStorage: [String: Nft] = [:]
+    private var nftArrayStorage: [NftArrayElement] = []
+    private var currencyStorage: [Currency] = []
+    private var profileStorage: ProfileModel?
+    private var ordersStorage: OrdersModel?
 
     // MARK: - Single Collection
     func saveCollection(_ collection: CollectionModelElement) async {
@@ -69,4 +90,41 @@ actor AppStorageImpl: AppStorage {
     func getNft(with id: String) async -> Nft? {
         nftsStorage[id]
     }
+    func saveArrayNft(_ arrayNft: [NftArrayElement]) async {
+        nftArrayStorage = arrayNft
+    }
+    
+    func getNfts() async -> [NftArrayElement]? {
+        nftArrayStorage.isEmpty ? nil : nftArrayStorage
+    }
+    
+    // MARK: - Currency
+    func saveCurrency(_ Currency: [Currency]) async {
+        currencyStorage = Currency
+    }
+    
+    func getCurrency() async -> [Currency]? {
+        currencyStorage.isEmpty ? nil : currencyStorage
+    }
+   
+    // MARK: - Currency
+    func saveProfile(_ Profile: ProfileModel) async {
+        profileStorage = Profile
+    }
+    
+    func getProfile() async -> ProfileModel? {
+        profileStorage
+    }
+    
+    // MARK: - Orders
+    func saveOrders(_ Orders: OrdersModel) async {
+        ordersStorage = Orders
+    }
+    
+    func getOrders() async -> OrdersModel? {
+        ordersStorage
+    }
+    
+
+    
 }
