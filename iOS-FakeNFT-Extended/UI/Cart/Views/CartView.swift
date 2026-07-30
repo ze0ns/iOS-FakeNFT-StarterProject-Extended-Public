@@ -10,6 +10,7 @@ struct CartView: View {
     
     @State private var items: [NFTItem] = []
     @State private var isLoading = false
+    @State private var showErrorAlert = false
     
     private let service: CartServiceProtocol
     
@@ -39,19 +40,16 @@ struct CartView: View {
             } else if items.isEmpty {
                 emptyStateView
             } else {
-                ScrollView {
-                    filterButton
-                    VStack(spacing: 20) {
-                        ForEach(items) { item in
-                            CartCell(item: item) {
-                                items.removeAll { $0.id == item.id }
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                
+                list
                 bottomBar
+            }
+        }
+        .alert(Constants.failed, isPresented: $showErrorAlert) {
+            Button(Constants.cancel, role: .cancel) { }
+            Button(Constants.errorRepeat) {
+                Task {
+                    await loadItems()
+                }
             }
         }
         .background(Color(.whitePrimary))
@@ -60,8 +58,22 @@ struct CartView: View {
                 }
     }
     
-    // MARK: Header
+    // MARK: List
+    private var list: some View {
+        ScrollView {
+            filterButton
+            VStack(spacing: 20) {
+                ForEach(items) { item in
+                    CartCell(item: item) {
+                        items.removeAll { $0.id == item.id }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
     
+    // MARK: - Header
     private var filterButton: some View {
         HStack {
             Spacer()
@@ -73,7 +85,6 @@ struct CartView: View {
     }
     
     // MARK: Bottom bar
-    
     private var bottomBar: some View {
         VStack(spacing: 0) {
             HStack {
@@ -100,7 +111,7 @@ struct CartView: View {
             .background(.lightGrayPrimary)
         }
     }
-    
+    // MARK: - EmptyStateView
     private var emptyStateView: some View {
         VStack {
             Spacer()
@@ -112,7 +123,7 @@ struct CartView: View {
         .frame(maxWidth: .infinity)
     }
     
-    // MARK: Loading
+    // MARK: - Loading
     private func loadItems() async {
             isLoading = true
             defer { isLoading = false }
@@ -121,8 +132,7 @@ struct CartView: View {
                 items = try await service.fetchCartItems()
             } catch {
                 items = []
-                // здесь можно завести @State private var errorMessage: String?
-                // и показать алерт/баннер с ошибкой
+                showErrorAlert = true
             }
         }
 }
@@ -130,16 +140,16 @@ struct CartView: View {
 private enum Constants {
     static let pay = NSLocalizedString("Pay", comment: "")
     static let emptyCart = NSLocalizedString("EmptyCart", comment: "")
+    static let failed = NSLocalizedString("Error.network", comment: "")
+    static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
+    static let cancel = NSLocalizedString("Cancel", comment: "")
 }
-
- 
 
 // MARK: - Preview
-
 #Preview {
     CartView(service: MockCartService())
 }
 
 #Preview {
-    CartView(service: MockCartService())
+    CartView(service: FailingCartService())
 }

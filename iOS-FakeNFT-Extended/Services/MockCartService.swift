@@ -4,6 +4,7 @@
 //
 //  Created by Svetlana on 2026/7/30.
 //
+import Foundation
 
 protocol CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem]
@@ -24,5 +25,11 @@ struct MockCartService: CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem] {
         try await Task.sleep(for: delay)
         return itemsToReturn
+    }
+}
+
+struct FailingCartService: CartServiceProtocol {
+    func fetchCartItems() async throws -> [NFTItem] {
+        throw URLError(.notConnectedToInternet)
     }
 }
