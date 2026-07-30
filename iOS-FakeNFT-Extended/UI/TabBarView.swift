@@ -23,7 +23,7 @@ struct TabBarView: View {
                 }
                 .backgroundStyle(.background)
 
-           CartView()
+            CartView(viewModel: CartViewModel(service: MockCartService()))
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.cart", comment: ""),

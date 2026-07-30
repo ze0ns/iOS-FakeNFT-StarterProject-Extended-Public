@@ -8,53 +8,34 @@ import SwiftUI
 
 struct CartView: View {
     
-    @State private var items: [NFTItem] = []
-    @State private var isLoading = false
-    @State private var showErrorAlert = false
+    @State private var viewModel: CartViewModel
     
-    private let service: CartServiceProtocol
-    
-    init(service: CartServiceProtocol = MockCartService()) {
-        self.service = service
-    }
-    
-    private var totalPrice: Decimal {
-        items.reduce(0) { $0 + $1.price }
-    }
-    
-    private var totalPriceText: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        formatter.decimalSeparator = ","
-        let number = NSDecimalNumber(decimal: totalPrice)
-        guard let item = items.first else { return "" }
-        return "\(formatter.string(from: number) ?? "\(totalPrice)") \(item.currency.rawValue)"
+    init(viewModel: CartViewModel) {
+        self.viewModel = viewModel
     }
     
     var body: some View {
         VStack(spacing: 0) {
-            if isLoading {
+            if viewModel.isLoading {
                 ProgressView()
-            } else if items.isEmpty {
+            } else if viewModel.items.isEmpty {
                 emptyStateView
             } else {
                 list
                 bottomBar
             }
         }
-        .alert(Constants.failed, isPresented: $showErrorAlert) {
+        .alert(Constants.failed, isPresented: $viewModel.showErrorAlert) {
             Button(Constants.cancel, role: .cancel) { }
             Button(Constants.errorRepeat) {
                 Task {
-                    await loadItems()
+                    await viewModel.loadItems()
                 }
             }
         }
         .background(Color(.whitePrimary))
         .task {
-            await loadItems()
+            await viewModel.loadItems()
         }
     }
     
@@ -63,9 +44,9 @@ struct CartView: View {
         ScrollView {
             filterButton
             VStack(spacing: 20) {
-                ForEach(items) { item in
+                ForEach(viewModel.items) { item in
                     CartCell(item: item) {
-                        items.removeAll { $0.id == item.id }
+                        viewModel.removeItem(item)
                     }
                 }
             }
@@ -89,11 +70,11 @@ struct CartView: View {
         VStack(spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(items.count) NFT")
+                    Text("\(viewModel.items.count) NFT")
                         .font(.system(size: 15))
                         .foregroundColor(.secondary)
                     
-                    Text(totalPriceText)
+                    Text(viewModel.totalPriceText)
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(.greenUniversal)
                 }
@@ -123,19 +104,6 @@ struct CartView: View {
         }
         .frame(maxWidth: .infinity)
     }
-    
-    // MARK: - Loading
-    private func loadItems() async {
-        isLoading = true
-        defer { isLoading = false }
-        
-        do {
-            items = try await service.fetchCartItems()
-        } catch {
-            items = []
-            showErrorAlert = true
-        }
-    }
 }
 
 private enum Constants {
@@ -148,9 +116,9 @@ private enum Constants {
 
 // MARK: - Preview
 #Preview {
-    CartView(service: MockCartService())
+    CartView(viewModel: CartViewModel(service: MockCartService()))
 }
 
 #Preview {
-    CartView(service: FailingCartService())
+    CartView(viewModel: CartViewModel(service: FailingCartService()))
 }
