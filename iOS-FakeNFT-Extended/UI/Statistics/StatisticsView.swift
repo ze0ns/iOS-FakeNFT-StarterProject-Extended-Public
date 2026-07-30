@@ -17,7 +17,10 @@ struct StatisticsView: View {
     
     @State private var selectedUser: UserInfoCellModel?
     @State private var showSortPopup: Bool = false
-    
+    enum SortOption {
+        case name
+        case rating
+    }
     var body: some View {
         ZStack {
             // Основной контент
