@@ -23,6 +23,7 @@ struct ProfileView: View {
             content
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
+                        // TODO: экран редактирования профиля, итерация 3
                         Button(action: {}) {
                             Image(systemName: Constants.editIcon)
                                 .foregroundStyle(Color.primary)
@@ -142,10 +143,12 @@ struct ProfileView: View {
     private func destination(for route: Route) -> some View {
         switch route {
         case .myNft:
+            // TODO: экран «Мои NFT», итерация 2
             ContentUnavailableView(Constants.myNftTitle, systemImage: "square.stack")
                 .navigationTitle(Constants.myNftTitle)
                 .navigationBarTitleDisplayMode(.inline)
         case .favoriteNft:
+            // TODO: экран «Избранные NFT», итерация 2
             ContentUnavailableView(Constants.favoriteNftTitle, systemImage: "heart")
                 .navigationTitle(Constants.favoriteNftTitle)
                 .navigationBarTitleDisplayMode(.inline)
@@ -170,6 +173,8 @@ struct ProfileView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ProfileView(profileService: ProfileServiceMock())
 }
+#endif

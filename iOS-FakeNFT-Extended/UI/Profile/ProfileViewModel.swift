@@ -31,7 +31,12 @@ final class ProfileViewModel {
             let profile = try await profileService.loadProfile()
             state = .loaded(profile)
         } catch {
-            state = .failed(error.localizedDescription)
+            state = .failed(message(for: error))
         }
+    }
+
+    private func message(for error: Error) -> String {
+        let key = error is NetworkClientError ? "Error.network" : "Error.unknown"
+        return NSLocalizedString(key, comment: "")
     }
 }

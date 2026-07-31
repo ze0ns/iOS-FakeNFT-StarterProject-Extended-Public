@@ -7,6 +7,7 @@
 
 import Foundation
 
+#if DEBUG
 actor ProfileServiceMock: ProfileService {
 
     func loadProfile() async throws -> ProfileModel {
@@ -30,3 +31,4 @@ extension ProfileModel {
         id: "1"
     )
 }
+#endif
