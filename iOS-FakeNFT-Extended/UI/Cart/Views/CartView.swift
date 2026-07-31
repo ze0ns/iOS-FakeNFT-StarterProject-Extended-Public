@@ -60,7 +60,7 @@ struct CartView: View {
             } else if viewModel.items.isEmpty {
                 emptyStateView
             } else {
-                filterButton
+                sortButton
                 list
                 bottomBar
             }
@@ -88,9 +88,9 @@ struct CartView: View {
     
     // MARK: List
     private var list: some View {
-        List(items) { item in
+        List(viewModel.items) { item in
             CartCell(item: item) {
-                items.removeAll { $0.id == item.id }
+                viewModel.removeItem(item)
             }
             .listRowSeparator(.hidden)
         }
