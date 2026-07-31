@@ -72,6 +72,7 @@ struct ProfileView: View {
                     }
                     .font(.system(size: 15))
                     .foregroundStyle(Color.blue)
+                    .multilineTextAlignment(.leading)
                     .padding(.top, 8)
                 }
 
