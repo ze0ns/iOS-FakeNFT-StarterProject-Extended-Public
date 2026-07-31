@@ -60,6 +60,7 @@ struct CartView: View {
             } else if viewModel.items.isEmpty {
                 emptyStateView
             } else {
+                filterButton
                 list
                 bottomBar
             }
@@ -87,18 +88,13 @@ struct CartView: View {
     
     // MARK: List
     private var list: some View {
-        ScrollView {
-            sortButton
-            VStack(spacing: 20) {
-                ForEach(viewModel.items) { item in
-                    CartCell(item: item) {
-                        itemToDelete = item
-                        showDeleteAlert = true
-                    }
-                }
+        List(items) { item in
+            CartCell(item: item) {
+                items.removeAll { $0.id == item.id }
             }
-            .padding(.horizontal)
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
     }
     
     // MARK: - Sort
