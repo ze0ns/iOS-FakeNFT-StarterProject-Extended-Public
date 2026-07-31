@@ -40,6 +40,7 @@ struct CartView: View {
             } else if items.isEmpty {
                 emptyStateView
             } else {
+                filterButton
                 list
                 bottomBar
             }
@@ -60,18 +61,15 @@ struct CartView: View {
     
     // MARK: List
     private var list: some View {
-        ScrollView {
-            filterButton
-            VStack(spacing: 20) {
-                ForEach(items) { item in
-                    CartCell(item: item) {
-                        items.removeAll { $0.id == item.id }
-                    }
-                }
+        List(items) { item in
+            CartCell(item: item) {
+                items.removeAll { $0.id == item.id }
             }
-            .padding(.horizontal)
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
     }
+    
     
     // MARK: - Header
     private var filterButton: some View {
