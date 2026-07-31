@@ -34,10 +34,7 @@ struct TabBarView: View {
                 )
             }
 
-            TabPlaceholderView(
-                title: NSLocalizedString("Tab.statistics", comment: ""),
-                systemImage: "flag.2.crossed.fill"
-            )
+            StatisticsView()
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.statistics", comment: ""),
