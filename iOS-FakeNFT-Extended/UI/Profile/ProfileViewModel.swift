@@ -11,9 +11,9 @@ import Foundation
 @MainActor
 final class ProfileViewModel {
 
-    enum State: Equatable {
+    enum State {
         case loading
-        case loaded(Profile)
+        case loaded(ProfileModel)
         case failed(String)
     }
 
@@ -33,10 +33,5 @@ final class ProfileViewModel {
         } catch {
             state = .failed(error.localizedDescription)
         }
-    }
-
-    func reloadProfile() async {
-        await profileService.invalidateCache()
-        await loadProfile()
     }
 }

@@ -9,22 +9,24 @@ import Foundation
 
 actor ProfileServiceMock: ProfileService {
 
-    func loadProfile(id: String) async throws -> Profile {
-        Profile.mock
+    func loadProfile() async throws -> ProfileModel {
+        ProfileModel.mock
     }
 
-    func invalidateCache() {}
+    func updateProfile(profile: ProfileModel) async throws -> ProfileModel {
+        profile
+    }
 }
 
-extension Profile {
+extension ProfileModel {
 
-    static let mock = Profile(
-        id: "1",
+    static let mock = ProfileModel(
         name: "Joaquin Phoenix",
+        avatar: "https://code.s3.yandex.net/landings-v2-ios-developer/space.PNG",
         description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
         website: "https://practicum.yandex.ru",
-        avatar: "https://code.s3.yandex.net/landings-v2-ios-developer/space.PNG",
         nfts: Array(repeating: "nft", count: 112),
-        likes: Array(repeating: "like", count: 11)
+        likes: Array(repeating: "like", count: 11),
+        id: "1"
     )
 }

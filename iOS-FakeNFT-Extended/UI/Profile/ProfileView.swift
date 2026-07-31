@@ -55,7 +55,7 @@ struct ProfileView: View {
         }
     }
 
-    private func loadedContent(for profile: Profile) -> some View {
+    private func loadedContent(for profile: ProfileModel) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 header(for: profile)
@@ -83,7 +83,7 @@ struct ProfileView: View {
         }
     }
 
-    private func header(for profile: Profile) -> some View {
+    private func header(for profile: ProfileModel) -> some View {
         HStack(spacing: 16) {
             KFImage(profile.avatarURL)
                 .resizable()
@@ -104,7 +104,7 @@ struct ProfileView: View {
         .padding(.top, 20)
     }
 
-    private func menu(for profile: Profile) -> some View {
+    private func menu(for profile: ProfileModel) -> some View {
         List {
             menuRow(title: Constants.myNftTitle, count: profile.nfts.count, route: .myNft)
             menuRow(title: Constants.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
@@ -150,7 +150,6 @@ struct ProfileView: View {
                 .navigationBarTitleDisplayMode(.inline)
         case let .website(url):
             ContentUnavailableView(url.absoluteString, systemImage: "safari")
-                .navigationTitle(Constants.websiteTitle)
                 .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -166,7 +165,6 @@ struct ProfileView: View {
         static let editIcon = "square.and.pencil"
         static let myNftTitle = "Мои NFT"
         static let favoriteNftTitle = "Избранные NFT"
-        static let websiteTitle = "Сайт пользователя"
     }
 }
 

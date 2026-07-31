@@ -5,16 +5,19 @@ import Foundation
 final class ServicesAssembly {
 
     private let networkClient: NetworkClient
-    private let nftStorage: NftStorage
-    private let profileServiceImpl: ProfileServiceImpl
+    private let nftStorage: AppStorage
+    private let profileServiceImpl: ProfileService
 
     init(
         networkClient: NetworkClient,
-        nftStorage: NftStorage
+        nftStorage: AppStorage
     ) {
         self.networkClient = networkClient
         self.nftStorage = nftStorage
-        self.profileServiceImpl = ProfileServiceImpl(networkClient: networkClient)
+        self.profileServiceImpl = ProfileServiceImpl(
+            networkClient: networkClient,
+            storage: nftStorage
+        )
     }
 
     var nftService: NftService {
