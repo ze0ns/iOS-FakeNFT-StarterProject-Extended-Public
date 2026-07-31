@@ -10,4 +10,5 @@ enum ProfileIcons {
     static let edit = "square.and.pencil"
     static let myNft = "square.stack"
     static let favoriteNft = "heart"
+    static let avatarPlaceholder = "person.crop.circle.fill"
 }

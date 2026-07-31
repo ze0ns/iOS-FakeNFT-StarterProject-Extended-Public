@@ -26,7 +26,7 @@ struct ProfileView: View {
                         // TODO: экран редактирования профиля, итерация 3
                         Button(action: {}) {
                             Image(systemName: ProfileIcons.edit)
-                                .foregroundStyle(Color.primary)
+                                .foregroundStyle(Color(.blackPrimary))
                         }
                         .buttonStyle(.plain)
                     }
@@ -64,7 +64,7 @@ struct ProfileView: View {
                 Text(profile.description)
                     .font(.system(size: 13))
                     .lineSpacing(3)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color(.blackPrimary))
                     .padding(.top, 20)
 
                 if let websiteURL = profile.websiteURL {
@@ -72,7 +72,7 @@ struct ProfileView: View {
                         path.append(.website(websiteURL))
                     }
                     .font(.system(size: 15))
-                    .foregroundStyle(Color.blue)
+                    .foregroundStyle(Color(.blueUniversal))
                     .multilineTextAlignment(.leading)
                     .padding(.top, 8)
                 }
@@ -90,8 +90,10 @@ struct ProfileView: View {
             KFImage(profile.avatarURL)
                 .resizable()
                 .placeholder {
-                    Circle()
-                        .fill(Color(.systemGray5))
+                    Image(systemName: ProfileIcons.avatarPlaceholder)
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(Color(.grayUniversal))
                 }
                 .scaledToFill()
                 .frame(width: 70, height: 70)
@@ -99,7 +101,7 @@ struct ProfileView: View {
 
             Text(profile.name)
                 .font(.system(size: 22, weight: .bold))
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(Color(.blackPrimary))
 
             Spacer(minLength: 0)
         }
@@ -123,13 +125,13 @@ struct ProfileView: View {
             HStack(spacing: 8) {
                 Text("\(title) (\(count))")
                     .font(.system(size: 17, weight: .bold))
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color(.blackPrimary))
 
                 Spacer()
 
                 Image(systemName: ProfileIcons.chevron)
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color(.blackPrimary))
             }
             .frame(height: 54)
             .contentShape(.rect)
