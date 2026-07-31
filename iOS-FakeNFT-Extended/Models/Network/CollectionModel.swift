@@ -1,17 +1,20 @@
+//
+//  CollectionModelElement.swift
+//  iOS-FakeNFT-Extended
+//
+//  Created by Oschepkov Aleksandr on 28.07.2026.
+//
+
+
 import Foundation
 
-struct Nft: Codable {
-    let id: String
-    let images: [URL]
-}
-
-struct NftArrayElement: Codable {
+// MARK: - CollectionModelElement
+struct CollectionModelElement: Codable {
     let createdAt: String
     let name: String
-    let images: [String]
-    let rating: Int
+    let cover: String
+    let nfts: [String]
     let description: String
-    let price: Double
     let author: String
     let website: String
     let id: String
@@ -19,12 +22,13 @@ struct NftArrayElement: Codable {
     enum CodingKeys: String, CodingKey {
         case createdAt = "createdAt"
         case name = "name"
-        case images = "images"
-        case rating = "rating"
+        case cover = "cover"
+        case nfts = "nfts"
         case description = "description"
-        case price = "price"
         case author = "author"
         case website = "website"
         case id = "id"
     }
 }
+
+typealias CollectionModel = [CollectionModelElement]
