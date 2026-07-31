@@ -5,11 +5,11 @@ import Foundation
 final class ServicesAssembly {
 
     private let networkClient: NetworkClient
-    private let nftStorage: NftStorage
+    private let nftStorage: AppStorage
 
     init(
         networkClient: NetworkClient,
-        nftStorage: NftStorage
+        nftStorage: AppStorage
     ) {
         self.networkClient = networkClient
         self.nftStorage = nftStorage

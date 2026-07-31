@@ -1,16 +1,20 @@
+// Получение NFT по ID , необходимо отправить ID NFT в ответ прийдет массив со ссылками на изображения NFT
+
 import Foundation
 
 protocol NftService {
     func loadNft(id: String) async throws -> Nft
+    func loadArrayNft() async throws -> [NftArrayElement]
 }
 
 @MainActor
 final class NftServiceImpl: NftService {
 
-    private let networkClient: NetworkClient
-    private let storage: NftStorage
 
-    init(networkClient: NetworkClient, storage: NftStorage) {
+    private let networkClient: NetworkClient
+    private let storage: AppStorage
+
+    init(networkClient: NetworkClient, storage: AppStorage) {
         self.storage = storage
         self.networkClient = networkClient
     }
@@ -20,9 +24,16 @@ final class NftServiceImpl: NftService {
             return nft
         }
 
-        let request = NFTRequest(id: id)
+        let request = APIRequest.nft(id: id)
         let nft: Nft = try await networkClient.send(request: request)
         await storage.saveNft(nft)
         return nft
     }
+    func loadArrayNft() async throws -> [NftArrayElement] {
+        let request = APIRequest.arrayNft(page: "1")
+        let nft: [NftArrayElement] = try await networkClient.send(request: request)
+        await storage.saveArrayNft(nft)
+        return nft
+    }
+    
 }

@@ -50,7 +50,7 @@ struct TabBarView: View {
         .environment(
             ServicesAssembly(
                 networkClient: DefaultNetworkClient(),
-                nftStorage: NftStorageImpl()
+                nftStorage: AppStorageImpl()
             )
         )
 }
