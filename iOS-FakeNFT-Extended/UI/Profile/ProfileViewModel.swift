@@ -36,7 +36,7 @@ final class ProfileViewModel {
     }
 
     private func message(for error: Error) -> String {
-        let key = error is NetworkClientError ? "Error.network" : "Error.unknown"
+        let key = error is NetworkClientError ? ProfileStrings.networkErrorKey : ProfileStrings.unknownErrorKey
         return NSLocalizedString(key, comment: "")
     }
 }

@@ -19,6 +19,8 @@
 		06AF81C0301881BA004D1A20 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81BF301881BA004D1A20 /* CollectionService.swift */; };
 		06AF81C230188243004D1A20 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81C130188243004D1A20 /* AppStorage.swift */; };
 		06AF81CF3018AB85004D1A20 /* UsersInfoServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81CE3018AB85004D1A20 /* UsersInfoServiceImpl.swift */; };
+		72A0D6B346D3C8696BD4E9E0 /* ProfileStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */; };
+		7C5C1E9CC413F9F1F374DD1F /* ProfileIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996097CBDDFE81459AD565BE /* ProfileIcons.swift */; };
 		85F67295AECDEAAB66B54688 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */; };
 		9A191FE250C8DAFF6004F03A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1D86543D5F32BCFD2763 /* ProfileView.swift */; };
 		A67A104EB1564589AA3519A5 /* ProfileServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CBB107E34D210E34A761B /* ProfileServiceMock.swift */; };
@@ -87,6 +89,8 @@
 		06AF81BF301881BA004D1A20 /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
 		06AF81C130188243004D1A20 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
 		06AF81CE3018AB85004D1A20 /* UsersInfoServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersInfoServiceImpl.swift; sourceTree = "<group>"; };
+		2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileStrings.swift; sourceTree = "<group>"; };
+		996097CBDDFE81459AD565BE /* ProfileIcons.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileIcons.swift; sourceTree = "<group>"; };
 		A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		A55C1D86543D5F32BCFD2763 /* ProfileView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +177,8 @@
 				A55C1D86543D5F32BCFD2763 /* ProfileView.swift */,
 				A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */,
 				DD5CBB107E34D210E34A761B /* ProfileServiceMock.swift */,
+				2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */,
+				996097CBDDFE81459AD565BE /* ProfileIcons.swift */,
 			);
 			name = Profile;
 			path = Profile;
@@ -551,6 +557,8 @@
 				9A191FE250C8DAFF6004F03A /* ProfileView.swift in Sources */,
 				85F67295AECDEAAB66B54688 /* ProfileViewModel.swift in Sources */,
 				A67A104EB1564589AA3519A5 /* ProfileServiceMock.swift in Sources */,
+				72A0D6B346D3C8696BD4E9E0 /* ProfileStrings.swift in Sources */,
+				7C5C1E9CC413F9F1F374DD1F /* ProfileIcons.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

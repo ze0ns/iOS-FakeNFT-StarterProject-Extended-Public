@@ -25,7 +25,7 @@ struct ProfileView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         // TODO: экран редактирования профиля, итерация 3
                         Button(action: {}) {
-                            Image(systemName: Constants.editIcon)
+                            Image(systemName: ProfileIcons.edit)
                                 .foregroundStyle(Color.primary)
                         }
                         .buttonStyle(.plain)
@@ -108,8 +108,8 @@ struct ProfileView: View {
 
     private func menu(for profile: ProfileModel) -> some View {
         List {
-            menuRow(title: Constants.myNftTitle, count: profile.nfts.count, route: .myNft)
-            menuRow(title: Constants.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
+            menuRow(title: ProfileStrings.myNftTitle, count: profile.nfts.count, route: .myNft)
+            menuRow(title: ProfileStrings.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
         }
         .listStyle(.plain)
         .scrollDisabled(true)
@@ -127,7 +127,7 @@ struct ProfileView: View {
 
                 Spacer()
 
-                Image(systemName: Constants.chevronIcon)
+                Image(systemName: ProfileIcons.chevron)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(Color.primary)
             }
@@ -144,13 +144,13 @@ struct ProfileView: View {
         switch route {
         case .myNft:
             // TODO: экран «Мои NFT», итерация 2
-            ContentUnavailableView(Constants.myNftTitle, systemImage: "square.stack")
-                .navigationTitle(Constants.myNftTitle)
+            ContentUnavailableView(ProfileStrings.myNftTitle, systemImage: ProfileIcons.myNft)
+                .navigationTitle(ProfileStrings.myNftTitle)
                 .navigationBarTitleDisplayMode(.inline)
         case .favoriteNft:
             // TODO: экран «Избранные NFT», итерация 2
-            ContentUnavailableView(Constants.favoriteNftTitle, systemImage: "heart")
-                .navigationTitle(Constants.favoriteNftTitle)
+            ContentUnavailableView(ProfileStrings.favoriteNftTitle, systemImage: ProfileIcons.favoriteNft)
+                .navigationTitle(ProfileStrings.favoriteNftTitle)
                 .navigationBarTitleDisplayMode(.inline)
         case let .website(url):
             WebView(url: url)
@@ -163,13 +163,6 @@ struct ProfileView: View {
         case myNft
         case favoriteNft
         case website(URL)
-    }
-
-    private enum Constants {
-        static let chevronIcon = "chevron.right"
-        static let editIcon = "square.and.pencil"
-        static let myNftTitle = "Мои NFT"
-        static let favoriteNftTitle = "Избранные NFT"
     }
 }
 
