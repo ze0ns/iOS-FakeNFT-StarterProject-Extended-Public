@@ -44,11 +44,15 @@ struct CartCell: View {
     
     // MARK: Subviews
     private var imageView: some View {
-        Image(item.imageName)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 108, height: 108)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+        AsyncImage(url: item.imageURL) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            ProgressView()
+        }
+        .frame(width: 108, height: 108)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
     
     private var ratingView: some View {
