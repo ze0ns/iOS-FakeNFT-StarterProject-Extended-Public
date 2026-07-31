@@ -40,4 +40,10 @@ final class ProfileServiceImpl: ProfileService {
         return profile
     }
     
+    func updateOrders(orders: [String]) async throws -> OrdersModel {
+        let request = APIRequest.updateOrders(nfts: orders)
+        let orders: OrdersModel = try await networkClient.send(request: request)
+        await storage.saveOrders(orders)
+        return orders
+    }
 }
