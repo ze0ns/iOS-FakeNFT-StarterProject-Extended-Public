@@ -12,6 +12,7 @@ enum SortOption: String, CaseIterable {
     case name = "По названию"
 }
 
+@MainActor
 @Observable
 final class CartViewModel {
     
@@ -20,7 +21,7 @@ final class CartViewModel {
     var showErrorAlert = false
     
     private let service: CartServiceProtocol
-    
+
     init(service: CartServiceProtocol) {
         self.service = service
     }
@@ -40,10 +41,10 @@ final class CartViewModel {
     func loadItems() async {
         isLoading = true
         defer { isLoading = false }
-     
+
         do {
             items = try await service.fetchCartItems()
-            
+
         } catch {
             items = []
             showErrorAlert = true

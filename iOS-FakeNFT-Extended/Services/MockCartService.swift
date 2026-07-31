@@ -10,6 +10,31 @@ protocol CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem]
 }
 
+final class CartService: CartServiceProtocol {
+
+    private let nftService: NftService
+
+    init(nftService: NftService) {
+        self.nftService = nftService
+    }
+
+    func fetchCartItems() async throws -> [NFTItem] {
+        let nftItems = try await nftService.loadArrayNft()
+
+        return nftItems.map {
+            NFTItem(
+                id: $0.id,
+                name: $0.name,
+                imageName: $0.images.first ?? "",
+                rating: $0.rating,
+                price: Decimal($0.price),
+                currency: .btc,
+                sellerName: $0.author
+            )
+        }
+    }
+}
+
 struct MockCartService: CartServiceProtocol {
     
     var delay: Duration = .seconds(1)

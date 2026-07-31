@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @Environment(ServicesAssembly.self) var servicesAssembly
+    
     var body: some View {
         TabView {
             TabPlaceholderView(
@@ -23,7 +25,7 @@ struct TabBarView: View {
                 }
                 .backgroundStyle(.background)
 
-            CartView(viewModel: CartViewModel(service: MockCartService()))
+            CartView(viewModel: CartViewModel(service: servicesAssembly.cartService))
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.cart", comment: ""),
