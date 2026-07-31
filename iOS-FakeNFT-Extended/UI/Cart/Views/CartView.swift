@@ -10,12 +10,50 @@ struct CartView: View {
     
     @State private var viewModel: CartViewModel
     @State private var showSortDialog = false
+    @State private var showDeleteAlert = false
+    @State private var itemToDelete: NFTItem?
     
     init(viewModel: CartViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
+        ZStack {
+            cartViewContent
+            if showDeleteAlert {
+              
+                blur
+                deleteAlert
+                
+            }
+        }
+    }
+    // MARK: - Blur
+    private var blur: some View {
+        Rectangle()
+            .fill(.ultraThinMaterial)
+            .ignoresSafeArea()
+    }
+    
+    // MARK: - Delete alert
+    private var deleteAlert: some View {
+         let imageName = itemToDelete?.imageName ?? ""
+           return DeleteAlertView(
+                image: Image(imageName),
+                onDelete: {
+                    if let item = itemToDelete {
+                        viewModel.removeItem(item)
+                        showDeleteAlert = false
+                    }
+                },
+                onCancel: {
+                    showDeleteAlert = false
+                }
+            )
+        }
+    
+    // MARK: - Cart content
+    private var cartViewContent: some View {
         VStack(spacing: 0) {
             if viewModel.isLoading {
                 ProgressView()
@@ -46,7 +84,7 @@ struct CartView: View {
             await viewModel.loadItems()
         }
     }
-   
+    
     // MARK: List
     private var list: some View {
         ScrollView {
@@ -54,7 +92,8 @@ struct CartView: View {
             VStack(spacing: 20) {
                 ForEach(viewModel.items) { item in
                     CartCell(item: item) {
-                        viewModel.removeItem(item)
+                        itemToDelete = item
+                        showDeleteAlert = true
                     }
                 }
             }
@@ -66,7 +105,7 @@ struct CartView: View {
     private var sortButton: some View {
         HStack {
             Spacer()
-
+            
             Button {
                 showSortDialog = true
             } label: {
@@ -83,15 +122,15 @@ struct CartView: View {
         Button(Constants.sortByPrice) {
             viewModel.sort(by: .price)
         }
-
+        
         Button(Constants.sortByRating) {
             viewModel.sort(by: .rating)
         }
-
+        
         Button(Constants.sortByName) {
             viewModel.sort(by: .name)
         }
-
+        
         Button(Constants.cancel, role: .cancel) { }
     }
     
