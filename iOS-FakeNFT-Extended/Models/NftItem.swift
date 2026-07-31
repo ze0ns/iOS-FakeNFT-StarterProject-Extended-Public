@@ -15,15 +15,19 @@ struct NFTItem: Identifiable {
     let currency: CryptoCurrency
     let sellerName: String?
     
-    var formattedPrice: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        formatter.decimalSeparator = ","
-        let number = NSDecimalNumber(decimal: price)
-        return "\(formatter.string(from: number) ?? "\(price)") \(currency.rawValue)"
-    }
+    private static let priceFormatter: NumberFormatter = {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.minimumFractionDigits = 2
+            formatter.maximumFractionDigits = 2
+            formatter.decimalSeparator = ","
+            return formatter
+        }()
+
+        var formattedPrice: String {
+            let number = NSDecimalNumber(decimal: price)
+            return "\(Self.priceFormatter.string(from: number) ?? "\(price)") \(currency.rawValue)"
+        }
 }
 
 extension NFTItem {
