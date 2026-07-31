@@ -150,7 +150,8 @@ struct ProfileView: View {
                 .navigationTitle(Constants.favoriteNftTitle)
                 .navigationBarTitleDisplayMode(.inline)
         case let .website(url):
-            ContentUnavailableView(url.absoluteString, systemImage: "safari")
+            WebView(url: url)
+                .toolbar(.hidden, for: .tabBar)
                 .navigationBarTitleDisplayMode(.inline)
         }
     }
