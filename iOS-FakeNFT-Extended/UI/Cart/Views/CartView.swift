@@ -13,18 +13,22 @@ struct CartView: View {
     @State private var showDeleteAlert = false
     @State private var itemToDelete: NFTItem?
     
-    init(viewModel: CartViewModel) {
+    private let imageLoader: ImageLoader
+    
+    init(
+        viewModel: CartViewModel,
+        imageLoader: ImageLoader
+    ) {
         self.viewModel = viewModel
+        self.imageLoader = imageLoader
     }
     
     var body: some View {
         ZStack {
             cartViewContent
             if showDeleteAlert {
-              
                 blur
                 deleteAlert
-                
             }
         }
     }
@@ -37,9 +41,9 @@ struct CartView: View {
     
     // MARK: - Delete alert
     private var deleteAlert: some View {
-         let imageName = itemToDelete?.imageName ?? ""
-           return DeleteAlertView(
-                image: Image(imageName),
+            return DeleteAlertView(
+                url: itemToDelete?.imageURL,
+                imageLoader: imageLoader,
                 onDelete: {
                     if let item = itemToDelete {
                         viewModel.removeItem(item)
@@ -89,8 +93,10 @@ struct CartView: View {
     // MARK: List
     private var list: some View {
         List(viewModel.items) { item in
-            CartCell(item: item) {
-                viewModel.removeItem(item)
+            CartCell(item: item, imageLoader: imageLoader) {
+                itemToDelete = item
+                showDeleteAlert = true
+                
             }
             .listRowSeparator(.hidden)
         }
@@ -186,9 +192,9 @@ private enum Constants {
 
 // MARK: - Preview
 #Preview {
-    CartView(viewModel: CartViewModel(service: MockCartService()))
+    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
 }
 
 #Preview {
-    CartView(viewModel: CartViewModel(service: FailingCartService()))
+    CartView(viewModel: CartViewModel(service: FailingCartService()), imageLoader: ImageLoader())
 }

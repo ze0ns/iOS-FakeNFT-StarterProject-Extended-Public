@@ -10,7 +10,6 @@ struct NFTItem: Identifiable {
     let id: String
     let name: String
     let imageURL: URL?
-    let imageName: String?
     let rating: Int
     let price: Decimal
     let currency: CryptoCurrency
@@ -36,7 +35,6 @@ extension NFTItem {
     static let mockVulcan = NFTItem(id: "mockVulcan",
                                     name: "Vulcan",
                                     imageURL: nil,
-                                    imageName: "vulcan",
                                     rating: 2,
                                     price: 1.78,
                                     currency: .eth,
@@ -45,7 +43,6 @@ extension NFTItem {
     static let mockHelga = NFTItem(id: "mockHelga",
                                    name: "Helga",
                                    imageURL: nil,
-                                   imageName: "helga",
                                    rating: 5,
                                    price: 1.22,
                                    currency: .eth,
@@ -54,7 +51,6 @@ extension NFTItem {
     static let mockFlorine = NFTItem(id: "mockFlorine",
                                      name: "Florine",
                                      imageURL: nil,
-                                     imageName: "florine",
                                      rating: 4,
                                      price: 1.65,
                                      currency: .eth,
@@ -63,7 +59,6 @@ extension NFTItem {
     static let mockOlaf = NFTItem(id: "mockOlaf",
                                   name: "Olaf",
                                   imageURL: nil,
-                                  imageName: "olaf",
                                   rating: 2,
                                   price: 1.78,
                                   currency: .eth,
@@ -72,7 +67,6 @@ extension NFTItem {
     static let mockWillow = NFTItem(id: "mockOlaf",
                                     name: "Willow",
                                     imageURL: nil,
-                                    imageName: "willow",
                                     rating: 5,
                                     price: 1.22,
                                     currency: .eth,
@@ -81,19 +75,10 @@ extension NFTItem {
     static let mockPumpkin = NFTItem(id: "mockOlaf",
                                      name: "Pumpkin",
                                      imageURL: nil,
-                                     imageName: "pumpkin",
                                      rating: 4,
                                      price: 1.65,
                                      currency: .eth,
                                      sellerName: "John Doe")
     
-    static let mocks: [NFTItem] = [
-        .mockVulcan,
-        .mockHelga,
-        .mockFlorine,
-        .mockOlaf,
-        .mockWillow,
-        .mockPumpkin
-    ]
 }
 

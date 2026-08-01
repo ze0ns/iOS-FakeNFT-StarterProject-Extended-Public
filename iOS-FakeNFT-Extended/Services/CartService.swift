@@ -26,7 +26,6 @@ final class CartService: CartServiceProtocol {
                 id: $0.id,
                 name: $0.name,
                 imageURL: URL(string: $0.images.first ?? ""),
-                imageName: nil,
                 rating: $0.rating,
                 price: Decimal($0.price),
                 currency: .btc,

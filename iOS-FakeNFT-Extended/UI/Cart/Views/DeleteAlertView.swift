@@ -7,18 +7,17 @@
 import SwiftUI
 
 struct DeleteAlertView: View {
-    let image: Image
+    let url: URL?
+    let imageLoader: ImageLoader
     let onDelete: () -> Void
     let onCancel: () -> Void
 
     var body: some View {
         VStack(spacing: 20) {
-            image
-                .resizable()
-                .scaledToFill()
+            CachedAsyncImage(url: url, imageLoader: imageLoader)
                 .frame(width: 108, height: 108)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-
+            
             Text("Вы уверены, что хотите\nудалить объект из корзины?")
                 .font(.system(size: 17))
                 .multilineTextAlignment(.center)

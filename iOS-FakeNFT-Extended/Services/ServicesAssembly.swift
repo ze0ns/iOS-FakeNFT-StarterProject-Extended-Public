@@ -1,4 +1,4 @@
-import Foundation
+import Observation
 
 @Observable
 @MainActor
@@ -6,6 +6,24 @@ final class ServicesAssembly {
 
     private let networkClient: NetworkClient
     private let nftStorage: AppStorage
+
+    @ObservationIgnored
+    private lazy var imageLoader = ImageLoader()
+
+    @ObservationIgnored
+    private lazy var nftService: NftService = {
+        NftServiceImpl(
+            networkClient: networkClient,
+            storage: nftStorage
+        )
+    }()
+
+    @ObservationIgnored
+    private lazy var cartService: CartServiceProtocol = {
+        CartService(
+            nftService: nftService
+        )
+    }()
 
     init(
         networkClient: NetworkClient,
@@ -15,16 +33,15 @@ final class ServicesAssembly {
         self.nftStorage = nftStorage
     }
 
-    var nftService: NftService {
-        NftServiceImpl(
-            networkClient: networkClient,
-            storage: nftStorage
-        )
+    var nftServiceProvider: NftService {
+        nftService
     }
-    
-    var cartService: CartServiceProtocol {
-        CartService(
-            nftService: nftService
-        )
+
+    var cartServiceProvider: CartServiceProtocol {
+        cartService
+    }
+
+    var imageLoaderProvider: ImageLoader {
+        imageLoader
     }
 }

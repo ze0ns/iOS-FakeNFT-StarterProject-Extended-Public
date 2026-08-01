@@ -15,7 +15,7 @@ struct TabBarView: View {
                     systemImage: "person.crop.circle.fill"
                 )
             }
-
+            
             TestCatalogView()
                 .tabItem {
                     Label(
@@ -24,15 +24,16 @@ struct TabBarView: View {
                     )
                 }
                 .backgroundStyle(.background)
-
-            CartView(viewModel: CartViewModel(service: servicesAssembly.cartService))
+            
+            CartView(viewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
+                     imageLoader: servicesAssembly.imageLoaderProvider)
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.cart", comment: ""),
                     systemImage: "bag.fill"
                 )
             }
-
+            
             TabPlaceholderView(
                 title: NSLocalizedString("Tab.statistics", comment: ""),
                 systemImage: "flag.2.crossed.fill"
