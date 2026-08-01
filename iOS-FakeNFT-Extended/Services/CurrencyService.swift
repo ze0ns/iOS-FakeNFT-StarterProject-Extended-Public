@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CurrencyService {
-    func loadCourrencies() async throws -> [Currency]
+    func loadCurrencies() async throws -> [Currency]
 }
 
 @MainActor
@@ -23,7 +23,7 @@ final class CurrencyServiceImpl: CurrencyService {
         self.networkClient = networkClient
     }
 
-    func loadCourrencies() async throws -> [Currency] {
+    func loadCurrencies() async throws -> [Currency] {
         let request = APIRequest.currencies
         
         do {

@@ -19,7 +19,6 @@ protocol OrdersService {
 @MainActor
 final class OrdersServiceImpl: OrdersService {
 
-
     private let networkClient: NetworkClient
     private let storage: AppStorage
 

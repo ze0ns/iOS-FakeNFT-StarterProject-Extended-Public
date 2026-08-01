@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct NFTItem: Identifiable {
+struct NFTItem: Identifiable, Sendable {
     let id: String
     let name: String
     let imageURL: URL?

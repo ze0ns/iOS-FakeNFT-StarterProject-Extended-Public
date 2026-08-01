@@ -96,7 +96,6 @@ struct CartView: View {
             CartCell(item: item, imageLoader: imageLoader) {
                 itemToDelete = item
                 showDeleteAlert = true
-                
             }
             .listRowSeparator(.hidden)
         }

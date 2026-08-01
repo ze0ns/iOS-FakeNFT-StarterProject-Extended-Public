@@ -10,7 +10,6 @@ protocol NftService {
 @MainActor
 final class NftServiceImpl: NftService {
 
-
     private let networkClient: NetworkClient
     private let storage: AppStorage
 
@@ -29,6 +28,7 @@ final class NftServiceImpl: NftService {
         await storage.saveNft(nft)
         return nft
     }
+    
     func loadArrayNft() async throws -> [NftArrayElement] {
         let request = APIRequest.arrayNft(page: "1")
         let nft: [NftArrayElement] = try await networkClient.send(request: request)
