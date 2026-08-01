@@ -7,20 +7,49 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    @State private var users: [UserInfoCellModel] = [
-        UserInfoCellModel(name: "Алексей", score: 1540, avatarUrl: "https://i.pravatar.cc/150?img=1"),
-        UserInfoCellModel(name: "Мария", score: 1320, avatarUrl: "https://i.pravatar.cc/150?img=5"),
-        UserInfoCellModel(name: "Иван", score: 1100, avatarUrl: "https://i.pravatar.cc/150?img=8"),
-        UserInfoCellModel(name: "Елена", score: 980, avatarUrl: "https://i.pravatar.cc/150?img=12"),
-        UserInfoCellModel(name: "Дмитрий", score: 850, avatarUrl: "https://i.pravatar.cc/150?img=15")
+    @State
+    private var users: [UserModelElement] = [
+        UserModelElement(name: "Алексей Бузикин",
+                         avatar: "https://i.pravatar.cc/150?img=1",
+                         description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
+                         website: "https://practicum.yandex.ru/devops/",
+                         nfts: [
+                            "ca34d35a-4507-47d9-9312-5ea7053994c0",
+                            "1464520d-1659-4055-8a79-4593b9569e48"
+                         ],
+                         rating: "1543",
+                         id: "7057c681-037f-4391-8ba5-4268d1a9d2b1"),
+        UserModelElement(name: "Алексей Пупкин",
+                         avatar: "https://i.pravatar.cc/150?img=1",
+                         description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
+                         website: "https://practicum.yandex.ru/devops/",
+                         nfts: [
+                            "ca34d35a-4507-47d9-9312-5ea7053994c0",
+                            "1464520d-1659-4055-8a79-4593b9569e44"
+                         ],
+                         rating: "734",
+                         id: "7057c681-037f-4391-8ba5-4268d1a9d2b2"),
+        UserModelElement(name: "Иван Бузикин",
+                         avatar: "https://i.pravatar.cc/150?img=1",
+                         description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
+                         website: "https://practicum.yandex.ru/devops/",
+                         nfts: [
+                            "ca34d35a-4507-47d9-9312-5ea7053994c0",
+                            "1464520d-1659-4055-8a79-4593b9569e48"
+                         ],
+                         rating: "942",
+                         id: "7057c681-037f-4391-8ba5-4268d1a9d2b0")
     ]
     
-    @State private var selectedUser: UserInfoCellModel?
+
+    @State private var selectedUser: UserModelElement?
     @State private var showSortPopup: Bool = false
+    
     enum SortOption {
         case name
         case rating
     }
+    
     var body: some View {
         ZStack {
             // Основной контент
@@ -28,16 +57,17 @@ struct StatisticsView: View {
                 List {
                     ForEach(Array(users.enumerated()), id: \.element.id) { index, user in
                         HStack {
-                            Text("\(index+1)")
+                            Text("\(index + 1)")
                             Button {
                                 selectedUser = user
                             } label: {
                                 UserInfoCell(
                                     name: user.name,
-                                    score: user.score,
-                                    avatarUrl: user.avatarUrl
+                                    score: Int(user.rating) ?? 0,
+                                    avatarUrl: user.avatar
                                 )
                             }
+                            .buttonStyle(.plain)
                         }
                         .buttonStyle(.plain)
                         .listRowSeparator(.hidden)
@@ -59,7 +89,7 @@ struct StatisticsView: View {
                     }
                 }
                 .navigationDestination(item: $selectedUser) { user in
-                    DetailUserView(user: user)
+                    UserCardView(userInfo: user)
                 }
             }
             
@@ -95,6 +125,7 @@ struct StatisticsView: View {
                                     .padding(.vertical, 16)
                                     .padding(.horizontal, 16)
                             }
+                            .buttonStyle(.plain)
                             
                             Divider()
                             
@@ -107,10 +138,11 @@ struct StatisticsView: View {
                                     .padding(.vertical, 16)
                                     .padding(.horizontal, 16)
                             }
+                            .buttonStyle(.plain)
                         }
                         .background(Color(.systemBackground))
                         .cornerRadius(14)
-        
+                        
                         Button {
                             withAnimation(.easeInOut) {
                                 showSortPopup = false
@@ -124,8 +156,8 @@ struct StatisticsView: View {
                         }
                         .background(Color(.systemBackground))
                         .cornerRadius(14)
+                        .buttonStyle(.plain)
                     }
-                   
                     .padding(.horizontal, 8)
                     .padding(.bottom, 8)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -140,20 +172,13 @@ struct StatisticsView: View {
         case .name:
             users.sort { $0.name < $1.name }
         case .rating:
-            users.sort { $0.score > $1.score }
+            // Конвертируем строковый рейтинг в Int для корректной сортировки чисел, а не строк
+            users.sort { (Int($0.rating) ?? 0) > (Int($1.rating) ?? 0) }
         }
         
         withAnimation(.easeInOut) {
             showSortPopup = false
         }
-    }
-}
-
-//MOCK Detail View
-struct DetailUserView: View {
-    let user: UserInfoCellModel
-    var body: some View {
-        EmptyView()
     }
 }
 
