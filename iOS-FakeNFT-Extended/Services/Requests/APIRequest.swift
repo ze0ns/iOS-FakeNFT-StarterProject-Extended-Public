@@ -1,5 +1,10 @@
 import Foundation
-
+struct ProfileUpdateDTO: Encodable {
+    let likes: String
+    let avatar: String
+    let name: String
+    let description: String
+}
 enum APIRequest: NetworkRequest {
     case users(page: String)
     case nft(id: String)
@@ -8,7 +13,7 @@ enum APIRequest: NetworkRequest {
     case collectionsByID(id: String)
     case currencies
     case profile
-    case updateProfile(dto: any Encodable)
+    case updateProfileInfo(likes: [String], avatar: String, name: String, description: String)
     case orders
     case updateOrders(nfts: [String])
     case payOrders(dto: any Encodable)
@@ -32,7 +37,7 @@ enum APIRequest: NetworkRequest {
             return "/api/v1/collections/\(id)"
         case .currencies:
             return "/api/v1/currencies"
-        case .profile, .updateProfile:
+        case .profile,.updateProfileInfo:
             return "/api/v1/profile/1"
         case .orders, .updateOrders, .payOrders:
             return "/api/v1/orders/1"
@@ -41,7 +46,7 @@ enum APIRequest: NetworkRequest {
     // Переопределяем httpMethod
     var httpMethod: HttpMethod {
         switch self {
-        case .updateProfile, .updateOrders:
+        case .updateProfileInfo, .updateOrders:
             return .put
         default:
             return .get
@@ -49,8 +54,19 @@ enum APIRequest: NetworkRequest {
     }
     var dto: Encodable? {
         switch self {
-        case .updateProfile(let dto), .payOrders(let dto) :
+        case .payOrders(let dto) :
             return dto
+        case .updateProfileInfo(let likes, let avatar, let name, let description):
+            // Склеиваем массив лайков в строку через запятую.
+            // Пробелы после запятой лучше не добавлять, чтобы не было проблем с парсингом на сервере.
+            let likesString = likes.joined(separator: ",")
+            return ProfileUpdateDTO(
+                likes: likesString,
+                avatar: avatar,
+                name: name,
+                description: description
+            )
+
         case .updateOrders(let nfts):
             let nftsString = nfts.joined(separator: ", ")
             return "nfts=\(nftsString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
@@ -77,7 +93,7 @@ enum APIRequest: NetworkRequest {
             ]
             return components?.url
             
-        case .nft, .collections, .collectionsByID, .currencies, .profile, .updateProfile, .orders, .updateOrders, .payOrders:
+        case .nft, .collections, .collectionsByID, .currencies, .profile, .updateProfileInfo, .orders, .updateOrders, .payOrders:
             return URL(string: "\(baseURL)\(path)")
         }
     }

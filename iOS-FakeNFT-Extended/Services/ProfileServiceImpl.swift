@@ -10,7 +10,7 @@ import Foundation
 
 protocol ProfileService {
     func loadProfile() async throws -> ProfileModel
-    func updateProfile(profile: ProfileModel) async throws -> ProfileModel
+    func updateProfileInfo(profile: ProfileModel) async throws -> ProfileModel
 }
 
 @MainActor
@@ -33,17 +33,15 @@ final class ProfileServiceImpl: ProfileService {
         return profile
     }
     
-    func updateProfile(profile: ProfileModel) async throws -> ProfileModel {
-        let request = APIRequest.updateProfile(dto: profile)
+    func updateProfileInfo(profile: ProfileModel) async throws -> ProfileModel {
+        let request = APIRequest.updateProfileInfo(
+            likes: profile.likes,
+            avatar: profile.avatar,
+            name: profile.name,
+            description: profile.description
+        )
         let profile: ProfileModel = try await networkClient.send(request: request)
         await storage.saveProfile(profile)
         return profile
-    }
-    
-    func updateOrders(orders: [String]) async throws -> OrdersModel {
-        let request = APIRequest.updateOrders(nfts: orders)
-        let orders: OrdersModel = try await networkClient.send(request: request)
-        await storage.saveOrders(orders)
-        return orders
     }
 }
