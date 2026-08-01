@@ -23,12 +23,7 @@ struct ProfileView: View {
             content
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        // TODO: экран редактирования профиля, итерация 3
-                        Button(action: {}) {
-                            Image(systemName: ProfileIcons.edit)
-                                .foregroundStyle(Color(.blackPrimary))
-                        }
-                        .buttonStyle(.plain)
+                        editProfileButton
                     }
                 }
                 .navigationDestination(for: Route.self) { route in
@@ -40,15 +35,24 @@ struct ProfileView: View {
         }
     }
 
+    private var editProfileButton: some View {
+        // TODO: экран редактирования профиля, итерация 3
+        Button(action: {}) {
+            Image(systemName: ProfileIcons.edit)
+                .foregroundStyle(Color(.blackPrimary))
+        }
+        .buttonStyle(.plain)
+    }
+
     @ViewBuilder
     private var content: some View {
         switch viewModel.state {
         case .loading:
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case let .loaded(profile):
+        case let .success(profile):
             loadedContent(for: profile)
-        case let .failed(message):
+        case let .error(message):
             Text(message)
                 .multilineTextAlignment(.center)
                 .padding(16)
@@ -56,7 +60,7 @@ struct ProfileView: View {
         }
     }
 
-    private func loadedContent(for profile: ProfileModel) -> some View {
+    private func loadedContent(for profile: ProfileDTO) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 header(for: profile)
@@ -85,7 +89,7 @@ struct ProfileView: View {
         }
     }
 
-    private func header(for profile: ProfileModel) -> some View {
+    private func header(for profile: ProfileDTO) -> some View {
         HStack(spacing: 16) {
             KFImage(profile.avatarURL)
                 .resizable()
@@ -108,22 +112,22 @@ struct ProfileView: View {
         .padding(.top, 20)
     }
 
-    private func menu(for profile: ProfileModel) -> some View {
+    private func menu(for profile: ProfileDTO) -> some View {
         List {
-            menuRow(title: ProfileStrings.myNftTitle, count: profile.nfts.count, route: .myNft)
-            menuRow(title: ProfileStrings.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
+            menuRow(titleKey: ProfileStrings.myNftTitle, count: profile.nfts.count, route: .myNft)
+            menuRow(titleKey: ProfileStrings.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
         }
         .listStyle(.plain)
         .scrollDisabled(true)
         .frame(height: 108)
     }
 
-    private func menuRow(title: String, count: Int, route: Route) -> some View {
+    private func menuRow(titleKey: String, count: Int, route: Route) -> some View {
         Button {
             path.append(route)
         } label: {
             HStack(spacing: 8) {
-                Text("\(title) (\(count))")
+                Text("\(NSLocalizedString(titleKey, comment: "")) (\(count))")
                     .font(.system(size: 17, weight: .bold))
                     .foregroundStyle(Color(.blackPrimary))
 
@@ -146,19 +150,22 @@ struct ProfileView: View {
         switch route {
         case .myNft:
             // TODO: экран «Мои NFT», итерация 2
-            ContentUnavailableView(ProfileStrings.myNftTitle, systemImage: ProfileIcons.myNft)
-                .navigationTitle(ProfileStrings.myNftTitle)
-                .navigationBarTitleDisplayMode(.inline)
+            placeholderScreen(titleKey: ProfileStrings.myNftTitle, icon: ProfileIcons.myNft)
         case .favoriteNft:
             // TODO: экран «Избранные NFT», итерация 2
-            ContentUnavailableView(ProfileStrings.favoriteNftTitle, systemImage: ProfileIcons.favoriteNft)
-                .navigationTitle(ProfileStrings.favoriteNftTitle)
-                .navigationBarTitleDisplayMode(.inline)
+            placeholderScreen(titleKey: ProfileStrings.favoriteNftTitle, icon: ProfileIcons.favoriteNft)
         case let .website(url):
             WebView(url: url)
                 .toolbar(.hidden, for: .tabBar)
                 .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    private func placeholderScreen(titleKey: String, icon: String) -> some View {
+        let title = NSLocalizedString(titleKey, comment: "")
+        return ContentUnavailableView(title, systemImage: icon)
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
     }
 
     private enum Route: Hashable {

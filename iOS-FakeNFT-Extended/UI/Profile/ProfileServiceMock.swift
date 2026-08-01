@@ -10,18 +10,18 @@ import Foundation
 #if DEBUG
 actor ProfileServiceMock: ProfileService {
 
-    func loadProfile() async throws -> ProfileModel {
-        ProfileModel.mock
+    func loadProfile() async throws -> ProfileDTO {
+        ProfileDTO.mock
     }
 
-    func updateProfile(profile: ProfileModel) async throws -> ProfileModel {
+    func updateProfile(profile: ProfileDTO) async throws -> ProfileDTO {
         profile
     }
 }
 
-extension ProfileModel {
+extension ProfileDTO {
 
-    static let mock = ProfileModel(
+    static let mock = ProfileDTO(
         name: "Joaquin Phoenix",
         avatar: "https://code.s3.yandex.net/landings-v2-ios-developer/space.PNG",
         description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",

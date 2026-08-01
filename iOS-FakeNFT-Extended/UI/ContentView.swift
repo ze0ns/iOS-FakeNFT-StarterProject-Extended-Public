@@ -12,7 +12,7 @@ struct ContentView: View {
     }
 }
 func fetchStations() {
-    //    let profile = ProfileModel(name: "Студентус Практикумс", avatar:  "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/557.jpg", description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100 NFT, и еще больше — на моём сайте.", website: "https://practicum.yandex.ru/interface-designer/", nfts: [], likes: [], id: "7057c681-037f-4391-8ba5-4268d1a9d2b0")
+    //    let profile = ProfileDTO(name: "Студентус Практикумс", avatar:  "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/557.jpg", description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100 NFT, и еще больше — на моём сайте.", website: "https://practicum.yandex.ru/interface-designer/", nfts: [], likes: [], id: "7057c681-037f-4391-8ba5-4268d1a9d2b0")
     let nfts = [
         "b2f44171-7dcd-46d7-a6d3-e2109aacf520",
         "ca34d35a-4507-47d9-9312-5ea7053994c0",

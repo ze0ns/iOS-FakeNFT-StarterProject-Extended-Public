@@ -11,13 +11,7 @@ import Foundation
 @MainActor
 final class ProfileViewModel {
 
-    enum State {
-        case loading
-        case loaded(ProfileModel)
-        case failed(String)
-    }
-
-    private(set) var state: State = .loading
+    private(set) var state: ProfileState = .loading
 
     private let profileService: ProfileService
 
@@ -29,14 +23,14 @@ final class ProfileViewModel {
         state = .loading
         do {
             let profile = try await profileService.loadProfile()
-            state = .loaded(profile)
+            state = .success(profile)
         } catch {
-            state = .failed(message(for: error))
+            state = .error(message(for: error))
         }
     }
 
     private func message(for error: Error) -> String {
-        let key = error is NetworkClientError ? ProfileStrings.networkErrorKey : ProfileStrings.unknownErrorKey
+        let key = error is NetworkClientError ? ProfileStrings.networkError : ProfileStrings.unknownError
         return NSLocalizedString(key, comment: "")
     }
 }

@@ -15,10 +15,11 @@
 		0692B7AA301C32F500D8BC59 /* TabPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B7A9301C32F500D8BC59 /* TabPlaceholderView.swift */; };
 		069C9F8B30186A3F002D8F7B /* CollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8A30186A3F002D8F7B /* CollectionModel.swift */; };
 		069C9F8D30186AC8002D8F7B /* UsersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8C30186AC8002D8F7B /* UsersModel.swift */; };
-		069C9F8F30186BC0002D8F7B /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8E30186BC0002D8F7B /* ProfileModel.swift */; };
+		069C9F8F30186BC0002D8F7B /* ProfileDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8E30186BC0002D8F7B /* ProfileDTO.swift */; };
 		06AF81C0301881BA004D1A20 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81BF301881BA004D1A20 /* CollectionService.swift */; };
 		06AF81C230188243004D1A20 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81C130188243004D1A20 /* AppStorage.swift */; };
 		06AF81CF3018AB85004D1A20 /* UsersInfoServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF81CE3018AB85004D1A20 /* UsersInfoServiceImpl.swift */; };
+		1EB91E8489FEF2471F0F7C92 /* ProfileState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0924C526FBAE767BF26F5B85 /* ProfileState.swift */; };
 		72A0D6B346D3C8696BD4E9E0 /* ProfileStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */; };
 		7C5C1E9CC413F9F1F374DD1F /* ProfileIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996097CBDDFE81459AD565BE /* ProfileIcons.swift */; };
 		85F67295AECDEAAB66B54688 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */; };
@@ -85,10 +86,11 @@
 		0692B7A9301C32F500D8BC59 /* TabPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPlaceholderView.swift; sourceTree = "<group>"; };
 		069C9F8A30186A3F002D8F7B /* CollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionModel.swift; sourceTree = "<group>"; };
 		069C9F8C30186AC8002D8F7B /* UsersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersModel.swift; sourceTree = "<group>"; };
-		069C9F8E30186BC0002D8F7B /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		069C9F8E30186BC0002D8F7B /* ProfileDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDTO.swift; sourceTree = "<group>"; };
 		06AF81BF301881BA004D1A20 /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
 		06AF81C130188243004D1A20 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
 		06AF81CE3018AB85004D1A20 /* UsersInfoServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersInfoServiceImpl.swift; sourceTree = "<group>"; };
+		0924C526FBAE767BF26F5B85 /* ProfileState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileState.swift; sourceTree = "<group>"; };
 		2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileStrings.swift; sourceTree = "<group>"; };
 		996097CBDDFE81459AD565BE /* ProfileIcons.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileIcons.swift; sourceTree = "<group>"; };
 		A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				DD5CBB107E34D210E34A761B /* ProfileServiceMock.swift */,
 				2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */,
 				996097CBDDFE81459AD565BE /* ProfileIcons.swift */,
+				0924C526FBAE767BF26F5B85 /* ProfileState.swift */,
 			);
 			name = Profile;
 			path = Profile;
@@ -284,7 +287,7 @@
 			children = (
 				068CD6E2301B09EC00D5AC06 /* OrdersModel.swift */,
 				068CD545301A771600D5AC06 /* Currency.swift */,
-				069C9F8E30186BC0002D8F7B /* ProfileModel.swift */,
+				069C9F8E30186BC0002D8F7B /* ProfileDTO.swift */,
 				069C9F8C30186AC8002D8F7B /* UsersModel.swift */,
 				069C9F8A30186A3F002D8F7B /* CollectionModel.swift */,
 				ABC5E1A02C31F6D7002B4068 /* Nft.swift */,
@@ -537,7 +540,7 @@
 				ABC5E1972C31F656002B4068 /* Colors.swift in Sources */,
 				ABC5E1A42C31F800002B4068 /* NetworkClient.swift in Sources */,
 				ABC5E1D32C320438002B4068 /* NftDetailAssembly.swift in Sources */,
-				069C9F8F30186BC0002D8F7B /* ProfileModel.swift in Sources */,
+				069C9F8F30186BC0002D8F7B /* ProfileDTO.swift in Sources */,
 				06AF81C230188243004D1A20 /* AppStorage.swift in Sources */,
 				ABC5E1A12C31F6D7002B4068 /* Nft.swift in Sources */,
 				06AF81CF3018AB85004D1A20 /* UsersInfoServiceImpl.swift in Sources */,
@@ -559,6 +562,7 @@
 				A67A104EB1564589AA3519A5 /* ProfileServiceMock.swift in Sources */,
 				72A0D6B346D3C8696BD4E9E0 /* ProfileStrings.swift in Sources */,
 				7C5C1E9CC413F9F1F374DD1F /* ProfileIcons.swift in Sources */,
+				1EB91E8489FEF2471F0F7C92 /* ProfileState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

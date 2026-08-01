@@ -5,9 +5,10 @@
 //  Created by Kirill Efremov on 31.07.2026.
 //
 
+/// Ключи локализации, используемые на экране профиля.
 enum ProfileStrings {
-    static let myNftTitle = "Мои NFT"
-    static let favoriteNftTitle = "Избранные NFT"
-    static let networkErrorKey = "Error.network"
-    static let unknownErrorKey = "Error.unknown"
+    static let myNftTitle = "profile.my_nft"
+    static let favoriteNftTitle = "profile.favorite_nft"
+    static let networkError = "Error.network"
+    static let unknownError = "Error.unknown"
 }
