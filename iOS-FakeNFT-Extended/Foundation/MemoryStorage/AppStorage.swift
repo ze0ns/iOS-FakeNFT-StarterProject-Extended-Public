@@ -33,8 +33,8 @@ protocol AppStorage: AnyObject {
     func getCurrency() async -> [Currency]?
     
     // Profile
-    func saveProfile(_ Profile: ProfileModel) async
-    func getProfile() async -> ProfileModel?
+    func saveProfile(_ Profile: ProfileDTO) async
+    func getProfile() async -> ProfileDTO?
     
     // Orders
     func saveOrders(_ Orders: OrdersModel) async
@@ -52,7 +52,7 @@ actor AppStorageImpl: AppStorage {
     private var nftsStorage: [String: Nft] = [:]
     private var nftArrayStorage: [NftArrayElement] = []
     private var currencyStorage: [Currency] = []
-    private var profileStorage: ProfileModel?
+    private var profileStorage: ProfileDTO?
     private var ordersStorage: OrdersModel?
 
     // MARK: - Single Collection
@@ -108,11 +108,11 @@ actor AppStorageImpl: AppStorage {
     }
    
     // MARK: - Currency
-    func saveProfile(_ Profile: ProfileModel) async {
+    func saveProfile(_ Profile: ProfileDTO) async {
         profileStorage = Profile
     }
     
-    func getProfile() async -> ProfileModel? {
+    func getProfile() async -> ProfileDTO? {
         profileStorage
     }
     

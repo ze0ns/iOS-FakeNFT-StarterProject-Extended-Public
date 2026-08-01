@@ -8,16 +8,13 @@
 
 import Foundation
 
-protocol ProfileService {
-    func loadProfile() async throws -> ProfileModel
-    func updateProfile(profile: ProfileModel) async throws -> ProfileModel
+protocol ProfileService: Sendable {
+    func loadProfile() async throws -> ProfileDTO
+    func updateProfile(profile: ProfileDTO) async throws -> ProfileDTO
 }
 
-@MainActor
-final class ProfileServiceImpl: ProfileService {
+actor ProfileServiceImpl: ProfileService {
 
-
-    
     private let networkClient: NetworkClient
     private let storage: AppStorage
 
@@ -26,16 +23,16 @@ final class ProfileServiceImpl: ProfileService {
         self.networkClient = networkClient
     }
 
-    func loadProfile() async throws -> ProfileModel {
+    func loadProfile() async throws -> ProfileDTO {
         let request = APIRequest.profile
-        let profile: ProfileModel = try await networkClient.send(request: request)
+        let profile: ProfileDTO = try await networkClient.send(request: request)
         await storage.saveProfile(profile)
         return profile
     }
     
-    func updateProfile(profile: ProfileModel) async throws -> ProfileModel {
+    func updateProfile(profile: ProfileDTO) async throws -> ProfileDTO {
         let request = APIRequest.updateProfile(dto: profile)
-        let profile: ProfileModel = try await networkClient.send(request: request)
+        let profile: ProfileDTO = try await networkClient.send(request: request)
         await storage.saveProfile(profile)
         return profile
     }
