@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - ProfileModel
-struct ProfileModel: Codable {
+struct ProfileModel: Decodable, Sendable, Encodable {
     let name: String
     let avatar: String
     let description: String
@@ -17,6 +17,9 @@ struct ProfileModel: Codable {
     let nfts: [String]
     let likes: [String]
     let id: String
+
+    var avatarURL: URL? { URL(string: avatar) }
+    var websiteURL: URL? { URL(string: website) }
 
     enum CodingKeys: String, CodingKey {
         case name = "name"

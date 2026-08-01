@@ -8,16 +8,13 @@
 
 import Foundation
 
-protocol ProfileService {
+protocol ProfileService: Sendable {
     func loadProfile() async throws -> ProfileModel
-    func updateProfileInfo(profile: ProfileModel) async throws -> ProfileModel
+    func updateProfile(profile: ProfileModel) async throws -> ProfileModel
 }
 
-@MainActor
-final class ProfileServiceImpl: ProfileService {
+actor ProfileServiceImpl: ProfileService {
 
-
-    
     private let networkClient: NetworkClient
     private let storage: AppStorage
 
@@ -33,15 +30,11 @@ final class ProfileServiceImpl: ProfileService {
         return profile
     }
     
-    func updateProfileInfo(profile: ProfileModel) async throws -> ProfileModel {
-        let request = APIRequest.updateProfileInfo(
-            likes: profile.likes,
-            avatar: profile.avatar,
-            name: profile.name,
-            description: profile.description
-        )
+    func updateProfile(profile: ProfileModel) async throws -> ProfileModel {
+        let request = APIRequest.updateProfile(dto: profile)
         let profile: ProfileModel = try await networkClient.send(request: request)
         await storage.saveProfile(profile)
         return profile
     }
+    
 }
