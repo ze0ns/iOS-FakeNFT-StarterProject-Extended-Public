@@ -11,7 +11,7 @@ import Foundation
 @MainActor
 final class MyNftViewModel {
 
-    private(set) var state: MyNftState = .loading
+    private(set) var state: NftListState = .loading
     private(set) var sortOption: NftSortOption
 
     private var nfts: [Nft] = []
