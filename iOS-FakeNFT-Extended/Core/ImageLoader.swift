@@ -6,9 +6,7 @@
 //
 import UIKit
 
-import UIKit
-
-final class ImageLoader {
+actor ImageLoader {
     
     private let cache = NSCache<NSURL, UIImage>()
     

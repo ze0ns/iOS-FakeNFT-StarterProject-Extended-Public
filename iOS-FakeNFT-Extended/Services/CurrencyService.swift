@@ -14,15 +14,15 @@ protocol CurrencyService {
 
 @MainActor
 final class CurrencyServiceImpl: CurrencyService {
-
+    
     private let networkClient: NetworkClient
     private let storage: AppStorage
-
+    
     init(networkClient: NetworkClient, storage: AppStorage) {
         self.storage = storage
         self.networkClient = networkClient
     }
-
+    
     func loadCurrencies() async throws -> [Currency] {
         let request = APIRequest.currencies
         
