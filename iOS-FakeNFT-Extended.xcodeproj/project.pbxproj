@@ -25,6 +25,7 @@
 		368A27CBDB709BFBC53EDBD6 /* NftRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7522807540A92D0B4BF91447 /* NftRatingView.swift */; };
 		72A0D6B346D3C8696BD4E9E0 /* ProfileStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */; };
 		79D7D8F6EF6B59C82974D2CA /* MyNftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1373556EA4CBFA2E985B85 /* MyNftView.swift */; };
+		7BAF66B57285D7024BD8285A /* FavoriteNftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB60DB10D6E15BEFF55D187A /* FavoriteNftView.swift */; };
 		7C5C1E9CC413F9F1F374DD1F /* ProfileIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996097CBDDFE81459AD565BE /* ProfileIcons.swift */; };
 		85F67295AECDEAAB66B54688 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */; };
 		9A191FE250C8DAFF6004F03A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1D86543D5F32BCFD2763 /* ProfileView.swift */; };
@@ -66,6 +67,7 @@
 		AEA87622F250B1BAACD4D7D1 /* NftMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9A282DA8EAEA4F07464E5 /* NftMock.swift */; };
 		B243C63D23FC8B07A847D766 /* MyNftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1F39F9E837D16F88C8A68B /* MyNftCell.swift */; };
 		C73E8FB43BF8930B365C67F3 /* MyNftServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5E24CCA5FD80C199DEC137 /* MyNftServiceMock.swift */; };
+		CE7F28797727F1028FE789D8 /* FavoriteNftViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB755A3A10151246AC01EAD2 /* FavoriteNftViewModel.swift */; };
 		E4C1A45C0DA28D4A95FC702F /* MyNftViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029BC8BEDEDAAA7779CE023B /* MyNftViewModel.swift */; };
 		EEAD3F51D775690224B9F320 /* NftSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7284ED20EC7FA3FE70C6426 /* NftSortOption.swift */; };
 		FA83A5B1C069F26517AAA21B /* NftPriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4768929A3AC8BE7EE32C6442 /* NftPriceFormatter.swift */; };
@@ -151,7 +153,9 @@
 		ABC5E1EA2C32084F002B4068 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B7284ED20EC7FA3FE70C6426 /* NftSortOption.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NftSortOption.swift; sourceTree = "<group>"; };
 		DD5CBB107E34D210E34A761B /* ProfileServiceMock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileServiceMock.swift; sourceTree = "<group>"; };
+		EB60DB10D6E15BEFF55D187A /* FavoriteNftView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FavoriteNftView.swift; sourceTree = "<group>"; };
 		F2B3289E13E580B97E5D5A55 /* MyNftService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MyNftService.swift; sourceTree = "<group>"; };
+		FB755A3A10151246AC01EAD2 /* FavoriteNftViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FavoriteNftViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -432,6 +436,8 @@
 			isa = PBXGroup;
 			children = (
 				6DF89E341027E3A48CBDAE95 /* FavoriteNftCell.swift */,
+				FB755A3A10151246AC01EAD2 /* FavoriteNftViewModel.swift */,
+				EB60DB10D6E15BEFF55D187A /* FavoriteNftView.swift */,
 			);
 			name = Favorites;
 			path = Favorites;
@@ -634,6 +640,8 @@
 				EEAD3F51D775690224B9F320 /* NftSortOption.swift in Sources */,
 				1B815C6F3634F8CC1DA9AF69 /* NftListState.swift in Sources */,
 				A6541EC676E6D482BD8F7A03 /* FavoriteNftCell.swift in Sources */,
+				CE7F28797727F1028FE789D8 /* FavoriteNftViewModel.swift in Sources */,
+				7BAF66B57285D7024BD8285A /* FavoriteNftView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

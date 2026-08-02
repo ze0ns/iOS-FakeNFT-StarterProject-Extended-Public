@@ -161,21 +161,13 @@ struct ProfileView: View {
         switch route {
         case let .myNft(ids):
             MyNftView(nftIds: ids, service: myNftService)
-        case .favoriteNft:
-            // TODO: экран «Избранные NFT», итерация 2
-            placeholderScreen(titleKey: ProfileStrings.favoriteNftTitle, icon: ProfileIcons.favoriteNft)
+        case let .favoriteNft(ids):
+            FavoriteNftView(likeIds: ids, service: myNftService)
         case let .website(url):
             WebView(url: url)
                 .toolbar(.hidden, for: .tabBar)
                 .navigationBarTitleDisplayMode(.inline)
         }
-    }
-
-    private func placeholderScreen(titleKey: String, icon: String) -> some View {
-        let title = NSLocalizedString(titleKey, comment: "")
-        return ContentUnavailableView(title, systemImage: icon)
-            .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
     }
 
     private enum Route: Hashable {

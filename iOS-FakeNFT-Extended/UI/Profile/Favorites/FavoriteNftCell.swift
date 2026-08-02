@@ -32,6 +32,8 @@ struct FavoriteNftCell: View {
                 Text(nft.name)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundStyle(Color(.blackPrimary))
+                    .lineLimit(2)
+                    .truncationMode(.tail)
 
                 NftRatingView(rating: nft.rating)
 
