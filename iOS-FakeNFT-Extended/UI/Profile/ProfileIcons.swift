@@ -12,4 +12,5 @@ enum ProfileIcons {
     static let favoriteNft = "heart"
     static let avatarPlaceholder = "person.crop.circle.fill"
     static let star = "star.fill"
+    static let sort = "line.3.horizontal"
 }

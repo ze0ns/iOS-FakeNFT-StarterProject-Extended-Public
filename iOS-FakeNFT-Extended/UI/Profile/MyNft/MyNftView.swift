@@ -10,6 +10,7 @@ import SwiftUI
 struct MyNftView: View {
 
     @State private var viewModel: MyNftViewModel
+    @State private var isSortDialogPresented = false
 
     @MainActor
     init(nftIds: [String], service: MyNftService) {
@@ -20,9 +21,42 @@ struct MyNftView: View {
         content
             .navigationTitle(NSLocalizedString(ProfileStrings.myNftTitle, comment: ""))
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    sortButton
+                }
+            }
+            .confirmationDialog(
+                NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
+                isPresented: $isSortDialogPresented,
+                titleVisibility: .visible
+            ) {
+                sortDialogButtons
+            }
             .task {
                 await viewModel.loadNfts()
             }
+    }
+
+    private var sortButton: some View {
+        Button {
+            isSortDialogPresented = true
+        } label: {
+            Image(systemName: ProfileIcons.sort)
+                .foregroundStyle(Color(.blackPrimary))
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var sortDialogButtons: some View {
+        ForEach(NftSortOption.allCases, id: \.self) { option in
+            Button(NSLocalizedString(option.titleKey, comment: "")) {
+                viewModel.setSortOption(option)
+            }
+        }
+
+        Button(NSLocalizedString(ProfileStrings.close, comment: ""), role: .cancel) {}
     }
 
     @ViewBuilder

@@ -18,6 +18,11 @@
 "profile.author_format" = "от %@";
 "profile.my_nft_empty" = "У Вас ещё нет NFT";
 "profile.favorite_nft_empty" = "У Вас ещё нет избранных NFT";
+"profile.sort_title" = "Сортировка";
+"profile.sort_price" = "По цене";
+"profile.sort_rating" = "По рейтингу";
+"profile.sort_name" = "По названию";
+"profile.close" = "Закрыть";
 
 // MARK: - Errors
 
