@@ -5,7 +5,10 @@ struct TabBarView: View {
 
     var body: some View {
         TabView {
-            ProfileView(profileService: servicesAssembly.profileService)
+            ProfileView(
+                profileService: servicesAssembly.profileService,
+                myNftService: servicesAssembly.myNftService
+            )
                 .tabItem {
                     tabLabel(for: .profile)
                 }
