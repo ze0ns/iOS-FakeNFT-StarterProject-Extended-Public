@@ -41,20 +41,22 @@ struct CartView: View {
     
     // MARK: - Delete alert
     private var deleteAlert: some View {
-            return DeleteAlertView(
-                url: itemToDelete?.imageURL,
-                imageLoader: imageLoader,
-                onDelete: {
-                    if let item = itemToDelete {
-                        viewModel.removeItem(item)
-                        showDeleteAlert = false
-                    }
-                },
-                onCancel: {
+        DeleteAlertView(
+            url: itemToDelete?.imageURL,
+            imageLoader: imageLoader,
+            onDelete: {
+                guard let item = itemToDelete else { return }
+
+                Task {
+                    await viewModel.removeItem(item)
                     showDeleteAlert = false
                 }
-            )
-        }
+            },
+            onCancel: {
+                showDeleteAlert = false
+            }
+        )
+    }
     
     // MARK: - Cart content
     private var cartViewContent: some View {
@@ -186,7 +188,6 @@ private enum Constants {
     static let sortByPrice = NSLocalizedString("SortByPrice", comment: "")
     static let sortByRating = NSLocalizedString("SortByRating", comment: "")
     static let sortByName = NSLocalizedString("SortByName", comment: "")
-    
 }
 
 // MARK: - Preview

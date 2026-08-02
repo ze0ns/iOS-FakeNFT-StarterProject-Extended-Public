@@ -64,7 +64,7 @@ extension NFTItem {
                                   currency: .eth,
                                   sellerName: "John Doe")
     
-    static let mockWillow = NFTItem(id: "mockOlaf",
+    static let mockWillow = NFTItem(id: "mockWillow",
                                     name: "Willow",
                                     imageURL: nil,
                                     rating: 5,
@@ -72,7 +72,7 @@ extension NFTItem {
                                     currency: .eth,
                                     sellerName: "John Doe")
     
-    static let mockPumpkin = NFTItem(id: "mockOlaf",
+    static let mockPumpkin = NFTItem(id: "mockPumpkin",
                                      name: "Pumpkin",
                                      imageURL: nil,
                                      rating: 4,

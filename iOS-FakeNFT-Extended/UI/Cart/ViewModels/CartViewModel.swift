@@ -7,9 +7,20 @@
 import Foundation
 
 enum SortOption: String, CaseIterable {
-    case price = "По цене"
-    case rating = "По рейтингу"
-    case name = "По названию"
+    case price
+    case rating
+    case name
+    
+    var title: String {
+        switch self {
+        case .price:
+            Constants.sortByPrice
+        case .rating:
+            Constants.sortByRating
+        case .name:
+            Constants.sortByName
+        }
+    }
 }
 
 @MainActor
@@ -44,15 +55,18 @@ final class CartViewModel {
 
         do {
             items = try await service.fetchCartItems()
-
         } catch {
             items = []
             showErrorAlert = true
         }
     }
-    
-    func removeItem(_ item: NFTItem) {
-        items.removeAll { $0.id == item.id }
+   
+    func removeItem(_ item: NFTItem) async {
+        do {
+            items = try await service.removeItem(id: item.id)
+        } catch {
+            showErrorAlert = true
+        }
     }
     
     func sort(by option: SortOption) {
@@ -67,4 +81,10 @@ final class CartViewModel {
             items.sort { $0.name < $1.name }
         }
     }
+}
+
+private enum Constants {
+    static let sortByPrice = NSLocalizedString("SortByPrice", comment: "")
+    static let sortByRating = NSLocalizedString("SortByRating", comment: "")
+    static let sortByName = NSLocalizedString("SortByName", comment: "")
 }

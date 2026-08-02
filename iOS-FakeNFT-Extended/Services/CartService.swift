@@ -8,29 +8,71 @@ import Foundation
 
 protocol CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem]
+    func removeItem(id: String) async throws -> [NFTItem]
 }
 
 final class CartService: CartServiceProtocol {
-
+    
     private let nftService: NftService
-
-    init(nftService: NftService) {
+    private let ordersService: OrdersService
+    
+    init(
+        nftService: NftService,
+        ordersService: OrdersService
+    ) {
         self.nftService = nftService
+        self.ordersService = ordersService
     }
-
+    
     func fetchCartItems() async throws -> [NFTItem] {
-        let nftItems = try await nftService.loadArrayNft()
-
-        return nftItems.map {
-            NFTItem(
-                id: $0.id,
-                name: $0.name,
-                imageURL: URL(string: $0.images.first ?? ""),
-                rating: $0.rating,
-                price: Decimal($0.price),
-                currency: .btc,
-                sellerName: $0.author
-            )
+        let orders = try await ordersService.loadOrders()
+        let nfts = try await nftService.loadArrayNft()
+        
+        let ids = Set(orders.nfts)
+        
+        return nfts
+            .filter { ids.contains($0.id) }
+            .map { nft in
+                NFTItem(
+                    id: nft.id,
+                    name: nft.name,
+                    imageURL: URL(string: nft.images.first ?? ""),
+                    rating: nft.rating,
+                    price: Decimal(nft.price),
+                    currency: .btc,
+                    sellerName: nft.author
+                )
+            }
+    }
+    
+    
+    func removeItem(id: String) async throws -> [NFTItem] {
+        let orders = try await ordersService.loadOrders()
+        
+        let updatedIDs = orders.nfts.filter {
+            $0 != id
         }
+        
+        let updatedOrders = try await ordersService.updateOrders(
+            orders: updatedIDs
+        )
+        
+        let nfts = try await nftService.loadArrayNft()
+        
+        let ids = Set(updatedOrders.nfts)
+        
+        return nfts
+            .filter { ids.contains($0.id) }
+            .map { nft in
+                NFTItem(
+                    id: nft.id,
+                    name: nft.name,
+                    imageURL: URL(string: nft.images.first ?? ""),
+                    rating: nft.rating,
+                    price: Decimal(nft.price),
+                    currency: .btc,
+                    sellerName: nft.author
+                )
+            }
     }
 }
