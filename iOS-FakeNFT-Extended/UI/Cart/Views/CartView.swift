@@ -7,11 +7,11 @@
 import SwiftUI
 
 struct CartView: View {
-    
     @State private var viewModel: CartViewModel
     @State private var showSortDialog = false
     @State private var showDeleteAlert = false
     @State private var itemToDelete: NFTItem?
+    @State private var isDeleting = false
     
     private let imageLoader: ImageLoader
     
@@ -30,152 +30,159 @@ struct CartView: View {
                 blur
                 deleteAlert
             }
+            
+            if isDeleting {
+                ProgressView()
+                    .scaleEffect(1.3)
         }
     }
-    // MARK: - Blur
-    private var blur: some View {
-        Rectangle()
-            .fill(.ultraThinMaterial)
-            .ignoresSafeArea()
-    }
-    
-    // MARK: - Delete alert
-    private var deleteAlert: some View {
-        DeleteAlertView(
-            url: itemToDelete?.imageURL,
-            imageLoader: imageLoader,
-            onDelete: {
-                guard let item = itemToDelete else { return }
+}
+// MARK: - Blur
+private var blur: some View {
+    Rectangle()
+        .fill(.ultraThinMaterial)
+        .ignoresSafeArea()
+}
 
-                Task {
-                    await viewModel.removeItem(item)
-                    showDeleteAlert = false
-                }
-            },
-            onCancel: {
+// MARK: - Delete alert
+private var deleteAlert: some View {
+    DeleteAlertView(
+        url: itemToDelete?.imageURL,
+        imageLoader: imageLoader,
+        onDelete: {
+            guard let item = itemToDelete else { return }
+            
+            Task {
+                isDeleting = true
+                await viewModel.removeItem(item)
+                isDeleting = false
                 showDeleteAlert = false
             }
-        )
-    }
-    
-    // MARK: - Cart content
-    private var cartViewContent: some View {
-        VStack(spacing: 0) {
-            if viewModel.isLoading {
-                ProgressView()
-            } else if viewModel.items.isEmpty {
-                emptyStateView
-            } else {
-                sortButton
-                list
-                bottomBar
-            }
+        },
+        onCancel: {
+            showDeleteAlert = false
         }
-        .confirmationDialog(
-            Constants.sort,
-            isPresented: $showSortDialog,
-            titleVisibility: .visible
-        ) {
-            sortDialog
-        }
-        .alert(Constants.failed, isPresented: $viewModel.showErrorAlert) {
-            Button(Constants.cancel, role: .cancel) { }
-            Button(Constants.errorRepeat) {
-                Task {
-                    await viewModel.loadItems()
-                }
-            }
-        }
-        .background(Color(.whitePrimary))
-        .task {
-            await viewModel.loadItems()
+    )
+}
+
+// MARK: - Cart content
+private var cartViewContent: some View {
+    VStack(spacing: 0) {
+        if viewModel.isLoading {
+            ProgressView()
+        } else if viewModel.items.isEmpty {
+            emptyStateView
+        } else {
+            sortButton
+            list
+            bottomBar
         }
     }
-    
-    // MARK: List
-    private var list: some View {
-        List(viewModel.items) { item in
-            CartCell(item: item, imageLoader: imageLoader) {
-                itemToDelete = item
-                showDeleteAlert = true
+    .confirmationDialog(
+        Constants.sort,
+        isPresented: $showSortDialog,
+        titleVisibility: .visible
+    ) {
+        sortDialog
+    }
+    .alert(Constants.failed, isPresented: $viewModel.showErrorAlert) {
+        Button(Constants.cancel, role: .cancel) { }
+        Button(Constants.errorRepeat) {
+            Task {
+                await viewModel.loadItems()
             }
-            .listRowSeparator(.hidden)
         }
-        .listStyle(.plain)
+    }
+    .background(Color(.whitePrimary))
+    .task {
+        await viewModel.loadItems()
+    }
+}
+
+// MARK: List
+private var list: some View {
+    List(viewModel.items) { item in
+        CartCell(item: item, imageLoader: imageLoader) {
+            itemToDelete = item
+            showDeleteAlert = true
+        }
+        .listRowSeparator(.hidden)
+    }
+    .listStyle(.plain)
+}
+
+// MARK: - Sort
+private var sortButton: some View {
+    HStack {
+        Spacer()
+        
+        Button {
+            showSortDialog = true
+        } label: {
+            Image(.sortButton)
+                .frame(width: 42, height: 42)
+        }
+    }
+    .padding(.horizontal, 9)
+    .padding(.bottom, 20)
+}
+
+@ViewBuilder
+private var sortDialog: some View {
+    Button(Constants.sortByPrice) {
+        viewModel.sort(by: .price)
     }
     
-    // MARK: - Sort
-    private var sortButton: some View {
+    Button(Constants.sortByRating) {
+        viewModel.sort(by: .rating)
+    }
+    
+    Button(Constants.sortByName) {
+        viewModel.sort(by: .name)
+    }
+    
+    Button(Constants.cancel, role: .cancel) { }
+}
+
+// MARK: Bottom bar
+private var bottomBar: some View {
+    VStack(spacing: 0) {
         HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(viewModel.items.count) NFT")
+                    .font(.system(size: 15))
+                    .foregroundColor(.secondary)
+                
+                Text(viewModel.totalPriceText)
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(.greenUniversal)
+            }
+            
             Spacer()
             
-            Button {
-                showSortDialog = true
-            } label: {
-                Image(.sortButton)
-                    .frame(width: 42, height: 42)
-            }
-        }
-        .padding(.horizontal, 9)
-        .padding(.bottom, 20)
-    }
-    
-    @ViewBuilder
-    private var sortDialog: some View {
-        Button(Constants.sortByPrice) {
-            viewModel.sort(by: .price)
-        }
-        
-        Button(Constants.sortByRating) {
-            viewModel.sort(by: .rating)
-        }
-        
-        Button(Constants.sortByName) {
-            viewModel.sort(by: .name)
-        }
-        
-        Button(Constants.cancel, role: .cancel) { }
-    }
-    
-    // MARK: Bottom bar
-    private var bottomBar: some View {
-        VStack(spacing: 0) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("\(viewModel.items.count) NFT")
-                        .font(.system(size: 15))
-                        .foregroundColor(.secondary)
-                    
-                    Text(viewModel.totalPriceText)
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(.greenUniversal)
-                }
-                
-                Spacer()
-                
-                PrimaryButton(title: Constants.pay,
-                              isEnabled: true) {
-                    
-                }
-                              .frame(width: 240, height: 44)
+            PrimaryButton(title: Constants.pay,
+                          isEnabled: true) {
                 
             }
-            .padding()
-            .background(.lightGrayPrimary)
+                          .frame(width: 240, height: 44)
+            
         }
+        .padding()
+        .background(.lightGrayPrimary)
     }
-    
-    // MARK: - EmptyStateView
-    private var emptyStateView: some View {
-        VStack {
-            Spacer()
-            Text(Constants.emptyCart)
-                .font(.system(size: 17))
-                .foregroundColor(.blackPrimary)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
+}
+
+// MARK: - EmptyStateView
+private var emptyStateView: some View {
+    VStack {
+        Spacer()
+        Text(Constants.emptyCart)
+            .font(.system(size: 17))
+            .foregroundColor(.blackPrimary)
+        Spacer()
     }
+    .frame(maxWidth: .infinity)
+}
 }
 
 private enum Constants {
