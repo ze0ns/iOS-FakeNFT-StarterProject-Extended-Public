@@ -23,6 +23,12 @@ struct MyNftCell: View {
                 .scaledToFill()
                 .frame(width: 108, height: 108)
                 .clipShape(.rect(cornerRadius: 12))
+                .overlay(alignment: .topTrailing) {
+                    // TODO: добавление в избранное, итерация 3
+                    Image(.like)
+                        .foregroundStyle(Color(.whiteUniversal))
+                        .padding(10)
+                }
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(nft.name)

@@ -48,8 +48,7 @@ struct FavoriteNftCell: View {
 
     private var favoriteButton: some View {
         Button(action: onFavoriteTap) {
-            Image(systemName: ProfileIcons.favoriteFilled)
-                .font(.system(size: 12))
+            Image(.like)
                 .foregroundStyle(Color(.redUniversal))
                 .padding(6)
                 .background(Color(.whiteUniversal).opacity(0.6))
