@@ -5,7 +5,6 @@
 //  Created by Svetlana on 2026/7/30.
 //
 import Foundation
-import UIKit
 
 final class MockCartService: CartServiceProtocol {
     

@@ -11,12 +11,12 @@ struct CachedAsyncImage: View {
     let url: URL?
     let imageLoader: ImageLoader
     
-    @State private var image: UIImage?
+    @State private var image: Image?
     
     var body: some View {
         Group {
             if let image {
-                Image(uiImage: image)
+                image
                     .resizable()
             } else if let url {
                 ProgressView()
@@ -32,7 +32,12 @@ struct CachedAsyncImage: View {
     
     private func fetchImage(from url: URL) async {
         do {
-            image = try await imageLoader.loadImage(from: url)
+            let cgImage = try await imageLoader.loadImage(from: url)
+            image = Image(
+                cgImage,
+                scale: 1,
+                label: Text("NFT image")
+            )
         } catch {
             print(error)
         }

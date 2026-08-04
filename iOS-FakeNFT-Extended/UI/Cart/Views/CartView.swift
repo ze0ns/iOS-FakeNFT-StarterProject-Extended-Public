@@ -93,13 +93,13 @@ struct CartView: View {
             Button(Constants.cancel, role: .cancel) { }
             Button(Constants.errorRepeat) {
                 Task {
-                   await reloadItems()
-                    }
+                    await reloadItems()
                 }
             }
+        }
         .background(Color(.whitePrimary))
         .task {
-           await reloadItems()
+            await reloadItems()
         }
     }
     
@@ -193,9 +193,8 @@ struct CartView: View {
     
     private func reloadItems() async {
         await viewModel.loadItems()
-
+        
         if let option = SortOption(rawValue: selectedSortOption) {
-            print(option, "🍏")
             viewModel.sort(by: option)
         }
     }

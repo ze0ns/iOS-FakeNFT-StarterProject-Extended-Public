@@ -4,28 +4,50 @@
 //
 //  Created by Svetlana on 2026/8/1.
 //
-import UIKit
+import SwiftUI
+
+import SwiftUI
+import ImageIO
 
 actor ImageLoader {
     
-    private let cache = NSCache<NSURL, UIImage>()
+    private let cache = NSCache<NSURL, CGImageBox>()
     
     init() {}
     
-    func loadImage(from url: URL) async throws -> UIImage {
+    func loadImage(from url: URL) async throws -> CGImage {
         
         if let cachedImage = cache.object(forKey: url as NSURL) {
-            return cachedImage
+            return cachedImage.image
         }
         
         let (data, _) = try await URLSession.shared.data(from: url)
         
-        guard let image = UIImage(data: data) else {
+        guard let source = CGImageSourceCreateWithData(
+            data as CFData,
+            nil
+        ),
+        let cgImage = CGImageSourceCreateImageAtIndex(
+            source,
+            0,
+            nil
+        ) else {
             throw URLError(.cannotDecodeContentData)
         }
         
-        cache.setObject(image, forKey: url as NSURL)
+        cache.setObject(
+            CGImageBox(cgImage),
+            forKey: url as NSURL
+        )
         
-        return image
+        return cgImage
+    }
+}
+
+private final class CGImageBox {
+    let image: CGImage
+    
+    init(_ image: CGImage) {
+        self.image = image
     }
 }
