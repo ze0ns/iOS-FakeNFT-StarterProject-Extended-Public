@@ -5,7 +5,7 @@ import Observation
 final class ServicesAssembly {
     
     private let networkClient: NetworkClient
-    private let nftStorage: AppStorage
+    private let nftStorage: StorageService
     
     @ObservationIgnored
     private lazy var imageLoader = ImageLoader()
@@ -36,7 +36,7 @@ final class ServicesAssembly {
     
     init(
         networkClient: NetworkClient,
-        nftStorage: AppStorage
+        nftStorage: StorageService
     ) {
         self.networkClient = networkClient
         self.nftStorage = nftStorage
