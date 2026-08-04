@@ -28,12 +28,16 @@ struct MyNftCell: View {
                 Text(nft.name)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundStyle(Color(.blackPrimary))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
 
                 NftRatingView(rating: nft.rating)
 
                 Text(authorText)
                     .font(.system(size: 13))
                     .foregroundStyle(Color(.blackPrimary))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
             }
 
             Spacer(minLength: 8)
