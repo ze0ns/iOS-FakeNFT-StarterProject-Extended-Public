@@ -75,12 +75,16 @@ struct ProfileView: View {
                     .padding(.top, 20)
 
                 if let websiteURL = profile.websiteURL {
-                    Button(profile.website) {
+                    Button {
                         path.append(.website(websiteURL))
+                    } label: {
+                        Text(profile.website)
+                            .font(.system(size: 15))
+                            .foregroundStyle(Color(.blueUniversal))
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .font(.system(size: 15))
-                    .foregroundStyle(Color(.blueUniversal))
-                    .multilineTextAlignment(.leading)
+                    .buttonStyle(.plain)
                     .padding(.top, 8)
                 }
 
@@ -161,8 +165,10 @@ struct ProfileView: View {
         switch route {
         case let .myNft(ids):
             MyNftView(nftIds: ids, service: myNftService)
+                .toolbar(.hidden, for: .tabBar)
         case let .favoriteNft(ids):
             FavoriteNftView(likeIds: ids, service: myNftService)
+                .toolbar(.hidden, for: .tabBar)
         case let .website(url):
             WebView(url: url)
                 .toolbar(.hidden, for: .tabBar)
