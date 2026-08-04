@@ -56,7 +56,8 @@ struct MyNftView: View {
             }
         }
 
-        Button(NSLocalizedString(ProfileStrings.close, comment: ""), role: .cancel) {}
+        // Роль cancel не указана: система прячет такую кнопку, когда показывает диалог поповером
+        Button(NSLocalizedString(ProfileStrings.close, comment: "")) {}
     }
 
     @ViewBuilder
