@@ -26,9 +26,25 @@ struct MyNftView: View {
                     sortButton
                 }
             }
+            .confirmationDialog(
+                NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
+                isPresented: $isSortDialogPresented,
+                titleVisibility: .visible
+            ) {
+                sortDialogButtons
+            }
             .task {
                 await viewModel.loadNfts()
             }
+    }
+
+    private var content: some View {
+        NftListStateView(
+            state: viewModel.state,
+            emptyTextKey: ProfileStrings.myNftEmpty
+        ) { nfts in
+            list(for: nfts)
+        }
     }
 
     private var sortButton: some View {
@@ -39,14 +55,6 @@ struct MyNftView: View {
                 .foregroundStyle(Color(.blackPrimary))
         }
         .buttonStyle(.plain)
-        // Диалог объявлен на самой кнопке, иначе система показывает его по центру экрана
-        .confirmationDialog(
-            NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
-            isPresented: $isSortDialogPresented,
-            titleVisibility: .visible
-        ) {
-            sortDialogButtons
-        }
     }
 
     @ViewBuilder
@@ -72,26 +80,6 @@ struct MyNftView: View {
         )
     }
 
-    @ViewBuilder
-    private var content: some View {
-        switch viewModel.state {
-        case .loading:
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case let .success(nfts):
-            if nfts.isEmpty {
-                emptyView
-            } else {
-                list(for: nfts)
-            }
-        case let .error(message):
-            Text(message)
-                .multilineTextAlignment(.center)
-                .padding(16)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-    }
-
     private func list(for nfts: [Nft]) -> some View {
         List(nfts, id: \.id) { nft in
             MyNftCell(nft: nft)
@@ -99,13 +87,6 @@ struct MyNftView: View {
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
         }
         .listStyle(.plain)
-    }
-
-    private var emptyView: some View {
-        Text(NSLocalizedString(ProfileStrings.myNftEmpty, comment: ""))
-            .font(.system(size: 17, weight: .bold))
-            .foregroundStyle(Color(.blackPrimary))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

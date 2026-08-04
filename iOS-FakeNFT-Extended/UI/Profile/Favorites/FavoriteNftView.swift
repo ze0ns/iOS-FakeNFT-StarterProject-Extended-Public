@@ -25,23 +25,12 @@ struct FavoriteNftView: View {
             }
     }
 
-    @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
-        case .loading:
-            ProgressView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        case let .success(nfts):
-            if nfts.isEmpty {
-                emptyView
-            } else {
-                grid(for: nfts)
-            }
-        case let .error(message):
-            Text(message)
-                .multilineTextAlignment(.center)
-                .padding(16)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        NftListStateView(
+            state: viewModel.state,
+            emptyTextKey: ProfileStrings.favoriteNftEmpty
+        ) { nfts in
+            grid(for: nfts)
         }
     }
 
@@ -65,12 +54,6 @@ struct FavoriteNftView: View {
         ]
     }
 
-    private var emptyView: some View {
-        Text(NSLocalizedString(ProfileStrings.favoriteNftEmpty, comment: ""))
-            .font(.system(size: 17, weight: .bold))
-            .foregroundStyle(Color(.blackPrimary))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
 }
 
 #if DEBUG

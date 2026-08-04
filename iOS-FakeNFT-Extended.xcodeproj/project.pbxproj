@@ -28,6 +28,7 @@
 		7BAF66B57285D7024BD8285A /* FavoriteNftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB60DB10D6E15BEFF55D187A /* FavoriteNftView.swift */; };
 		7C5C1E9CC413F9F1F374DD1F /* ProfileIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996097CBDDFE81459AD565BE /* ProfileIcons.swift */; };
 		85F67295AECDEAAB66B54688 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12BD857F8DB8EAB77C51CD5 /* ProfileViewModel.swift */; };
+		958F8785CE41726C44A523A8 /* NftListStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E293B3B4A0787271945E9E /* NftListStateView.swift */; };
 		9A191FE250C8DAFF6004F03A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1D86543D5F32BCFD2763 /* ProfileView.swift */; };
 		A6541EC676E6D482BD8F7A03 /* FavoriteNftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF89E341027E3A48CBDAE95 /* FavoriteNftCell.swift */; };
 		A67A104EB1564589AA3519A5 /* ProfileServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CBB107E34D210E34A761B /* ProfileServiceMock.swift */; };
@@ -107,6 +108,7 @@
 		0924C526FBAE767BF26F5B85 /* ProfileState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileState.swift; sourceTree = "<group>"; };
 		2DD887F3F8BC261D11D907D7 /* ProfileStrings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileStrings.swift; sourceTree = "<group>"; };
 		3A5E24CCA5FD80C199DEC137 /* MyNftServiceMock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MyNftServiceMock.swift; sourceTree = "<group>"; };
+		40E293B3B4A0787271945E9E /* NftListStateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NftListStateView.swift; sourceTree = "<group>"; };
 		43C9A282DA8EAEA4F07464E5 /* NftMock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NftMock.swift; sourceTree = "<group>"; };
 		4768929A3AC8BE7EE32C6442 /* NftPriceFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NftPriceFormatter.swift; sourceTree = "<group>"; };
 		5CA93F3BD2486CB2D137CCC5 /* NftListState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NftListState.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				7522807540A92D0B4BF91447 /* NftRatingView.swift */,
 				4768929A3AC8BE7EE32C6442 /* NftPriceFormatter.swift */,
 				5CA93F3BD2486CB2D137CCC5 /* NftListState.swift */,
+				40E293B3B4A0787271945E9E /* NftListStateView.swift */,
 			);
 			name = Components;
 			path = Components;
@@ -642,6 +645,7 @@
 				A6541EC676E6D482BD8F7A03 /* FavoriteNftCell.swift in Sources */,
 				CE7F28797727F1028FE789D8 /* FavoriteNftViewModel.swift in Sources */,
 				7BAF66B57285D7024BD8285A /* FavoriteNftView.swift in Sources */,
+				958F8785CE41726C44A523A8 /* NftListStateView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

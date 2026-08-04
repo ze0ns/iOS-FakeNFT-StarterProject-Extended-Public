@@ -46,6 +46,10 @@ final class MyNftViewModel {
         guard option != sortOption else { return }
         sortOption = option
         defaults.set(option.rawValue, forKey: Self.sortOptionKey)
+
+        // Во время загрузки и на экране ошибки сортировать нечего,
+        // выбор применится сам, когда список догрузится
+        guard case .success = state else { return }
         applySort()
     }
 
