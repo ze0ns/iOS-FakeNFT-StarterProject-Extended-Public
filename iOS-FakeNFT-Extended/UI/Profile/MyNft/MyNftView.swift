@@ -26,13 +26,6 @@ struct MyNftView: View {
                     sortButton
                 }
             }
-            .confirmationDialog(
-                NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
-                isPresented: $isSortDialogPresented,
-                titleVisibility: .visible
-            ) {
-                sortDialogButtons
-            }
             .task {
                 await viewModel.loadNfts()
             }
@@ -55,6 +48,14 @@ struct MyNftView: View {
                 .foregroundStyle(Color(.blackPrimary))
         }
         .buttonStyle(.plain)
+        // Диалог объявлен на самой кнопке, иначе система указывает хвостом в центр экрана
+        .confirmationDialog(
+            NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
+            isPresented: $isSortDialogPresented,
+            titleVisibility: .visible
+        ) {
+            sortDialogButtons
+        }
     }
 
     @ViewBuilder
