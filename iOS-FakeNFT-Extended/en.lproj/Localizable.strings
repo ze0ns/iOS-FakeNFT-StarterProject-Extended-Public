@@ -22,6 +22,7 @@
 "profile.sort_price" = "По цене";
 "profile.sort_rating" = "По рейтингу";
 "profile.sort_name" = "По названию";
+"profile.sort_selected_format" = "%@ ✓";
 "profile.close" = "Закрыть";
 
 // MARK: - Errors

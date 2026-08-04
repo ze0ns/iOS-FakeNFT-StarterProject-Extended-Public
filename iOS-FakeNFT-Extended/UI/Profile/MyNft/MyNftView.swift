@@ -26,13 +26,6 @@ struct MyNftView: View {
                     sortButton
                 }
             }
-            .confirmationDialog(
-                NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
-                isPresented: $isSortDialogPresented,
-                titleVisibility: .visible
-            ) {
-                sortDialogButtons
-            }
             .task {
                 await viewModel.loadNfts()
             }
@@ -46,18 +39,37 @@ struct MyNftView: View {
                 .foregroundStyle(Color(.blackPrimary))
         }
         .buttonStyle(.plain)
+        // Диалог объявлен на самой кнопке, иначе система показывает его по центру экрана
+        .confirmationDialog(
+            NSLocalizedString(ProfileStrings.sortTitle, comment: ""),
+            isPresented: $isSortDialogPresented,
+            titleVisibility: .visible
+        ) {
+            sortDialogButtons
+        }
     }
 
     @ViewBuilder
     private var sortDialogButtons: some View {
         ForEach(NftSortOption.allCases, id: \.self) { option in
-            Button(NSLocalizedString(option.titleKey, comment: "")) {
+            Button(title(for: option)) {
                 viewModel.setSortOption(option)
             }
         }
 
         // Роль cancel не указана: система прячет такую кнопку, когда показывает диалог поповером
         Button(NSLocalizedString(ProfileStrings.close, comment: "")) {}
+    }
+
+    /// Помечает выбранный вариант: кнопки диалога умеют показывать только текст.
+    private func title(for option: NftSortOption) -> String {
+        let title = NSLocalizedString(option.titleKey, comment: "")
+        guard option == viewModel.sortOption else { return title }
+
+        return String(
+            format: NSLocalizedString(ProfileStrings.sortSelectedFormat, comment: ""),
+            title
+        )
     }
 
     @ViewBuilder

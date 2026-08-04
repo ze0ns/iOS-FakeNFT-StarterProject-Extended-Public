@@ -18,6 +18,7 @@ enum ProfileStrings {
     static let sortByPrice = "profile.sort_price"
     static let sortByRating = "profile.sort_rating"
     static let sortByName = "profile.sort_name"
+    static let sortSelectedFormat = "profile.sort_selected_format"
     static let close = "profile.close"
     static let networkError = "Error.network"
     static let unknownError = "Error.unknown"
