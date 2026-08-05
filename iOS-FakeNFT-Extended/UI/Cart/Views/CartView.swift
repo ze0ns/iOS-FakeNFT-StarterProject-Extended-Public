@@ -59,6 +59,9 @@ struct CartView: View {
                 Task {
                     isDeleting = true
                     await viewModel.removeItem(item)
+                    if let option = SortOption(rawValue: selectedSortOption) {
+                        viewModel.sort(by: option)
+                    }
                     isDeleting = false
                     showDeleteAlert = false
                 }
