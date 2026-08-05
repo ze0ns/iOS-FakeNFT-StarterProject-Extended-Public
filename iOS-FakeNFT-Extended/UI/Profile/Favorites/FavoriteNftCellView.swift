@@ -1,5 +1,5 @@
 //
-//  FavoriteNftCell.swift
+//  FavoriteNftCellView.swift
 //  iOS-FakeNFT-Extended
 //
 //  Created by Kirill Efremov on 01.08.2026.
@@ -8,7 +8,7 @@
 import Kingfisher
 import SwiftUI
 
-struct FavoriteNftCell: View {
+struct FavoriteNftCellView: View {
 
     let nft: Nft
     let onFavoriteTap: () -> Void
@@ -37,7 +37,7 @@ struct FavoriteNftCell: View {
 
                 NftRatingView(rating: nft.rating)
 
-                Text(NftPriceFormatter.string(from: nft.price))
+                Text(nft.price.nftPriceText)
                     .font(.system(size: 15))
                     .foregroundStyle(Color(.blackPrimary))
             }
@@ -61,7 +61,7 @@ struct FavoriteNftCell: View {
 
 #if DEBUG
 #Preview {
-    FavoriteNftCell(nft: .mock, onFavoriteTap: {})
+    FavoriteNftCellView(nft: .mock, onFavoriteTap: {})
         .padding(16)
 }
 #endif

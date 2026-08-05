@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NftRatingView: View {
 
+    private static let maxRating = 5
+
     let rating: Int
 
     var body: some View {
@@ -24,8 +26,6 @@ struct NftRatingView: View {
             }
         }
     }
-
-    private static let maxRating = 5
 }
 
 #if DEBUG

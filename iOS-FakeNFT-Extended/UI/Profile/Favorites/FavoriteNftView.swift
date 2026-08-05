@@ -28,6 +28,7 @@ struct FavoriteNftView: View {
     private var content: some View {
         NftListStateView(
             state: viewModel.state,
+            layout: .grid,
             emptyTextKey: ProfileStrings.favoriteNftEmpty
         ) { nfts in
             grid(for: nfts)
@@ -39,7 +40,7 @@ struct FavoriteNftView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(nfts, id: \.id) { nft in
                     // TODO: удаление из избранного, итерация 3
-                    FavoriteNftCell(nft: nft, onFavoriteTap: {})
+                    FavoriteNftCellView(nft: nft, onFavoriteTap: {})
                 }
             }
             .padding(.horizontal, 16)

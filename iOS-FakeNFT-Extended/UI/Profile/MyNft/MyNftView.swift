@@ -34,6 +34,7 @@ struct MyNftView: View {
     private var content: some View {
         NftListStateView(
             state: viewModel.state,
+            layout: .list,
             emptyTextKey: ProfileStrings.myNftEmpty
         ) { nfts in
             list(for: nfts)
@@ -83,7 +84,7 @@ struct MyNftView: View {
 
     private func list(for nfts: [Nft]) -> some View {
         List(nfts, id: \.id) { nft in
-            MyNftCell(nft: nft)
+            MyNftCellView(nft: nft)
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 39))
         }

@@ -1,5 +1,5 @@
 //
-//  NftMock.swift
+//  Nft+Mock.swift
 //  iOS-FakeNFT-Extended
 //
 //  Created by Kirill Efremov on 01.08.2026.

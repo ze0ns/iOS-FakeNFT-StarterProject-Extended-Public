@@ -1,5 +1,5 @@
 //
-//  MyNftCell.swift
+//  MyNftCellView.swift
 //  iOS-FakeNFT-Extended
 //
 //  Created by Kirill Efremov on 01.08.2026.
@@ -8,7 +8,7 @@
 import Kingfisher
 import SwiftUI
 
-struct MyNftCell: View {
+struct MyNftCellView: View {
 
     let nft: Nft
 
@@ -53,7 +53,7 @@ struct MyNftCell: View {
                     .font(.system(size: 13))
                     .foregroundStyle(Color(.blackPrimary))
 
-                Text(NftPriceFormatter.string(from: nft.price))
+                Text(nft.price.nftPriceText)
                     .font(.system(size: 17, weight: .bold))
                     .foregroundStyle(Color(.blackPrimary))
             }
@@ -72,8 +72,8 @@ struct MyNftCell: View {
 #if DEBUG
 #Preview {
     List {
-        MyNftCell(nft: .mock)
-        MyNftCell(nft: .mock)
+        MyNftCellView(nft: .mock)
+        MyNftCellView(nft: .mock)
     }
     .listStyle(.plain)
 }

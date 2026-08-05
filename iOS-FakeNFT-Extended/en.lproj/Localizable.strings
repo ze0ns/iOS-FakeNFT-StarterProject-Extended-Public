@@ -24,6 +24,7 @@
 "profile.sort_name" = "По названию";
 "profile.sort_selected_format" = "%@ ✓";
 "profile.close" = "Закрыть";
+"profile.loading_accessibility" = "Загрузка NFT";
 
 // MARK: - Errors
 
