@@ -13,9 +13,12 @@ struct ProfileView: View {
     @State private var viewModel: ProfileViewModel
     @State private var path: [Route] = []
 
+    private let myNftService: MyNftService
+
     @MainActor
-    init(profileService: ProfileService) {
+    init(profileService: ProfileService, myNftService: MyNftService) {
         _viewModel = State(initialValue: ProfileViewModel(profileService: profileService))
+        self.myNftService = myNftService
     }
 
     var body: some View {
@@ -72,12 +75,16 @@ struct ProfileView: View {
                     .padding(.top, 20)
 
                 if let websiteURL = profile.websiteURL {
-                    Button(profile.website) {
+                    Button {
                         path.append(.website(websiteURL))
+                    } label: {
+                        Text(profile.website)
+                            .font(.system(size: 15))
+                            .foregroundStyle(Color(.blueUniversal))
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .font(.system(size: 15))
-                    .foregroundStyle(Color(.blueUniversal))
-                    .multilineTextAlignment(.leading)
+                    .buttonStyle(.plain)
                     .padding(.top, 8)
                 }
 
@@ -114,8 +121,16 @@ struct ProfileView: View {
 
     private func menu(for profile: ProfileDTO) -> some View {
         List {
-            menuRow(titleKey: ProfileStrings.myNftTitle, count: profile.nfts.count, route: .myNft)
-            menuRow(titleKey: ProfileStrings.favoriteNftTitle, count: profile.likes.count, route: .favoriteNft)
+            menuRow(
+                titleKey: ProfileStrings.myNftTitle,
+                count: profile.nfts.count,
+                route: .myNft(profile.nfts)
+            )
+            menuRow(
+                titleKey: ProfileStrings.favoriteNftTitle,
+                count: profile.likes.count,
+                route: .favoriteNft(profile.likes)
+            )
         }
         .listStyle(.plain)
         .scrollDisabled(true)
@@ -148,12 +163,12 @@ struct ProfileView: View {
     @ViewBuilder
     private func destination(for route: Route) -> some View {
         switch route {
-        case .myNft:
-            // TODO: экран «Мои NFT», итерация 2
-            placeholderScreen(titleKey: ProfileStrings.myNftTitle, icon: ProfileIcons.myNft)
-        case .favoriteNft:
-            // TODO: экран «Избранные NFT», итерация 2
-            placeholderScreen(titleKey: ProfileStrings.favoriteNftTitle, icon: ProfileIcons.favoriteNft)
+        case let .myNft(ids):
+            MyNftView(nftIds: ids, service: myNftService)
+                .toolbar(.hidden, for: .tabBar)
+        case let .favoriteNft(ids):
+            FavoriteNftView(likeIds: ids, service: myNftService)
+                .toolbar(.hidden, for: .tabBar)
         case let .website(url):
             WebView(url: url)
                 .toolbar(.hidden, for: .tabBar)
@@ -161,22 +176,18 @@ struct ProfileView: View {
         }
     }
 
-    private func placeholderScreen(titleKey: String, icon: String) -> some View {
-        let title = NSLocalizedString(titleKey, comment: "")
-        return ContentUnavailableView(title, systemImage: icon)
-            .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
-    }
-
     private enum Route: Hashable {
-        case myNft
-        case favoriteNft
+        case myNft([String])
+        case favoriteNft([String])
         case website(URL)
     }
 }
 
 #if DEBUG
 #Preview {
-    ProfileView(profileService: ProfileServiceMock())
+    ProfileView(
+        profileService: ProfileServiceMock(),
+        myNftService: MyNftServiceMock()
+    )
 }
 #endif

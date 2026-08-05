@@ -13,6 +13,18 @@
 
 "profile.my_nft" = "Мои NFT";
 "profile.favorite_nft" = "Избранные NFT";
+"profile.price" = "Цена";
+"profile.price_format" = "%@ ETH";
+"profile.author_format" = "от %@";
+"profile.my_nft_empty" = "У Вас ещё нет NFT";
+"profile.favorite_nft_empty" = "У Вас ещё нет избранных NFT";
+"profile.sort_title" = "Сортировка";
+"profile.sort_price" = "По цене";
+"profile.sort_rating" = "По рейтингу";
+"profile.sort_name" = "По названию";
+"profile.sort_selected_format" = "%@ ✓";
+"profile.close" = "Закрыть";
+"profile.loading_accessibility" = "Загрузка NFT";
 
 // MARK: - Errors
 
