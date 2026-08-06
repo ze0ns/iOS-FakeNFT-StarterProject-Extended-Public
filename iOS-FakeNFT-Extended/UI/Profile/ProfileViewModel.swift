@@ -19,6 +19,12 @@ final class ProfileViewModel {
         self.profileService = profileService
     }
 
+    /// Загруженный профиль, если он уже пришёл с сервера.
+    var profile: ProfileDTO? {
+        guard case let .success(profile) = state else { return nil }
+        return profile
+    }
+
     func loadProfile() async {
         state = .loading
         do {
@@ -27,6 +33,11 @@ final class ProfileViewModel {
         } catch {
             state = .error(message(for: error))
         }
+    }
+
+    /// Показывает профиль, изменённый на другом экране, без повторного запроса.
+    func apply(_ profile: ProfileDTO) {
+        state = .success(profile)
     }
 
     private func message(for error: Error) -> String {

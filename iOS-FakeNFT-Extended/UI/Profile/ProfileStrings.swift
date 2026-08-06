@@ -23,4 +23,5 @@ enum ProfileStrings {
     static let loadingAccessibility = "profile.loading_accessibility"
     static let networkError = "Error.network"
     static let unknownError = "Error.unknown"
+    static let errorTitle = "Error.title"
 }

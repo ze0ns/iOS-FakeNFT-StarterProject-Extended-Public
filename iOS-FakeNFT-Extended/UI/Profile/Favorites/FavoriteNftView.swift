@@ -12,8 +12,20 @@ struct FavoriteNftView: View {
     @State private var viewModel: FavoriteNftViewModel
 
     @MainActor
-    init(likeIds: [String], service: MyNftService) {
-        _viewModel = State(initialValue: FavoriteNftViewModel(likeIds: likeIds, service: service))
+    init(
+        likeIds: [String],
+        service: MyNftService,
+        profileService: ProfileService,
+        onProfileUpdated: @escaping (ProfileDTO) -> Void
+    ) {
+        _viewModel = State(
+            initialValue: FavoriteNftViewModel(
+                likeIds: likeIds,
+                service: service,
+                profileService: profileService,
+                onProfileUpdated: onProfileUpdated
+            )
+        )
     }
 
     var body: some View {
@@ -22,6 +34,9 @@ struct FavoriteNftView: View {
             .navigationBarTitleDisplayMode(.inline)
             .task {
                 await viewModel.loadNfts()
+            }
+            .errorAlert(message: viewModel.errorMessage) {
+                viewModel.dismissError()
             }
     }
 
@@ -39,8 +54,9 @@ struct FavoriteNftView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(nfts, id: \.id) { nft in
-                    // TODO: удаление из избранного, итерация 3
-                    FavoriteNftCellView(nft: nft, onFavoriteTap: {})
+                    FavoriteNftCellView(nft: nft) {
+                        Task { await viewModel.removeFromFavorites(id: nft.id) }
+                    }
                 }
             }
             .padding(.horizontal, 16)
@@ -60,7 +76,12 @@ struct FavoriteNftView: View {
 #if DEBUG
 #Preview {
     NavigationStack {
-        FavoriteNftView(likeIds: ["1", "2", "3"], service: MyNftServiceMock())
+        FavoriteNftView(
+            likeIds: ["1", "2", "3"],
+            service: MyNftServiceMock(),
+            profileService: ProfileServiceMock(),
+            onProfileUpdated: { _ in }
+        )
     }
 }
 #endif

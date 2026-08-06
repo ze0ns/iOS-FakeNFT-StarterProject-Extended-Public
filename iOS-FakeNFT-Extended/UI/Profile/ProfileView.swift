@@ -13,11 +13,13 @@ struct ProfileView: View {
     @State private var viewModel: ProfileViewModel
     @State private var path: [Route] = []
 
+    private let profileService: ProfileService
     private let myNftService: MyNftService
 
     @MainActor
     init(profileService: ProfileService, myNftService: MyNftService) {
         _viewModel = State(initialValue: ProfileViewModel(profileService: profileService))
+        self.profileService = profileService
         self.myNftService = myNftService
     }
 
@@ -167,8 +169,15 @@ struct ProfileView: View {
             MyNftView(nftIds: ids, service: myNftService)
                 .toolbar(.hidden, for: .tabBar)
         case let .favoriteNft(ids):
-            FavoriteNftView(likeIds: ids, service: myNftService)
-                .toolbar(.hidden, for: .tabBar)
+            FavoriteNftView(
+                likeIds: ids,
+                service: myNftService,
+                profileService: profileService,
+                onProfileUpdated: { updated in
+                    viewModel.apply(updated)
+                }
+            )
+            .toolbar(.hidden, for: .tabBar)
         case let .website(url):
             WebView(url: url)
                 .toolbar(.hidden, for: .tabBar)
