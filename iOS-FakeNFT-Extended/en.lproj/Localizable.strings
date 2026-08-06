@@ -25,6 +25,19 @@
 "profile.sort_selected_format" = "%@ ✓";
 "profile.close" = "Закрыть";
 "profile.loading_accessibility" = "Загрузка NFT";
+"profile.photo_title" = "Фото профиля";
+"profile.change_photo" = "Изменить фото";
+"profile.remove_photo" = "Удалить фото";
+"profile.photo_link_title" = "Ссылка на фото";
+"profile.photo_link_placeholder" = "http://www.example.com";
+"profile.save" = "Сохранить";
+"profile.cancel" = "Отмена";
+"profile.exit_title" = "Уверены, что хотите выйти?";
+"profile.stay" = "Остаться";
+"profile.exit" = "Выйти";
+"profile.name_field" = "Имя";
+"profile.description_field" = "Описание";
+"profile.website_field" = "Сайт";
 
 // MARK: - Errors
 

@@ -41,12 +41,14 @@ struct ProfileView: View {
     }
 
     private var editProfileButton: some View {
-        // TODO: экран редактирования профиля, итерация 3
-        Button(action: {}) {
+        Button {
+            path.append(.edit)
+        } label: {
             Image(systemName: ProfileIcons.edit)
                 .foregroundStyle(Color(.blackPrimary))
         }
         .buttonStyle(.plain)
+        .disabled(viewModel.profile == nil)
     }
 
     @ViewBuilder
@@ -165,6 +167,13 @@ struct ProfileView: View {
     @ViewBuilder
     private func destination(for route: Route) -> some View {
         switch route {
+        case .edit:
+            if let profile = viewModel.profile {
+                ProfileEditView(profile: profile, service: profileService) { updated in
+                    viewModel.apply(updated)
+                }
+                .toolbar(.hidden, for: .tabBar)
+            }
         case let .myNft(ids):
             MyNftView(nftIds: ids, service: myNftService)
                 .toolbar(.hidden, for: .tabBar)
@@ -186,6 +195,7 @@ struct ProfileView: View {
     }
 
     private enum Route: Hashable {
+        case edit
         case myNft([String])
         case favoriteNft([String])
         case website(URL)
