@@ -17,6 +17,10 @@ actor ProfileServiceMock: ProfileService {
     func updateProfile(profile: ProfileDTO) async throws -> ProfileDTO {
         profile
     }
+
+    func updateLikes(_ likes: [String]) async throws -> ProfileDTO {
+        ProfileDTO.mock
+    }
 }
 
 extension ProfileDTO {
