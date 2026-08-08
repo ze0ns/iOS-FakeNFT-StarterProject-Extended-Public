@@ -12,6 +12,7 @@ struct NftArrayElement: Codable {
     let rating: Int
     let description: String
     let price: Double
+    let currency: Currency
     let author: String
     let website: String
     let id: String
@@ -23,6 +24,7 @@ struct NftArrayElement: Codable {
         case rating = "rating"
         case description = "description"
         case price = "price"
+        case currency = "currency"
         case author = "author"
         case website = "website"
         case id = "id"

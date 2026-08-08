@@ -32,14 +32,20 @@ final class CartService: CartServiceProtocol {
         
         return nfts
             .filter { ids.contains($0.id) }
+        
             .map { nft in
-                NFTItem(
+                let currency = CryptoCurrency(title: nft.currency.title,
+                                              name: nft.currency.name,
+                                              imageURL: URL(string: nft.currency.image),
+                                              id: nft.currency.id)
+                
+                return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
                     rating: nft.rating,
                     price: Decimal(nft.price),
-                    currency: .btc,
+                    currency: currency,
                     sellerName: nft.author
                 )
             }
@@ -64,13 +70,18 @@ final class CartService: CartServiceProtocol {
         return nfts
             .filter { ids.contains($0.id) }
             .map { nft in
-                NFTItem(
+                
+                let currency = CryptoCurrency(title: nft.currency.title,
+                                              name: nft.currency.name,
+                                              imageURL: URL(string: nft.currency.image),
+                                              id: nft.currency.id)
+               return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
                     rating: nft.rating,
                     price: Decimal(nft.price),
-                    currency: .btc,
+                    currency: currency,
                     sellerName: nft.author
                 )
             }

@@ -46,7 +46,7 @@ final class CartViewModel {
         formatter.maximumFractionDigits = 2
         formatter.decimalSeparator = ","
         let number = NSDecimalNumber(decimal: totalPrice)
-        return "\(formatter.string(from: number) ?? "\(totalPrice)") \(item.currency.rawValue)"
+        return "\(formatter.string(from: number) ?? "\(totalPrice)") \(item.currency.title)"
     }
     
     func loadItems() async {
