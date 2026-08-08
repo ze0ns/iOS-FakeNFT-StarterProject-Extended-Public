@@ -1,14 +1,24 @@
+//
+//  APIRequest.swift
+//  iOS-FakeNFT-Extended
+//
+//  Created by Oschepkov Aleksandr on 28.07.2026.
+//
+
 import Foundation
 
 enum APIRequest: NetworkRequest {
     case users(page: String)
+    case userInfoByID(id: String)
     case nft(id: String)
     case arrayNft(page: String)
     case collections
     case collectionsByID(id: String)
     case currencies
+    case currenciesByID(id: String)
+    case currenciesSetBeforePay(id: String)
     case profile
-    case updateProfile(dto: any Encodable)
+    case updateProfile(dto: ProfileModel)
     case orders
     case updateOrders(nfts: [String])
     case payOrders(dto: any Encodable)
@@ -17,13 +27,14 @@ enum APIRequest: NetworkRequest {
         RequestConstants.baseURL
     }
     
-    
     private var path: String {
         switch self {
         case .users:
             return "/api/v1/users"
         case .nft(let id):
             return "/api/v1/nft/\(id)"
+        case .userInfoByID(let id):
+            return "/api/v1/users/\(id)"
         case .arrayNft:
             return "/api/v1/nft"
         case .collections:
@@ -32,13 +43,17 @@ enum APIRequest: NetworkRequest {
             return "/api/v1/collections/\(id)"
         case .currencies:
             return "/api/v1/currencies"
+        case .currenciesByID(let id):
+            return "/api/v1/currencies/\(id)"
+        case .currenciesSetBeforePay(let id):
+            return "/api/v1/orders/1/payment/\(id)"
         case .profile, .updateProfile:
             return "/api/v1/profile/1"
         case .orders, .updateOrders, .payOrders:
             return "/api/v1/orders/1"
         }
     }
-    // Переопределяем httpMethod
+    
     var httpMethod: HttpMethod {
         switch self {
         case .updateProfile, .updateOrders:
@@ -47,13 +62,16 @@ enum APIRequest: NetworkRequest {
             return .get
         }
     }
+    
     var dto: Encodable? {
         switch self {
-        case .updateProfile(let dto), .payOrders(let dto) :
+        case .updateProfile(let dto):
+            return dto
+        case .payOrders(let dto):
             return dto
         case .updateOrders(let nfts):
-            let nftsString = nfts.joined(separator: ", ")
-            return "nfts=\(nftsString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
+            // Возвращаем структуру, а не сырую строку
+            return UpdateOrdersDTO(nfts: nfts.joined(separator: ", "))
         default:
             return nil
         }
@@ -77,9 +95,10 @@ enum APIRequest: NetworkRequest {
             ]
             return components?.url
             
-        case .nft, .collections, .collectionsByID, .currencies, .profile, .updateProfile, .orders, .updateOrders, .payOrders:
+        default:
             return URL(string: "\(baseURL)\(path)")
         }
     }
 }
+
 

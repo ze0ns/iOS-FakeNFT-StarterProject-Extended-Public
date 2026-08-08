@@ -8,16 +8,13 @@
 
 import Foundation
 
-protocol ProfileService {
+protocol ProfileService: Sendable {
     func loadProfile() async throws -> ProfileModel
     func updateProfile(profile: ProfileModel) async throws -> ProfileModel
 }
 
-@MainActor
-final class ProfileServiceImpl: ProfileService {
+actor ProfileServiceImpl: ProfileService {
 
-
-    
     private let networkClient: NetworkClient
     private let storage: AppStorage
 
