@@ -1,5 +1,5 @@
 //
-//  Currency.swift
+//  Currencies.swift
 //  iOS-FakeNFT-Extended
 //
 //  Created by Oschepkov Aleksandr on 29.07.2026.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-// MARK: - Currency
-struct Currency: Codable {
+// MARK: - Currencies
+struct Currencies: Codable {
     let title: String
     let name: String
     let image: String
@@ -21,4 +21,10 @@ struct Currency: Codable {
         case image = "image"
         case id = "id"
     }
+}
+
+struct SetCurrenciesPay: Codable {
+    let success: Bool
+    let orderId: String
+    let id: String
 }
