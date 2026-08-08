@@ -6,7 +6,6 @@ struct ContentView: View {
         TabBarView()
             .onAppear{
                 fetchStations()
-                
             }
         
     }

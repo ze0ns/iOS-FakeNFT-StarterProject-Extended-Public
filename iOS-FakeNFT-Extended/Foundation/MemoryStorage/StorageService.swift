@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AppStorage: AnyObject {
+protocol StorageService: AnyObject {
     // Single Collection
     func saveCollection(_ collection: CollectionModelElement) async
     func getCollection() async -> CollectionModelElement?
@@ -42,7 +42,7 @@ protocol AppStorage: AnyObject {
 }
 
 
-actor AppStorageImpl: AppStorage {
+actor AppStorageImpl: StorageService {
 
 
     // Приватные хранилища для каждого типа данных

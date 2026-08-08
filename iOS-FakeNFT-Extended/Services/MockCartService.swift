@@ -6,13 +6,10 @@
 //
 import Foundation
 
-protocol CartServiceProtocol {
-    func fetchCartItems() async throws -> [NFTItem]
-}
-
-struct MockCartService: CartServiceProtocol {
+final class MockCartService: CartServiceProtocol {
     
     var delay: Duration = .seconds(1)
+    
     var itemsToReturn: [NFTItem] = [
         .mockOlaf,
         .mockHelga,
@@ -26,10 +23,19 @@ struct MockCartService: CartServiceProtocol {
         try await Task.sleep(for: delay)
         return itemsToReturn
     }
+    
+    func removeItem(id: String) async throws -> [NFTItem] {
+        itemsToReturn.removeAll { $0.id == id }
+        return itemsToReturn
+    }
 }
 
-struct FailingCartService: CartServiceProtocol {
+final class FailingCartService: CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem] {
         throw URLError(.notConnectedToInternet)
+    }
+    
+    func removeItem(id: String) async throws -> [NFTItem] {
+        return []
     }
 }

@@ -8,78 +8,150 @@ import SwiftUI
 
 struct CartView: View {
     
-    @State private var items: [NFTItem] = []
-    @State private var isLoading = false
-    @State private var showErrorAlert = false
+    @State private var viewModel: CartViewModel
+    @State private var showSortDialog = false
+    @State private var showDeleteAlert = false
+    @State private var itemToDelete: NFTItem?
+    @State private var isDeleting = false
     
-    private let service: CartServiceProtocol
+    @AppStorage(StorageKeys.sortOption)
+    private var selectedSortOption = ""
     
-    init(service: CartServiceProtocol = MockCartService()) {
-        self.service = service
-    }
+    private let imageLoader: ImageLoader
     
-    private var totalPrice: Decimal {
-        items.reduce(0) { $0 + $1.price }
-    }
-    
-    private var totalPriceText: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        formatter.decimalSeparator = ","
-        let number = NSDecimalNumber(decimal: totalPrice)
-        guard let item = items.first else { return "" }
-        return "\(formatter.string(from: number) ?? "\(totalPrice)") \(item.currency.rawValue)"
+    init(
+        viewModel: CartViewModel,
+        imageLoader: ImageLoader
+    ) {
+        self.viewModel = viewModel
+        self.imageLoader = imageLoader
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            if isLoading {
+        ZStack {
+            cartViewContent
+            if showDeleteAlert {
+                blur
+                deleteAlert
+            }
+            
+            if isDeleting {
                 ProgressView()
-            } else if items.isEmpty {
+                    .scaleEffect(1.3)
+            }
+        }
+    }
+    // MARK: - Blur
+    private var blur: some View {
+        Rectangle()
+            .fill(.ultraThinMaterial)
+            .ignoresSafeArea()
+    }
+    
+    // MARK: - Delete alert
+    private var deleteAlert: some View {
+        DeleteAlertView(
+            url: itemToDelete?.imageURL,
+            imageLoader: imageLoader,
+            onDelete: {
+                guard let item = itemToDelete else { return }
+                
+                Task {
+                    isDeleting = true
+                    await viewModel.removeItem(item)
+                    if let option = SortOption(rawValue: selectedSortOption) {
+                        viewModel.sort(by: option)
+                    }
+                    isDeleting = false
+                    showDeleteAlert = false
+                }
+            },
+            onCancel: {
+                showDeleteAlert = false
+            }
+        )
+    }
+    
+    // MARK: - Cart content
+    private var cartViewContent: some View {
+        VStack(spacing: 0) {
+            if viewModel.isLoading {
+                ProgressView()
+            } else if viewModel.items.isEmpty {
                 emptyStateView
             } else {
-                filterButton
+                sortButton
                 list
                 bottomBar
             }
         }
-        .alert(Constants.failed, isPresented: $showErrorAlert) {
+        .confirmationDialog(
+            Constants.sort,
+            isPresented: $showSortDialog,
+            titleVisibility: .visible
+        ) {
+            sortDialog
+        }
+        .alert(Constants.failed, isPresented: $viewModel.showErrorAlert) {
             Button(Constants.cancel, role: .cancel) { }
             Button(Constants.errorRepeat) {
                 Task {
-                    await loadItems()
+                    await reloadItems()
                 }
             }
         }
         .background(Color(.whitePrimary))
         .task {
-            await loadItems()
+            await reloadItems()
         }
     }
     
     // MARK: List
     private var list: some View {
-        List(items) { item in
-            CartCell(item: item) {
-                items.removeAll { $0.id == item.id }
+        List(viewModel.items) { item in
+            CartCell(item: item, imageLoader: imageLoader) {
+                itemToDelete = item
+                showDeleteAlert = true
             }
             .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
     }
     
-    
-    // MARK: - Header
-    private var filterButton: some View {
+    // MARK: - Sort
+    private var sortButton: some View {
         HStack {
             Spacer()
-            Image(.filterButton)
-                .frame(width: 42, height: 42)
+            
+            Button {
+                showSortDialog = true
+            } label: {
+                Image(.sortButton)
+                    .frame(width: 42, height: 42)
+            }
         }
         .padding(.horizontal, 9)
         .padding(.bottom, 20)
+    }
+    
+    @ViewBuilder
+    private var sortDialog: some View {
+        Button(Constants.sortByPrice) {
+            selectedSortOption = SortOption.price.rawValue
+            viewModel.sort(by: .price)
+        }
+        
+        Button(Constants.sortByRating) {
+            selectedSortOption = SortOption.rating.rawValue
+            viewModel.sort(by: .rating)
+        }
+        
+        Button(Constants.sortByName) {
+            selectedSortOption = SortOption.name.rawValue
+            viewModel.sort(by: .name)
+        }
+        
+        Button(Constants.cancel, role: .cancel) { }
     }
     
     // MARK: Bottom bar
@@ -87,11 +159,11 @@ struct CartView: View {
         VStack(spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(items.count) NFT")
+                    Text("\(viewModel.items.count) NFT")
                         .font(.system(size: 15))
                         .foregroundColor(.secondary)
                     
-                    Text(totalPriceText)
+                    Text(viewModel.totalPriceText)
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(.greenUniversal)
                 }
@@ -122,16 +194,11 @@ struct CartView: View {
         .frame(maxWidth: .infinity)
     }
     
-    // MARK: - Loading
-    private func loadItems() async {
-        isLoading = true
-        defer { isLoading = false }
+    private func reloadItems() async {
+        await viewModel.loadItems()
         
-        do {
-            items = try await service.fetchCartItems()
-        } catch {
-            items = []
-            showErrorAlert = true
+        if let option = SortOption(rawValue: selectedSortOption) {
+            viewModel.sort(by: option)
         }
     }
 }
@@ -142,13 +209,17 @@ private enum Constants {
     static let failed = NSLocalizedString("Error.network", comment: "")
     static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
     static let cancel = NSLocalizedString("Cancel", comment: "")
+    static let sort = NSLocalizedString("Sort", comment: "")
+    static let sortByPrice = NSLocalizedString("SortByPrice", comment: "")
+    static let sortByRating = NSLocalizedString("SortByRating", comment: "")
+    static let sortByName = NSLocalizedString("SortByName", comment: "")
 }
 
 // MARK: - Preview
 #Preview {
-    CartView(service: MockCartService())
+    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
 }
 
 #Preview {
-    CartView(service: FailingCartService())
+    CartView(viewModel: CartViewModel(service: FailingCartService()), imageLoader: ImageLoader())
 }

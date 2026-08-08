@@ -5,7 +5,7 @@
 //  Created by Svetlana on 2026/7/27.
 //
 
-enum CryptoCurrency: String {
+enum CryptoCurrency: String, Sendable {
     case btc = "BTC"
     case eth = "ETH"
     case usdt = "USDT"

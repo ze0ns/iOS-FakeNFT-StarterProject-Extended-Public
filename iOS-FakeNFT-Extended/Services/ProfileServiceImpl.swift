@@ -15,17 +15,15 @@ protocol ProfileService {
 
 @MainActor
 final class ProfileServiceImpl: ProfileService {
-
-
     
     private let networkClient: NetworkClient
-    private let storage: AppStorage
-
-    init(networkClient: NetworkClient, storage: AppStorage) {
+    private let storage: StorageService
+    
+    init(networkClient: NetworkClient, storage: StorageService) {
         self.storage = storage
         self.networkClient = networkClient
     }
-
+    
     func loadProfile() async throws -> ProfileModel {
         let request = APIRequest.profile
         let profile: ProfileModel = try await networkClient.send(request: request)

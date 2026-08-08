@@ -19,11 +19,10 @@ protocol OrdersService {
 @MainActor
 final class OrdersServiceImpl: OrdersService {
 
-
     private let networkClient: NetworkClient
-    private let storage: AppStorage
+    private let storage: StorageService
 
-    init(networkClient: NetworkClient, storage: AppStorage) {
+    init(networkClient: NetworkClient, storage: StorageService) {
         self.storage = storage
         self.networkClient = networkClient
     }

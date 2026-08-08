@@ -8,13 +8,17 @@ import SwiftUI
 
 struct CartCell: View {
     let item: NFTItem
-    var onDeleteTap: (() -> Void)? = nil
+    var imageLoader: ImageLoader
     
+    var onDeleteTap: (() -> Void)? = nil
     @State private var isFavorite = false
+  
     
     var body: some View {
         HStack(spacing: 16) {
-            imageView
+            CachedAsyncImage(url: item.imageURL, imageLoader: imageLoader)
+                .frame(width: 108, height: 108)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(item.name)
@@ -42,14 +46,6 @@ struct CartCell: View {
         }
     }
     
-    // MARK: Subviews
-    private var imageView: some View {
-        Image(item.imageName)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 108, height: 108)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
     
     private var ratingView: some View {
         HStack(spacing: 2) {
@@ -82,8 +78,8 @@ private enum Constants {
 
 #Preview {
     List {
-        CartCell(item: .mockOlaf)
-        CartCell(item: .mockVulcan)
+        CartCell(item: .mockOlaf, imageLoader: ImageLoader())
+        CartCell(item: .mockVulcan, imageLoader: ImageLoader())
             .listRowSeparator(.hidden)
     }
     .listStyle(.plain)
