@@ -29,7 +29,7 @@ protocol AppStorage: AnyObject {
     func getNfts() async -> [NftArrayElement]?
     
     // Array Currencies
-    func saveCurrency(_ Currency: [Currency]) async
+    func saveCurrency(_ currency: [Currency]) async
     func getCurrency() async -> [Currency]?
     
     // Profile
