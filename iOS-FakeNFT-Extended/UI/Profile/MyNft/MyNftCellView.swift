@@ -72,8 +72,8 @@ struct MyNftCellView: View {
 #if DEBUG
 #Preview {
     List {
-        MyNftCellView(nft: .mock)
-        MyNftCellView(nft: .mock)
+        MyNftCellView(nft: .preview)
+        MyNftCellView(nft: .preview)
     }
     .listStyle(.plain)
 }

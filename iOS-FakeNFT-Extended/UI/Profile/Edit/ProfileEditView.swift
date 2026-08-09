@@ -23,7 +23,7 @@ struct ProfileEditView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .zero) {
             fields
             saveButton
         }
@@ -61,7 +61,7 @@ struct ProfileEditView: View {
 
     private var fields: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: .zero) {
                 photo
 
                 field(titleKey: ProfileStrings.nameField) {
@@ -131,8 +131,14 @@ struct ProfileEditView: View {
                 .frame(width: 22, height: 22)
                 .background(Color(.blackUniversal))
                 .clipShape(.circle)
+                // Круг остаётся 22×22, а нажатие ловит минимальные для Apple 44×44
+                .frame(width: 44, height: 44)
+                .contentShape(.rect)
         }
         .buttonStyle(.plain)
+        // Кнопка выросла вокруг круга, поэтому сдвиг возвращает круг на прежнее место
+        .offset(x: 11, y: 11)
+        .accessibilityLabel(NSLocalizedString(ProfileStrings.changePhoto, comment: ""))
         // Диалог объявлен на самой кнопке, иначе система указывает хвостом в центр экрана
         .confirmationDialog(
             NSLocalizedString(ProfileStrings.photoTitle, comment: ""),
@@ -214,7 +220,7 @@ private struct ProfileEditFieldStyle: ViewModifier {
 #if DEBUG
 #Preview {
     NavigationStack {
-        ProfileEditView(profile: .mock, service: ProfileServiceMock(), onSaved: { _ in })
+        ProfileEditView(profile: .preview, service: ProfileServicePreviewStub(), onSaved: { _ in })
     }
 }
 #endif

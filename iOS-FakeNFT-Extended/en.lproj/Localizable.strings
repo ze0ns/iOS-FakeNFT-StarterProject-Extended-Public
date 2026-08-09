@@ -30,6 +30,7 @@
 "profile.remove_photo" = "Удалить фото";
 "profile.photo_link_title" = "Ссылка на фото";
 "profile.photo_link_placeholder" = "http://www.example.com";
+"profile.photo_link_invalid" = "Ссылка должна начинаться с http:// или https://";
 "profile.save" = "Сохранить";
 "profile.cancel" = "Отмена";
 "profile.exit_title" = "Уверены, что хотите выйти?";

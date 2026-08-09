@@ -78,8 +78,8 @@ struct FavoriteNftView: View {
     NavigationStack {
         FavoriteNftView(
             likeIds: ["1", "2", "3"],
-            service: MyNftServiceMock(),
-            profileService: ProfileServiceMock(),
+            service: MyNftServicePreviewStub(),
+            profileService: ProfileServicePreviewStub(),
             onProfileUpdated: { _ in }
         )
     }

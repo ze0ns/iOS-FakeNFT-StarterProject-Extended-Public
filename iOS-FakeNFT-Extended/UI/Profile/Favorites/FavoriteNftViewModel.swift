@@ -38,7 +38,7 @@ final class FavoriteNftViewModel {
             let nfts = try await service.loadNfts(ids: likeIds)
             state = .success(nfts)
         } catch {
-            state = .error(message(for: error))
+            state = .error(ProfileErrorMessage.text(for: error))
         }
     }
 
@@ -57,16 +57,11 @@ final class FavoriteNftViewModel {
             onProfileUpdated(profile)
         } catch {
             // Список остаётся прежним: сервер не принял изменение
-            errorMessage = message(for: error)
+            errorMessage = ProfileErrorMessage.text(for: error)
         }
     }
 
     func dismissError() {
         errorMessage = nil
-    }
-
-    private func message(for error: Error) -> String {
-        let key = error is NetworkClientError ? ProfileStrings.networkError : ProfileStrings.unknownError
-        return NSLocalizedString(key, comment: "")
     }
 }

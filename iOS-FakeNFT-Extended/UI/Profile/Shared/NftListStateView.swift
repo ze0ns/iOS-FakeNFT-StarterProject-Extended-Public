@@ -74,7 +74,7 @@ struct NftListStateView<Content: View>: View {
 
                 textLinesSkeleton(at: index, widths: [110, 80, 95])
 
-                Spacer(minLength: 0)
+                Spacer(minLength: .zero)
             }
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 39))
@@ -95,7 +95,7 @@ struct NftListStateView<Content: View>: View {
 
                         textLinesSkeleton(at: index, widths: [70, 60, 55])
 
-                        Spacer(minLength: 0)
+                        Spacer(minLength: .zero)
                     }
                 }
             }

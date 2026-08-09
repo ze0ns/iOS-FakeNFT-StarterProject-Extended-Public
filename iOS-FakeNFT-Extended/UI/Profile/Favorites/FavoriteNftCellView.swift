@@ -42,7 +42,7 @@ struct FavoriteNftCellView: View {
                     .foregroundStyle(Color(.blackPrimary))
             }
 
-            Spacer(minLength: 0)
+            Spacer(minLength: .zero)
         }
     }
 
@@ -61,7 +61,7 @@ struct FavoriteNftCellView: View {
 
 #if DEBUG
 #Preview {
-    FavoriteNftCellView(nft: .mock, onFavoriteTap: {})
+    FavoriteNftCellView(nft: .preview, onFavoriteTap: {})
         .padding(16)
 }
 #endif

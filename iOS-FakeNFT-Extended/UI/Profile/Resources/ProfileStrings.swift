@@ -26,6 +26,7 @@ enum ProfileStrings {
     static let removePhoto = "profile.remove_photo"
     static let photoLinkTitle = "profile.photo_link_title"
     static let photoLinkPlaceholder = "profile.photo_link_placeholder"
+    static let photoLinkInvalid = "profile.photo_link_invalid"
     static let save = "profile.save"
     static let cancel = "profile.cancel"
     static let exitTitle = "profile.exit_title"

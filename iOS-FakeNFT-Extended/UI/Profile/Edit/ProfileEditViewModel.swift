@@ -31,18 +31,6 @@ final class ProfileEditViewModel {
     private(set) var isSaving = false
     private(set) var errorMessage: String?
 
-    private let profile: ProfileDTO
-    private let service: ProfileService
-
-    init(profile: ProfileDTO, service: ProfileService) {
-        self.profile = profile
-        self.service = service
-        name = profile.name
-        description = profile.description
-        website = profile.website
-        avatar = profile.avatar
-    }
-
     var avatarURL: URL? {
         URL(string: avatar)
     }
@@ -55,11 +43,28 @@ final class ProfileEditViewModel {
             || avatar != profile.avatar
     }
 
+    private let profile: ProfileDTO
+    private let service: ProfileService
+
+    init(profile: ProfileDTO, service: ProfileService) {
+        self.profile = profile
+        self.service = service
+        name = profile.name
+        description = profile.description
+        website = profile.website
+        avatar = profile.avatar
+    }
+
     /// Ставит фото по ссылке из алерта.
+    /// Подходит только абсолютный адрес с http или https: остальное приложение не загрузит.
     func applyPhotoLink() {
         let link = photoLink.trimmingCharacters(in: .whitespacesAndNewlines)
         photoLink = ""
         guard !link.isEmpty else { return }
+        guard isImageLink(link) else {
+            errorMessage = NSLocalizedString(ProfileStrings.photoLinkInvalid, comment: "")
+            return
+        }
         avatar = link
     }
 
@@ -69,6 +74,7 @@ final class ProfileEditViewModel {
 
     /// Отправляет изменения и возвращает обновлённый профиль, либо `nil`, если запрос не удался.
     func save() async -> ProfileDTO? {
+        guard !isSaving else { return nil }
         guard hasChanges else { return profile }
 
         isSaving = true
@@ -87,7 +93,7 @@ final class ProfileEditViewModel {
         do {
             return try await service.updateProfile(profile: edited)
         } catch {
-            errorMessage = message(for: error)
+            errorMessage = ProfileErrorMessage.text(for: error)
             return nil
         }
     }
@@ -96,8 +102,8 @@ final class ProfileEditViewModel {
         errorMessage = nil
     }
 
-    private func message(for error: Error) -> String {
-        let key = error is NetworkClientError ? ProfileStrings.networkError : ProfileStrings.unknownError
-        return NSLocalizedString(key, comment: "")
+    private func isImageLink(_ link: String) -> Bool {
+        guard let url = URL(string: link), let scheme = url.scheme?.lowercased() else { return false }
+        return (scheme == "http" || scheme == "https") && url.host?.isEmpty == false
     }
 }

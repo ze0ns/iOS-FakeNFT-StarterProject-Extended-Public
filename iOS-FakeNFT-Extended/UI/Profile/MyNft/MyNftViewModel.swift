@@ -38,7 +38,7 @@ final class MyNftViewModel {
             nfts = try await service.loadNfts(ids: nftIds)
             applySort()
         } catch {
-            state = .error(message(for: error))
+            state = .error(ProfileErrorMessage.text(for: error))
         }
     }
 
@@ -55,11 +55,6 @@ final class MyNftViewModel {
 
     private func applySort() {
         state = .success(nfts.sorted(by: sortOption.compare))
-    }
-
-    private func message(for error: Error) -> String {
-        let key = error is NetworkClientError ? ProfileStrings.networkError : ProfileStrings.unknownError
-        return NSLocalizedString(key, comment: "")
     }
 
     private static let sortOptionKey = "profile.my_nft_sort_option"

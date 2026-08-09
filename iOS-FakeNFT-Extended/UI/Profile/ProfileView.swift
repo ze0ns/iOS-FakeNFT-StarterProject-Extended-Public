@@ -69,7 +69,7 @@ struct ProfileView: View {
 
     private func loadedContent(for profile: ProfileDTO) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: .zero) {
                 header(for: profile)
 
                 Text(profile.description)
@@ -118,7 +118,7 @@ struct ProfileView: View {
                 .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(Color(.blackPrimary))
 
-            Spacer(minLength: 0)
+            Spacer(minLength: .zero)
         }
         .padding(.top, 20)
     }
@@ -205,8 +205,8 @@ struct ProfileView: View {
 #if DEBUG
 #Preview {
     ProfileView(
-        profileService: ProfileServiceMock(),
-        myNftService: MyNftServiceMock()
+        profileService: ProfileServicePreviewStub(),
+        myNftService: MyNftServicePreviewStub()
     )
 }
 #endif
