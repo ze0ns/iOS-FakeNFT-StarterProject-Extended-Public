@@ -11,6 +11,7 @@ import Foundation
 protocol ProfileService: Sendable {
     func loadProfile() async throws -> ProfileDTO
     func updateProfile(profile: ProfileDTO) async throws -> ProfileDTO
+    func updateLikes(_ likes: [String]) async throws -> ProfileDTO
 }
 
 actor ProfileServiceImpl: ProfileService {
@@ -30,11 +31,32 @@ actor ProfileServiceImpl: ProfileService {
         return profile
     }
     
+    /// Отправляет поля, доступные для редактирования: остальные сервер оставляет без изменений.
     func updateProfile(profile: ProfileDTO) async throws -> ProfileDTO {
-        let request = APIRequest.updateProfile(dto: profile)
+        var body = FormURLEncodedBody()
+        body.append("name", profile.name)
+        body.append("description", profile.description)
+        body.append("website", profile.website)
+        body.append("avatar", profile.avatar)
+        return try await update(body: body)
+    }
+
+    func updateLikes(_ likes: [String]) async throws -> ProfileDTO {
+        var body = FormURLEncodedBody()
+        if likes.isEmpty {
+            // Пустой список сервер принимает только в таком виде, пустое значение он не понимает
+            body.append("likes", "null")
+        } else {
+            body.append("likes", values: likes)
+        }
+        return try await update(body: body)
+    }
+
+    private func update(body: FormURLEncodedBody) async throws -> ProfileDTO {
+        let request = APIRequest.updateProfile(dto: body.text)
         let profile: ProfileDTO = try await networkClient.send(request: request)
         await storage.saveProfile(profile)
         return profile
     }
-    
+
 }

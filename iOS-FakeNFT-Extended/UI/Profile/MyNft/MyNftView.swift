@@ -95,7 +95,7 @@ struct MyNftView: View {
 #if DEBUG
 #Preview {
     NavigationStack {
-        MyNftView(nftIds: ["1", "2", "3"], service: MyNftServiceMock())
+        MyNftView(nftIds: ["1", "2", "3"], service: MyNftServicePreviewStub())
     }
 }
 #endif

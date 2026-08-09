@@ -13,6 +13,12 @@ final class ProfileViewModel {
 
     private(set) var state: ProfileState = .loading
 
+    /// Загруженный профиль, если он уже пришёл с сервера.
+    var profile: ProfileDTO? {
+        guard case let .success(profile) = state else { return nil }
+        return profile
+    }
+
     private let profileService: ProfileService
 
     init(profileService: ProfileService) {
@@ -25,12 +31,12 @@ final class ProfileViewModel {
             let profile = try await profileService.loadProfile()
             state = .success(profile)
         } catch {
-            state = .error(message(for: error))
+            state = .error(ProfileErrorMessage.text(for: error))
         }
     }
 
-    private func message(for error: Error) -> String {
-        let key = error is NetworkClientError ? ProfileStrings.networkError : ProfileStrings.unknownError
-        return NSLocalizedString(key, comment: "")
+    /// Показывает профиль, изменённый на другом экране, без повторного запроса.
+    func apply(_ profile: ProfileDTO) {
+        state = .success(profile)
     }
 }

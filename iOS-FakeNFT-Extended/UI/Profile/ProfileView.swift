@@ -13,11 +13,13 @@ struct ProfileView: View {
     @State private var viewModel: ProfileViewModel
     @State private var path: [Route] = []
 
+    private let profileService: ProfileService
     private let myNftService: MyNftService
 
     @MainActor
     init(profileService: ProfileService, myNftService: MyNftService) {
         _viewModel = State(initialValue: ProfileViewModel(profileService: profileService))
+        self.profileService = profileService
         self.myNftService = myNftService
     }
 
@@ -39,12 +41,14 @@ struct ProfileView: View {
     }
 
     private var editProfileButton: some View {
-        // TODO: экран редактирования профиля, итерация 3
-        Button(action: {}) {
+        Button {
+            path.append(.edit)
+        } label: {
             Image(systemName: ProfileIcons.edit)
                 .foregroundStyle(Color(.blackPrimary))
         }
         .buttonStyle(.plain)
+        .disabled(viewModel.profile == nil)
     }
 
     @ViewBuilder
@@ -65,7 +69,7 @@ struct ProfileView: View {
 
     private func loadedContent(for profile: ProfileDTO) -> some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: .zero) {
                 header(for: profile)
 
                 Text(profile.description)
@@ -114,7 +118,7 @@ struct ProfileView: View {
                 .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(Color(.blackPrimary))
 
-            Spacer(minLength: 0)
+            Spacer(minLength: .zero)
         }
         .padding(.top, 20)
     }
@@ -163,12 +167,26 @@ struct ProfileView: View {
     @ViewBuilder
     private func destination(for route: Route) -> some View {
         switch route {
+        case .edit:
+            if let profile = viewModel.profile {
+                ProfileEditView(profile: profile, service: profileService) { updated in
+                    viewModel.apply(updated)
+                }
+                .toolbar(.hidden, for: .tabBar)
+            }
         case let .myNft(ids):
             MyNftView(nftIds: ids, service: myNftService)
                 .toolbar(.hidden, for: .tabBar)
         case let .favoriteNft(ids):
-            FavoriteNftView(likeIds: ids, service: myNftService)
-                .toolbar(.hidden, for: .tabBar)
+            FavoriteNftView(
+                likeIds: ids,
+                service: myNftService,
+                profileService: profileService,
+                onProfileUpdated: { updated in
+                    viewModel.apply(updated)
+                }
+            )
+            .toolbar(.hidden, for: .tabBar)
         case let .website(url):
             WebView(url: url)
                 .toolbar(.hidden, for: .tabBar)
@@ -177,6 +195,7 @@ struct ProfileView: View {
     }
 
     private enum Route: Hashable {
+        case edit
         case myNft([String])
         case favoriteNft([String])
         case website(URL)
@@ -186,8 +205,8 @@ struct ProfileView: View {
 #if DEBUG
 #Preview {
     ProfileView(
-        profileService: ProfileServiceMock(),
-        myNftService: MyNftServiceMock()
+        profileService: ProfileServicePreviewStub(),
+        myNftService: MyNftServicePreviewStub()
     )
 }
 #endif
