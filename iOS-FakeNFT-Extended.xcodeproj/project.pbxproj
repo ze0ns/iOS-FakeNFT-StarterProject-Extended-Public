@@ -15,8 +15,8 @@
 		0692B7AA301C32F500D8BC59 /* TabPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B7A9301C32F500D8BC59 /* TabPlaceholderView.swift */; };
 		0692B7BA301C3FDD00D8BC59 /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B7B8301C3FDD00D8BC59 /* UserInfoCell.swift */; };
 		0692B7BB301C3FDD00D8BC59 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B7B7301C3FDD00D8BC59 /* StatisticsView.swift */; };
-		0692B7BD301C3FE900D8BC59 /* UserInfoCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B7BC301C3FE900D8BC59 /* UserInfoCellModel.swift */; };
 		0692B7BF301C401F00D8BC59 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B7BE301C401F00D8BC59 /* CryptoCurrency.swift */; };
+		0696F9ED301D8E3900EE4985 /* UserCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0696F9EC301D8E3900EE4985 /* UserCardView.swift */; };
 		069C9F8B30186A3F002D8F7B /* CollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8A30186A3F002D8F7B /* CollectionModel.swift */; };
 		069C9F8D30186AC8002D8F7B /* UsersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8C30186AC8002D8F7B /* UsersModel.swift */; };
 		069C9F8F30186BC0002D8F7B /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069C9F8E30186BC0002D8F7B /* ProfileModel.swift */; };
@@ -84,8 +84,8 @@
 		0692B7A9301C32F500D8BC59 /* TabPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPlaceholderView.swift; sourceTree = "<group>"; };
 		0692B7B7301C3FDD00D8BC59 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		0692B7B8301C3FDD00D8BC59 /* UserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCell.swift; sourceTree = "<group>"; };
-		0692B7BC301C3FE900D8BC59 /* UserInfoCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCellModel.swift; sourceTree = "<group>"; };
 		0692B7BE301C401F00D8BC59 /* CryptoCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCurrency.swift; sourceTree = "<group>"; };
+		0696F9EC301D8E3900EE4985 /* UserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardView.swift; sourceTree = "<group>"; };
 		069C9F8A30186A3F002D8F7B /* CollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionModel.swift; sourceTree = "<group>"; };
 		069C9F8C30186AC8002D8F7B /* UsersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersModel.swift; sourceTree = "<group>"; };
 		069C9F8E30186BC0002D8F7B /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -162,6 +162,7 @@
 		0692B7B9301C3FDD00D8BC59 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				0696F9EC301D8E3900EE4985 /* UserCardView.swift */,
 				0692B7B7301C3FDD00D8BC59 /* StatisticsView.swift */,
 				0692B7B8301C3FDD00D8BC59 /* UserInfoCell.swift */,
 			);
@@ -259,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				0692B7BE301C401F00D8BC59 /* CryptoCurrency.swift */,
-				0692B7BC301C3FE900D8BC59 /* UserInfoCellModel.swift */,
 				ABC5E19F2C31F6CB002B4068 /* Network */,
 			);
 			path = Models;
@@ -532,7 +532,6 @@
 				069C9F8D30186AC8002D8F7B /* UsersModel.swift in Sources */,
 				ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */,
 				0692B7BA301C3FDD00D8BC59 /* UserInfoCell.swift in Sources */,
-				0692B7BD301C3FE900D8BC59 /* UserInfoCellModel.swift in Sources */,
 				0692B7BB301C3FDD00D8BC59 /* StatisticsView.swift in Sources */,
 				06AF81C0301881BA004D1A20 /* CollectionService.swift in Sources */,
 				ABC5E1CB2C3203FC002B4068 /* NftDetailCellModel.swift in Sources */,
@@ -542,6 +541,7 @@
 				068CD6E5301B0A8200D5AC06 /* OrdersServiceImpl.swift in Sources */,
 				068CD6E3301B09EC00D5AC06 /* OrdersModel.swift in Sources */,
 				ABC5E1A82C31FA90002B4068 /* DateFormatters+Presets.swift in Sources */,
+				0696F9ED301D8E3900EE4985 /* UserCardView.swift in Sources */,
 				ABC5E1D12C32042C002B4068 /* NftDetailPresenter.swift in Sources */,
 				ABC5E1B02C31FB90002B4068 /* RequestConstants.swift in Sources */,
 			);
