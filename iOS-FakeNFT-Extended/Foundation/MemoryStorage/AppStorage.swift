@@ -20,6 +20,10 @@ protocol AppStorage: AnyObject {
     func saveUsers(_ usersInfo: UsersModel) async
     func getUsers() async -> UsersModel?
     
+    // User Info
+    func saveUserInfo(_ usersInfo: UserModelElement) async
+    func getUsersInfo() async -> UserModelElement?
+    
     // NFT
     func saveNft(_ nft: Nft) async
     func getNft(with id: String) async -> Nft?
@@ -28,9 +32,13 @@ protocol AppStorage: AnyObject {
     func saveArrayNft(_ nft: [NftArrayElement]) async
     func getNfts() async -> [NftArrayElement]?
     
+    // Currencies
+    func saveCurrencies(_ Currencies: Currencies) async
+    func getCurrencies() async -> Currencies?
+    
     // Array Currencies
-    func saveCurrency(_ Currency: [Currency]) async
-    func getCurrency() async -> [Currency]?
+    func saveArrayCurrencies(_ Currencies: [Currencies]) async
+    func getArrayCurrencies() async -> [Currencies]?
     
     // Profile
     func saveProfile(_ Profile: ProfileDTO) async
@@ -44,14 +52,15 @@ protocol AppStorage: AnyObject {
 
 actor AppStorageImpl: AppStorage {
 
-
     // Приватные хранилища для каждого типа данных
     private var collectionStorage: CollectionModelElement?
     private var collectionsStorage: CollectionModel = []
     private var usersStorage: UsersModel = []
+    private var userInfoStorage: UserModelElement?
     private var nftsStorage: [String: Nft] = [:]
     private var nftArrayStorage: [NftArrayElement] = []
-    private var currencyStorage: [Currency] = []
+    private var currenciesArrayStorage: [Currencies] = []
+    private var currenciesStorage: Currencies?
     private var profileStorage: ProfileDTO?
     private var ordersStorage: OrdersModel?
 
@@ -81,6 +90,15 @@ actor AppStorageImpl: AppStorage {
     func getUsers() async -> UsersModel? {
         usersStorage.isEmpty ? nil : usersStorage
     }
+    // MARK: - User Info
+
+    func saveUserInfo(_ userInfo: UserModelElement) async {
+        userInfoStorage = userInfo
+    }
+    
+    func getUsersInfo() async -> UserModelElement? {
+        userInfoStorage
+    }
     
     // MARK: - NFT
     func saveNft(_ nft: Nft) async {
@@ -99,15 +117,22 @@ actor AppStorageImpl: AppStorage {
     }
     
     // MARK: - Currency
-    func saveCurrency(_ Currency: [Currency]) async {
-        currencyStorage = Currency
+    func saveCurrencies(_ Currencies: Currencies) async {
+        currenciesStorage = Currencies
     }
     
-    func getCurrency() async -> [Currency]? {
-        currencyStorage.isEmpty ? nil : currencyStorage
+    func getCurrencies() async -> Currencies? {
+        currenciesStorage
     }
-   
-    // MARK: - Currency
+
+    func saveArrayCurrencies(_ Currencies: [Currencies]) async {
+        currenciesArrayStorage = Currencies
+    }
+
+    func getArrayCurrencies() async -> [Currencies]? {
+        currenciesArrayStorage.isEmpty ? nil : currenciesArrayStorage
+    }
+    // MARK: - Profile
     func saveProfile(_ Profile: ProfileDTO) async {
         profileStorage = Profile
     }
@@ -128,3 +153,4 @@ actor AppStorageImpl: AppStorage {
 
     
 }
+

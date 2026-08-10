@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		068CD546301A771700D5AC06 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CD545301A771600D5AC06 /* Currency.swift */; };
+		068CD546301A771700D5AC06 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CD545301A771600D5AC06 /* Currencies.swift */; };
 		068CD548301A787D00D5AC06 /* CurrencyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CD547301A787D00D5AC06 /* CurrencyService.swift */; };
 		068CD54C301AEB6600D5AC06 /* ProfileServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CD54B301AEB6600D5AC06 /* ProfileServiceImpl.swift */; };
 		068CD6E3301B09EC00D5AC06 /* OrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CD6E2301B09EC00D5AC06 /* OrdersModel.swift */; };
@@ -101,7 +101,7 @@
 
 /* Begin PBXFileReference section */
 		029BC8BEDEDAAA7779CE023B /* MyNftViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MyNftViewModel.swift; sourceTree = "<group>"; };
-		068CD545301A771600D5AC06 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		068CD545301A771600D5AC06 /* Currencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
 		068CD547301A787D00D5AC06 /* CurrencyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyService.swift; sourceTree = "<group>"; };
 		068CD54B301AEB6600D5AC06 /* ProfileServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceImpl.swift; sourceTree = "<group>"; };
 		068CD6E2301B09EC00D5AC06 /* OrdersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersModel.swift; sourceTree = "<group>"; };
@@ -388,11 +388,11 @@
 		ABC5E19F2C31F6CB002B4068 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				069C9F8A30186A3F002D8F7B /* CollectionModel.swift */,
+				068CD545301A771600D5AC06 /* Currencies.swift */,
 				068CD6E2301B09EC00D5AC06 /* OrdersModel.swift */,
-				068CD545301A771600D5AC06 /* Currency.swift */,
 				069C9F8E30186BC0002D8F7B /* ProfileDTO.swift */,
 				069C9F8C30186AC8002D8F7B /* UsersModel.swift */,
-				069C9F8A30186A3F002D8F7B /* CollectionModel.swift */,
 				ABC5E1A02C31F6D7002B4068 /* Nft.swift */,
 			);
 			path = Network;
@@ -666,7 +666,7 @@
 				0692B7AA301C32F500D8BC59 /* TabPlaceholderView.swift in Sources */,
 				ABC5E1E62C320585002B4068 /* LinePageControl.swift in Sources */,
 				069C9F8B30186A3F002D8F7B /* CollectionModel.swift in Sources */,
-				068CD546301A771700D5AC06 /* Currency.swift in Sources */,
+				068CD546301A771700D5AC06 /* Currencies.swift in Sources */,
 				ABC5E1DD2C3204DC002B4068 /* CellsReusingUtils.swift in Sources */,
 				ABC5E1B52C31FC57002B4068 /* TabBarView.swift in Sources */,
 				ABC5E1E42C32055B002B4068 /* ErrorView.swift in Sources */,
