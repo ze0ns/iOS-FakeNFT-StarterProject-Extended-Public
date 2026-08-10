@@ -6,28 +6,27 @@
 //
 import Foundation
 
-struct CryptoCurrency: Sendable {
+struct CryptoCurrency: Sendable, Identifiable {
     let title: String
     let name: String
     let imageURL: URL?
     let id: String
-    
 }
 
 extension CryptoCurrency {
     
-    static let mockBTC = CryptoCurrency(title: "BTC",
+    static let mockBtc = CryptoCurrency(title: "BTC",
                                             name: "Bitcoin",
                                         imageURL: nil,
                                             id: "Bitcoin")
     
-    static let mockETH = CryptoCurrency(title: "ETH",
+    static let mockEth = CryptoCurrency(title: "ETH",
                                             name: "Ethereum",
                                         imageURL: nil,
                                             id: "Ethereum")
     
     
-    static let mockUSDT = CryptoCurrency(title: "USDT",
+    static let mockUSdt = CryptoCurrency(title: "USDT",
                                          name: "Tether",
                                          imageURL: nil,
                                          id: "Tether")
