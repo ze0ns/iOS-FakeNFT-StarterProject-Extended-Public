@@ -20,6 +20,29 @@ struct PaymentMethodView: View {
     
     var body: some View {
         grid
+            .navigationTitle(Constants.pay)
+            .navigationBarTitleDisplayMode(.inline)
+        
+        
+        Spacer()
+        
+        VStack {
+            webView
+            PrimaryButton(title: Constants.pay) {
+                
+            }
+            .padding()
+        }
+        .background(Color.lightGrayPrimary
+            .clipShape(
+                UnevenRoundedRectangle(
+                    topLeadingRadius: 12,
+                    bottomLeadingRadius: 0,
+                    bottomTrailingRadius: 0,
+                    topTrailingRadius: 12
+                )
+            )
+            .ignoresSafeArea(edges: .bottom))
     }
     
     private var grid: some View {
@@ -36,8 +59,28 @@ struct PaymentMethodView: View {
                 }
             }
         }
+                  .padding()
+    }
+    
+    private var webView: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Совершая покупку, вы соглашаетесь с условиями")
+            
+            Link("Пользовательского соглашения", destination: URL(
+                string: "https://example.com"
+            )!)
+            .foregroundStyle(.blue)
+            .underline(false)
+        }
+        .font(.system(size: 13))
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
     }
+}
+
+private enum Constants {
+    static let paymentMethod = NSLocalizedString("PaymentMethod", comment: "")
+    static let pay = NSLocalizedString("Pay", comment: "")
 }
 
 #Preview {

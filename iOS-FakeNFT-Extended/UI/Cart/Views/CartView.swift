@@ -170,11 +170,18 @@ struct CartView: View {
                 
                 Spacer()
                 
-                PrimaryButton(title: Constants.pay,
-                              isEnabled: true) {
-                    
+                NavigationLink {
+                    PaymentMethodView(imageLoader: imageLoader)
+                } label: {
+                    Text(Constants.toPay)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(.whitePrimary)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 44)
+                        .background(.blackPrimary)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
-                              .frame(width: 240, height: 44)
+                .frame(width: 240, height: 44)
                 
             }
             .padding()
@@ -204,7 +211,7 @@ struct CartView: View {
 }
 
 private enum Constants {
-    static let pay = NSLocalizedString("Pay", comment: "")
+    static let toPay = NSLocalizedString("toPay", comment: "")
     static let emptyCart = NSLocalizedString("EmptyCart", comment: "")
     static let failed = NSLocalizedString("Error.network", comment: "")
     static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")

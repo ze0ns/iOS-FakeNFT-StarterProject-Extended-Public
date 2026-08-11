@@ -8,10 +8,12 @@
 "Error.repeat" = "Повторить";
 "Error.title" = "Ошибка";
 "Price" = "Цена";
-"Pay" = "К оплате";
+"toPay" = "К оплате";
+"Pay" = "Оплатить";
 "EmptyCart" = "Корзина пуста";
 "Cancel" = "Отмена";
 "Sort" = "Сортировка";
 "SortByPrice" = "По цене";
 "SortByRating" = "По рейтингу";
 "SortByName" = "По названию";
+"PaymentMethod" = "Выберите способ оплаты";

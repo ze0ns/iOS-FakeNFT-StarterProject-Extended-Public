@@ -25,8 +25,10 @@ struct TabBarView: View {
                 }
                 .backgroundStyle(.background)
             
-            CartView(viewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
-                     imageLoader: servicesAssembly.imageLoaderProvider)
+            NavigationStack {
+                CartView(viewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
+                         imageLoader: servicesAssembly.imageLoaderProvider)
+            }
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.cart", comment: ""),
