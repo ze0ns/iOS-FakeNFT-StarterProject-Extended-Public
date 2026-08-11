@@ -34,6 +34,19 @@ final class ServicesAssembly {
         )
     }()
     
+    @ObservationIgnored
+    private lazy var currencyService: CurrencyService = {
+        CurrencyServiceImpl(
+            networkClient: networkClient,
+            storage: nftStorage,
+        )
+    }()
+    
+    @ObservationIgnored
+    private lazy var cryptoCurrencyService: CryptoCurrencyServiceProtocol = {
+        CryptoCurrencyService(currencyService: currencyService)
+    }()
+    
     init(
         networkClient: NetworkClient,
         nftStorage: StorageService
@@ -56,5 +69,9 @@ final class ServicesAssembly {
     
     var ordersServiceProvider: OrdersService {
         ordersService
+    }
+    
+    var currencyServiceProvider: CryptoCurrencyServiceProtocol {
+        cryptoCurrencyService
     }
 }

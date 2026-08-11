@@ -6,50 +6,54 @@
 //
 import SwiftUI
 
+enum PaymentError: Error {
+    case paymentFailed
+}
+
 struct PaymentMethodView: View {
     
-    var items: [CryptoCurrency] = [.mockAda, .mockApe, .mockBtc, .mockEth]
-    
+    @Environment(CartRouter.self) private var router
+  
+    @State private var viewModel: PaymentViewModel
     @State private var selectedItem: CryptoCurrency?
     
     private let imageLoader: ImageLoader
     
-    init(imageLoader: ImageLoader) {
+    init(imageLoader: ImageLoader, viewModel: PaymentViewModel) {
         self.imageLoader = imageLoader
+        self.viewModel = viewModel
     }
     
     var body: some View {
-        grid
-            .navigationTitle(Constants.pay)
-            .navigationBarTitleDisplayMode(.inline)
-        
-        
-        Spacer()
-        
         VStack {
-            webView
-            PrimaryButton(title: Constants.pay) {
-                
-            }
-            .padding()
+            grid
+            Spacer()
+            bottom
         }
-        .background(Color.lightGrayPrimary
-            .clipShape(
-                UnevenRoundedRectangle(
-                    topLeadingRadius: 12,
-                    bottomLeadingRadius: 0,
-                    bottomTrailingRadius: 0,
-                    topTrailingRadius: 12
-                )
-            )
-            .ignoresSafeArea(edges: .bottom))
+        .navigationTitle(Constants.pay)
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await viewModel.loadItems()
+        }
+        .onChange(of: viewModel.paymentSucceeded) { _, success in
+            if success {
+                router.openSuccess()
+            }
+        }
+        .alert(
+            Constants.error,
+            isPresented: $viewModel.showErrorAlert
+        ) {
+            Button(Constants.cancel, role: .cancel) { }
+            Button(Constants.errorRepeat) {}
+        }
     }
     
     private var grid: some View {
         LazyVGrid(columns: [GridItem(.flexible()),
                             GridItem(.flexible())],
                   spacing: 7) {
-            ForEach(items) { item in
+            ForEach(viewModel.items) { item in
                 
                 CryptoCurrencyCell(item: item,
                                    imageLoader: imageLoader,
@@ -62,12 +66,33 @@ struct PaymentMethodView: View {
                   .padding()
     }
     
+    private var bottom: some View {
+        VStack {
+            webView
+            PrimaryButton(title: Constants.pay) {
+                viewModel.pay()
+            }
+            .padding()
+            .disabled(selectedItem == nil)
+        }
+        .background(Color.lightGrayPrimary
+            .clipShape(
+                UnevenRoundedRectangle(
+                    topLeadingRadius: 12,
+                    bottomLeadingRadius: 0,
+                    bottomTrailingRadius: 0,
+                    topTrailingRadius: 12
+                )
+            )
+                .ignoresSafeArea(edges: .bottom))
+    }
+    
     private var webView: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Совершая покупку, вы соглашаетесь с условиями")
+            Text(Constants.conditions)
             
-            Link("Пользовательского соглашения", destination: URL(
-                string: "https://example.com"
+            Link(Constants.userAgreement, destination: URL(
+                string: Constants.userAgreementURL
             )!)
             .foregroundStyle(.blue)
             .underline(false)
@@ -81,8 +106,16 @@ struct PaymentMethodView: View {
 private enum Constants {
     static let paymentMethod = NSLocalizedString("PaymentMethod", comment: "")
     static let pay = NSLocalizedString("Pay", comment: "")
+    static let userAgreement = NSLocalizedString("UserAgreement", comment: "")
+    static let conditions = NSLocalizedString("Conditions", comment: "")
+    static let userAgreementURL = "https://practicum.yandex.ru"
+    static let error = NSLocalizedString("PaymentError", comment: "")
+    static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
+    static let cancel = NSLocalizedString("Cancel", comment: "")
 }
 
 #Preview {
-    PaymentMethodView(imageLoader: ImageLoader())
+    PaymentMethodView(imageLoader: ImageLoader(),
+                      viewModel: PaymentViewModel(service: MockCryptoCurrencyService()))
+        .environment(CartRouter())
 }

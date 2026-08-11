@@ -8,12 +8,14 @@ import SwiftUI
 
 struct CartView: View {
     
+    @Environment(CartRouter.self) private var router
+    
     @State private var viewModel: CartViewModel
     @State private var showSortDialog = false
     @State private var showDeleteAlert = false
     @State private var itemToDelete: NFTItem?
     @State private var isDeleting = false
-    
+ 
     @AppStorage(StorageKeys.sortOption)
     private var selectedSortOption = ""
     
@@ -30,6 +32,7 @@ struct CartView: View {
     var body: some View {
         ZStack {
             cartViewContent
+            
             if showDeleteAlert {
                 blur
                 deleteAlert
@@ -39,6 +42,7 @@ struct CartView: View {
                 ProgressView()
                     .scaleEffect(1.3)
             }
+            
         }
     }
     // MARK: - Blur
@@ -170,19 +174,9 @@ struct CartView: View {
                 
                 Spacer()
                 
-                NavigationLink {
-                    PaymentMethodView(imageLoader: imageLoader)
-                } label: {
-                    Text(Constants.toPay)
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.whitePrimary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 44)
-                        .background(.blackPrimary)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                PrimaryButton(title: Constants.toPay) {
+                    router.openPayment()
                 }
-                .frame(width: 240, height: 44)
-                
             }
             .padding()
             .background(.lightGrayPrimary)
@@ -225,8 +219,10 @@ private enum Constants {
 // MARK: - Preview
 #Preview {
     CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
+        .environment(CartRouter())
 }
 
 #Preview {
     CartView(viewModel: CartViewModel(service: FailingCartService()), imageLoader: ImageLoader())
+        .environment(CartRouter())
 }

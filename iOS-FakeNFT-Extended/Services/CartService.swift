@@ -34,19 +34,13 @@ final class CartService: CartServiceProtocol {
             .filter { ids.contains($0.id) }
         
             .map { nft in
-//                let currency = CryptoCurrency(title: nft.currency.title,
-//                                              name: nft.currency.name,
-//                                              imageURL: URL(string: nft.currency.image),
-//                                              id: nft.currency.id)
-                print(nft.description)
-                let currency: CryptoCurrency = .mockAda
                 return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
                     rating: nft.rating,
                     price: Decimal(nft.price),
-                    currency: currency,
+                    currency: .mockEth, // используется mock по умолчанию
                     sellerName: nft.author
                 )
             }
@@ -71,18 +65,14 @@ final class CartService: CartServiceProtocol {
         return nfts
             .filter { ids.contains($0.id) }
             .map { nft in
-                let currency: CryptoCurrency = .mockAda
-//                let currency = CryptoCurrency(title: nft.currency.title,
-//                                              name: nft.currency.name,
-//                                              imageURL: URL(string: nft.currency.image),
-//                                              id: nft.currency.id)
+
                return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
                     rating: nft.rating,
                     price: Decimal(nft.price),
-                    currency: currency,
+                    currency: .mockEth, // используется mock по умолчанию
                     sellerName: nft.author
                 )
             }
