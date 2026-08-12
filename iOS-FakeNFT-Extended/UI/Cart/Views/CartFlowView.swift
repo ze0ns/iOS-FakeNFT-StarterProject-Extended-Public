@@ -14,12 +14,14 @@ struct CartFlowView: View {
     private let paymentViewModel: PaymentViewModel
     private let imageLoader: ImageLoader
     
+    // MARK: - Init
     init(cartViewModel: CartViewModel, paymentViewModel: PaymentViewModel, imageLoader: ImageLoader) {
         self.cartViewModel = cartViewModel
         self.paymentViewModel = paymentViewModel
         self.imageLoader = imageLoader
     }
     
+    // MARK: - Body
     var body: some View {
         NavigationStack(path: $router.path) {
             CartView(viewModel: cartViewModel, imageLoader: imageLoader)

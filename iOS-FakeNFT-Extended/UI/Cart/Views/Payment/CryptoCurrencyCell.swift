@@ -7,10 +7,12 @@
 import SwiftUI
 
 struct CryptoCurrencyCell: View {
+    
     let item: CryptoCurrency
     var imageLoader: ImageLoader
     var isSelected: Bool = false
     
+    // MARK: - Body
     var body: some View {
         HStack(alignment: .center, spacing: 7) {
             image
@@ -30,6 +32,7 @@ struct CryptoCurrencyCell: View {
         }
     }
     
+    // MARK: - Image
     private var image: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 6)
@@ -41,6 +44,7 @@ struct CryptoCurrencyCell: View {
         .clipShape(RoundedRectangle(cornerRadius: 6))
     }
     
+    // MARK: - Text
     private var text: some View {
         VStack(alignment: .leading) {
             Text(item.name)
@@ -56,7 +60,6 @@ struct CryptoCurrencyCell: View {
 }
 
 // MARK: - Preview
-
 #Preview {
     let imageLoader = ImageLoader()
     LazyVGrid(columns: [GridItem(.flexible()),

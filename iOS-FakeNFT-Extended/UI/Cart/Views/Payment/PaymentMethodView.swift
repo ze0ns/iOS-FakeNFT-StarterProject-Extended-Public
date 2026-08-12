@@ -20,52 +20,58 @@ struct PaymentMethodView: View {
     
     private let imageLoader: ImageLoader
     
+    // MARK: - Init
     init(imageLoader: ImageLoader, viewModel: PaymentViewModel) {
         self.imageLoader = imageLoader
         self.viewModel = viewModel
     }
     
+    // MARK: - Body
     var body: some View {
         ZStack {
-            if viewModel.isLoading {
-                ProgressView()
-            }
+            
             VStack {
                 grid
                 Spacer()
                 bottom
             }
-            .toolbar(.hidden, for: .tabBar)
-            .navigationTitle(Constants.pay)
-            .navigationBarTitleDisplayMode(.inline)
-            .task {
-                await viewModel.loadItems()
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.ultraThinMaterial)
             }
-            .onChange(of: viewModel.paymentSucceeded) { _, success in
-                if success {
-                    router.openSuccess()
-                }
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .navigationTitle(Constants.pay)
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await viewModel.loadItems()
+        }
+        .onChange(of: viewModel.paymentSucceeded) { _, success in
+            if success {
+                router.openSuccess()
             }
-            .alert(
-                Constants.error,
-                isPresented: $viewModel.showErrorAlert
-            ) {
-                Button(Constants.cancel, role: .cancel) { }
-                Button(Constants.errorRepeat) {
-                    Task {
-                        if let id = selectedCurrency?.id {
-                            await viewModel.pay(currencyID: id)
-                        }
-                    }
-                }
+        }
+        .alert(
+            Constants.error,
+            isPresented: $viewModel.showErrorAlert
+        ) {
+            Button(Constants.cancel, role: .cancel) { }
+            Button(Constants.errorRepeat) {
+                pay()
             }
         }
     }
     
+    // MARK: - Grid
     private var grid: some View {
-        LazyVGrid(columns: [GridItem(.flexible()),
-                            GridItem(.flexible())],
-                  spacing: 7) {
+        LazyVGrid(columns: [
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ],
+        spacing: 7
+        ) {
             ForEach(viewModel.items) { item in
                 Button {
                     selectedCurrency = item
@@ -79,18 +85,15 @@ struct PaymentMethodView: View {
                 .buttonStyle(.plain)
             }
         }
-                  .padding()
+        .padding()
     }
     
+    // MARK: - Bottom
     private var bottom: some View {
         VStack {
             agreementView
             PrimaryButton(title: Constants.pay) {
-                Task {
-                    if let id = selectedCurrency?.id {
-                        await viewModel.pay(currencyID: id)
-                    }
-                }
+                pay()
             }
             .padding()
             .disabled(selectedCurrency == nil)
@@ -107,6 +110,7 @@ struct PaymentMethodView: View {
                 .ignoresSafeArea(edges: .bottom))
     }
     
+    // MARK: - Agreement View
     private var agreementView: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(Constants.conditions)
@@ -121,24 +125,34 @@ struct PaymentMethodView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .sheet(isPresented: $showWebView) {
-            WebView(
-                url: URL(string: Constants.userAgreementURL)!
-            )
+            if let url = URL(string: Constants.userAgreementURL) {
+                WebView(url: url)
+            }
+        }
+    }
+    
+    // MARK: - Methods
+    private func pay() {
+        guard let id = selectedCurrency?.id else { return }
+        
+        Task {
+            await viewModel.pay(currencyID: id)
         }
     }
 }
-
+// MARK: - Constants
 private enum Constants {
     static let paymentMethod = NSLocalizedString("PaymentMethod", comment: "")
     static let pay = NSLocalizedString("Pay", comment: "")
     static let userAgreement = NSLocalizedString("UserAgreement", comment: "")
-    static let conditions = NSLocalizedString("Conditions", comment: "")
+    static let conditions = NSLocalizedString("PaymentConditions", comment: "")
     static let userAgreementURL = "https://yandex.ru/legal/practicum_termsofuse"
     static let error = NSLocalizedString("PaymentError", comment: "")
     static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
     static let cancel = NSLocalizedString("Cancel", comment: "")
 }
 
+// MARK: - Preview
 #Preview {
     PaymentMethodView(imageLoader: ImageLoader(),
                       viewModel: PaymentViewModel(currencyService: MockCryptoCurrencyService(), cartService: MockCartService()))

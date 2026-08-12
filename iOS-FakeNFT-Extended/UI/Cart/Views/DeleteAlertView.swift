@@ -12,6 +12,7 @@ struct DeleteAlertView: View {
     let onDelete: () -> Void
     let onCancel: () -> Void
     
+    // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
             CachedAsyncImage(url: url, imageLoader: imageLoader)
@@ -53,4 +54,12 @@ struct DeleteAlertView: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 24)
     }
+}
+
+// MARK: - Constants
+private enum Constants {
+    static let delete = NSLocalizedString("Delete", comment: "")
+    static let back = NSLocalizedString("Back", comment: "")
+    static let deleteConfirmation = NSLocalizedString("DeleteConfirmation", comment: "")
+    
 }

@@ -21,6 +21,7 @@ struct CartView: View {
     
     private let imageLoader: ImageLoader
     
+    // MARK: - Init
     init(
         viewModel: CartViewModel,
         imageLoader: ImageLoader
@@ -29,6 +30,7 @@ struct CartView: View {
         self.imageLoader = imageLoader
     }
     
+    // MARK: - Body
     var body: some View {
         ZStack {
             cartViewContent
@@ -204,6 +206,7 @@ struct CartView: View {
     }
 }
 
+// MARK: - Constants
 private enum Constants {
     static let toPay = NSLocalizedString("toPay", comment: "")
     static let emptyCart = NSLocalizedString("EmptyCart", comment: "")

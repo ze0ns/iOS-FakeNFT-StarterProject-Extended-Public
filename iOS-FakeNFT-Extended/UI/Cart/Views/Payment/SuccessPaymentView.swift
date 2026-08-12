@@ -10,6 +10,7 @@ import SwiftUI
 struct SuccessPaymentView: View {
     @Environment(CartRouter.self) private var router
     
+    // MARK: - Body
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
@@ -30,12 +31,13 @@ struct SuccessPaymentView: View {
     }
 }
 
-
+// MARK: - Constants
 private enum Constants {
     static let succesfulPayment = NSLocalizedString("SuccessfulPayment", comment: "")
     static let backToCart = NSLocalizedString("BackToCart", comment: "")
 }
 
+// MARK: - Preview
 #Preview {
     SuccessPaymentView()
         .environment(CartRouter())
