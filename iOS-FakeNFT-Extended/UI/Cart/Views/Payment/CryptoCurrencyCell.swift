@@ -13,9 +13,14 @@ struct CryptoCurrencyCell: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 7) {
-            CachedAsyncImage(url: item.imageURL, imageLoader: imageLoader)
-                .frame(width: 36, height: 36)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(.black)
+                
+                CachedAsyncImage(url: item.imageURL, imageLoader: imageLoader)
+            }
+            .frame(width: 36, height: 36)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
             
             VStack(alignment: .leading) {
                 Text(item.name)

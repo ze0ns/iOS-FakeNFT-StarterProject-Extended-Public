@@ -16,10 +16,11 @@ final class PaymentViewModel {
     var showErrorAlert = false
     var paymentSucceeded = false
     
-    private let service: CryptoCurrencyServiceProtocol
-
-    init(service: CryptoCurrencyServiceProtocol) {
-        self.service = service
+    private let currencyService: CryptoCurrencyServiceProtocol
+    
+    init(service: CryptoCurrencyServiceProtocol,
+         cartService: CartServiceProtocol) {
+        self.currencyService = service
     }
     
     func loadItems() async {
@@ -27,15 +28,17 @@ final class PaymentViewModel {
         defer { isLoading = false }
 
         do {
-            items = try await service.fetchCurrencies()
+            items = try await currencyService.fetchCurrencies()
         } catch {
             items = []
             showErrorAlert = true
         }
     }
     
-    func pay() {
-           // paymentSucceeded = true
-        showErrorAlert = true
+    // оплата фейковая
+    func pay() async {
+        do {
+            paymentSucceeded = true
         }
+    }
 }

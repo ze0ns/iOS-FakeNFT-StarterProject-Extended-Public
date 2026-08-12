@@ -7,6 +7,8 @@
 import Foundation
 
 final class MockCartService: CartServiceProtocol {
+    func clearCart() async throws {}
+    
     
     var delay: Duration = .seconds(1)
     
@@ -31,6 +33,8 @@ final class MockCartService: CartServiceProtocol {
 }
 
 final class FailingCartService: CartServiceProtocol {
+    func clearCart() async throws {}
+    
     func fetchCartItems() async throws -> [NFTItem] {
         throw URLError(.notConnectedToInternet)
     }

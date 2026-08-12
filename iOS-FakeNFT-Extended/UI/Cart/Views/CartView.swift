@@ -15,7 +15,7 @@ struct CartView: View {
     @State private var showDeleteAlert = false
     @State private var itemToDelete: NFTItem?
     @State private var isDeleting = false
- 
+    
     @AppStorage(StorageKeys.sortOption)
     private var selectedSortOption = ""
     
@@ -188,7 +188,7 @@ struct CartView: View {
         VStack {
             Spacer()
             Text(Constants.emptyCart)
-                .font(.system(size: 17))
+                .font(.system(size: 17, weight: .bold))
                 .foregroundColor(.blackPrimary)
             Spacer()
         }

@@ -11,13 +11,17 @@ struct CachedAsyncImage: View {
     let url: URL?
     let imageLoader: ImageLoader
     
-    @State private var image: Image?
+    @State private var image: CGImage?
     
     var body: some View {
         Group {
             if let image {
-                image
-                    .resizable()
+                Image(
+                    image,
+                    scale: 1,
+                    label: Text("NFT image")
+                )
+                .resizable()
             } else if let url {
                 ProgressView()
                     .task {
@@ -33,12 +37,13 @@ struct CachedAsyncImage: View {
     private func fetchImage(from url: URL) async {
         do {
             let cgImage = try await imageLoader.loadImage(from: url)
-            image = Image(
-                cgImage,
-                scale: 1,
-                label: Text("NFT image")
-            )
+                image = cgImage
+        } catch is CancellationError {
         } catch {
+            let nsError = error as NSError
+            guard nsError.code != NSURLErrorCancelled else {
+                return
+            }
             print(error)
         }
     }

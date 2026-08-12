@@ -65,8 +65,8 @@ final class CartService: CartServiceProtocol {
         return nfts
             .filter { ids.contains($0.id) }
             .map { nft in
-
-               return NFTItem(
+                
+                return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
@@ -75,6 +75,6 @@ final class CartService: CartServiceProtocol {
                     currency: .mockEth, // используется mock по умолчанию
                     sellerName: nft.author
                 )
-            }
+        }
     }
 }

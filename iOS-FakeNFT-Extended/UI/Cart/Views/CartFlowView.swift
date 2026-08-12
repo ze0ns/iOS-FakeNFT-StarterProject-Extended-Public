@@ -13,7 +13,7 @@ struct CartFlowView: View {
     private let cartViewModel: CartViewModel
     private let paymentViewModel: PaymentViewModel
     private let imageLoader: ImageLoader
- 
+    
     init(cartViewModel: CartViewModel, paymentViewModel: PaymentViewModel, imageLoader: ImageLoader) {
         self.cartViewModel = cartViewModel
         self.paymentViewModel = paymentViewModel

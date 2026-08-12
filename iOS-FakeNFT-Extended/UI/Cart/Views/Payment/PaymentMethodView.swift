@@ -13,7 +13,7 @@ enum PaymentError: Error {
 struct PaymentMethodView: View {
     
     @Environment(CartRouter.self) private var router
-  
+    
     @State private var viewModel: PaymentViewModel
     @State private var selectedItem: CryptoCurrency?
     
@@ -45,7 +45,11 @@ struct PaymentMethodView: View {
             isPresented: $viewModel.showErrorAlert
         ) {
             Button(Constants.cancel, role: .cancel) { }
-            Button(Constants.errorRepeat) {}
+            Button(Constants.errorRepeat) {
+                Task {
+                    await viewModel.pay()
+                }
+            }
         }
     }
     
@@ -63,14 +67,16 @@ struct PaymentMethodView: View {
                 }
             }
         }
-                  .padding()
+        .padding()
     }
     
     private var bottom: some View {
         VStack {
             webView
             PrimaryButton(title: Constants.pay) {
-                viewModel.pay()
+                Task {
+                    await viewModel.pay()
+                }
             }
             .padding()
             .disabled(selectedItem == nil)
@@ -116,6 +122,6 @@ private enum Constants {
 
 #Preview {
     PaymentMethodView(imageLoader: ImageLoader(),
-                      viewModel: PaymentViewModel(service: MockCryptoCurrencyService()))
-        .environment(CartRouter())
+                      viewModel: PaymentViewModel(service: MockCryptoCurrencyService(), cartService: MockCartService()))
+    .environment(CartRouter())
 }
