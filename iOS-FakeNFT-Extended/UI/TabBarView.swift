@@ -27,7 +27,7 @@ struct TabBarView: View {
                 .backgroundStyle(.background)
             
             CartFlowView(cartViewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
-                         paymentViewModel: PaymentViewModel(service: servicesAssembly.currencyServiceProvider, cartService: servicesAssembly.cartServiceProvider),
+                         paymentViewModel: PaymentViewModel(currencyService: servicesAssembly.currencyServiceProvider, cartService: servicesAssembly.cartServiceProvider),
                          imageLoader: servicesAssembly.imageLoaderProvider)
             
                         .tabItem {

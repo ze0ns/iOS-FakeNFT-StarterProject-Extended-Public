@@ -56,7 +56,6 @@ final class CartViewModel {
         do {
             items = try await service.fetchCartItems()
         } catch {
-            items = []
             showErrorAlert = true
         }
     }

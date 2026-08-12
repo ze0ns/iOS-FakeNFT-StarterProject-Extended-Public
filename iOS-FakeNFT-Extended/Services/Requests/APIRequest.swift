@@ -11,7 +11,7 @@ enum APIRequest: NetworkRequest {
     case updateProfile(dto: any Encodable)
     case orders
     case updateOrders(nfts: [String])
-    case payOrders(dto: any Encodable)
+    case payOrders(currencyID: String)
     
     private var baseURL: String {
         RequestConstants.baseURL
@@ -34,8 +34,10 @@ enum APIRequest: NetworkRequest {
             return "/api/v1/currencies"
         case .profile, .updateProfile:
             return "/api/v1/profile/1"
-        case .orders, .updateOrders, .payOrders:
+        case .orders, .updateOrders:
             return "/api/v1/orders/1"
+        case .payOrders(let currencyID):
+            return "/api/v1/orders/1/payment/\(currencyID)"
         }
     }
     // Переопределяем httpMethod
@@ -49,7 +51,7 @@ enum APIRequest: NetworkRequest {
     }
     var dto: Encodable? {
         switch self {
-        case .updateProfile(let dto), .payOrders(let dto) :
+        case .updateProfile(let dto):
             return dto
         case .updateOrders(let nfts):
             let nftsString = nfts.joined(separator: ", ")

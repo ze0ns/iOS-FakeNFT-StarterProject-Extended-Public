@@ -9,6 +9,7 @@ import Foundation
 protocol CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem]
     func removeItem(id: String) async throws -> [NFTItem]
+    func pay(currencyID: String) async throws -> PaymentResponse
 }
 
 final class CartService: CartServiceProtocol {
@@ -77,4 +78,8 @@ final class CartService: CartServiceProtocol {
                 )
         }
     }
+    
+    func pay(currencyID: String) async throws -> PaymentResponse {
+            try await ordersService.pay(currencyID: currencyID)
+        }
 }

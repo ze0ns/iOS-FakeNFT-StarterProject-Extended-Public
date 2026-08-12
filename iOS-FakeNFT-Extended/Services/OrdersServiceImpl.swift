@@ -14,6 +14,7 @@ import Foundation
 protocol OrdersService {
     func loadOrders() async throws -> OrdersModel
     func updateOrders(orders: [String]) async throws -> OrdersModel
+    func pay(currencyID: String) async throws -> PaymentResponse
 }
 
 @MainActor
@@ -41,5 +42,10 @@ final class OrdersServiceImpl: OrdersService {
         let orders: OrdersModel = try await networkClient.send(request: request)
         await storage.saveOrders(orders)
         return orders
+    }
+    
+    func pay(currencyID: String) async throws -> PaymentResponse {
+        let request = APIRequest.payOrders(currencyID: currencyID)
+        return try await networkClient.send(request: request)
     }
 }

@@ -26,6 +26,7 @@ struct SuccessPaymentView: View {
             }
             .padding()
         }
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

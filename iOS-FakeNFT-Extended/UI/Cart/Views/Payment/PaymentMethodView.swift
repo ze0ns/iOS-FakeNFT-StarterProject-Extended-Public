@@ -15,7 +15,7 @@ struct PaymentMethodView: View {
     @Environment(CartRouter.self) private var router
     
     @State private var viewModel: PaymentViewModel
-    @State private var selectedItem: CryptoCurrency?
+    @State private var selectedCurrency: CryptoCurrency?
     
     private let imageLoader: ImageLoader
     
@@ -25,29 +25,37 @@ struct PaymentMethodView: View {
     }
     
     var body: some View {
-        VStack {
-            grid
-            Spacer()
-            bottom
-        }
-        .navigationTitle(Constants.pay)
-        .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await viewModel.loadItems()
-        }
-        .onChange(of: viewModel.paymentSucceeded) { _, success in
-            if success {
-                router.openSuccess()
+        ZStack {
+            if viewModel.isLoading {
+                ProgressView()
             }
-        }
-        .alert(
-            Constants.error,
-            isPresented: $viewModel.showErrorAlert
-        ) {
-            Button(Constants.cancel, role: .cancel) { }
-            Button(Constants.errorRepeat) {
-                Task {
-                    await viewModel.pay()
+            VStack {
+                grid
+                Spacer()
+                bottom
+            }
+            .toolbar(.hidden, for: .tabBar)
+            .navigationTitle(Constants.pay)
+            .navigationBarTitleDisplayMode(.inline)
+            .task {
+                await viewModel.loadItems()
+            }
+            .onChange(of: viewModel.paymentSucceeded) { _, success in
+                if success {
+                    router.openSuccess()
+                }
+            }
+            .alert(
+                Constants.error,
+                isPresented: $viewModel.showErrorAlert
+            ) {
+                Button(Constants.cancel, role: .cancel) { }
+                Button(Constants.errorRepeat) {
+                    Task {
+                        if let id = selectedCurrency?.id {
+                            await viewModel.pay(currencyID: id)
+                        }
+                    }
                 }
             }
         }
@@ -61,9 +69,9 @@ struct PaymentMethodView: View {
                 
                 CryptoCurrencyCell(item: item,
                                    imageLoader: imageLoader,
-                                   isSelected: selectedItem?.id == item.id)
+                                   isSelected: selectedCurrency?.id == item.id)
                 .onTapGesture {
-                    selectedItem = item
+                    selectedCurrency = item
                 }
             }
         }
@@ -75,11 +83,13 @@ struct PaymentMethodView: View {
             webView
             PrimaryButton(title: Constants.pay) {
                 Task {
-                    await viewModel.pay()
+                    if let id = selectedCurrency?.id {
+                        await viewModel.pay(currencyID: id)
                 }
             }
+            }
             .padding()
-            .disabled(selectedItem == nil)
+            .disabled(selectedCurrency == nil)
         }
         .background(Color.lightGrayPrimary
             .clipShape(
@@ -122,6 +132,6 @@ private enum Constants {
 
 #Preview {
     PaymentMethodView(imageLoader: ImageLoader(),
-                      viewModel: PaymentViewModel(service: MockCryptoCurrencyService(), cartService: MockCartService()))
+                      viewModel: PaymentViewModel(currencyService: MockCryptoCurrencyService(), cartService: MockCartService()))
     .environment(CartRouter())
 }
