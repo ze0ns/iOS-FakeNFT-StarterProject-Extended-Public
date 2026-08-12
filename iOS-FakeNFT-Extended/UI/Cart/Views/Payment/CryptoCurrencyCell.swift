@@ -13,25 +13,8 @@ struct CryptoCurrencyCell: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 7) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(.black)
-                
-                CachedAsyncImage(url: item.imageURL, imageLoader: imageLoader)
-            }
-            .frame(width: 36, height: 36)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-            
-            VStack(alignment: .leading) {
-                Text(item.name)
-                    .foregroundColor(.blackPrimary)
-                
-                Text(item.title)
-                    .foregroundColor(.greenUniversal)
-                
-            }
-            .font(.system(size: 13, weight: .regular))
-            .lineLimit(1)
+            image
+            text
             
             Spacer()
         }
@@ -45,6 +28,30 @@ struct CryptoCurrencyCell: View {
                     lineWidth: 1
                 )
         }
+    }
+    
+    private var image: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6)
+                .fill(.black)
+            
+            CachedAsyncImage(url: item.imageURL, imageLoader: imageLoader)
+        }
+        .frame(width: 36, height: 36)
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+    }
+    
+    private var text: some View {
+        VStack(alignment: .leading) {
+            Text(item.name)
+                .foregroundColor(.blackPrimary)
+            
+            Text(item.title)
+                .foregroundColor(.greenUniversal)
+            
+        }
+        .font(.system(size: 13, weight: .regular))
+        .lineLimit(1)
     }
 }
 
@@ -64,5 +71,5 @@ struct CryptoCurrencyCell: View {
         CryptoCurrencyCell(item: .mockAda, imageLoader: imageLoader)
         CryptoCurrencyCell(item: .mockShib, imageLoader: imageLoader)
     }
-              .padding()
+    .padding()
 }

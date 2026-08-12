@@ -41,7 +41,11 @@ final class MockCryptoCurrencyService: CryptoCurrencyServiceProtocol {
             .mockAda,
             .mockApe,
             .mockBtc,
-            .mockEth
+            .mockEth,
+            .mockDoge,
+            .mockShib,
+            .mockSol,
+            .mockUSdt
         ]
     }
 }
