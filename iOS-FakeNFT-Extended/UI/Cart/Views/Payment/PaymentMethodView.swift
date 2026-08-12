@@ -16,6 +16,7 @@ struct PaymentMethodView: View {
     
     @State private var viewModel: PaymentViewModel
     @State private var selectedCurrency: CryptoCurrency?
+    @State private var showWebView = false
     
     private let imageLoader: ImageLoader
     
@@ -66,30 +67,30 @@ struct PaymentMethodView: View {
                             GridItem(.flexible())],
                   spacing: 7) {
             ForEach(viewModel.items) { item in
-                        Button {
-                            selectedCurrency = item
-                        } label: {
-                            CryptoCurrencyCell(
-                                item: item,
-                                imageLoader: imageLoader,
-                                isSelected: selectedCurrency?.id == item.id
-                            )
-                        }
-                        .buttonStyle(.plain)
-                    }
+                Button {
+                    selectedCurrency = item
+                } label: {
+                    CryptoCurrencyCell(
+                        item: item,
+                        imageLoader: imageLoader,
+                        isSelected: selectedCurrency?.id == item.id
+                    )
                 }
-                .padding()
+                .buttonStyle(.plain)
+            }
+        }
+                  .padding()
     }
     
     private var bottom: some View {
         VStack {
-            webView
+            agreementView
             PrimaryButton(title: Constants.pay) {
                 Task {
                     if let id = selectedCurrency?.id {
                         await viewModel.pay(currencyID: id)
+                    }
                 }
-            }
             }
             .padding()
             .disabled(selectedCurrency == nil)
@@ -106,19 +107,24 @@ struct PaymentMethodView: View {
                 .ignoresSafeArea(edges: .bottom))
     }
     
-    private var webView: some View {
+    private var agreementView: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(Constants.conditions)
             
-            Link(Constants.userAgreement, destination: URL(
-                string: Constants.userAgreementURL
-            )!)
+            Button(Constants.userAgreement) {
+                showWebView = true
+            }
             .foregroundStyle(.blue)
             .underline(false)
         }
         .font(.system(size: 13))
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
+        .sheet(isPresented: $showWebView) {
+            WebView(
+                url: URL(string: Constants.userAgreementURL)!
+            )
+        }
     }
 }
 
@@ -127,7 +133,7 @@ private enum Constants {
     static let pay = NSLocalizedString("Pay", comment: "")
     static let userAgreement = NSLocalizedString("UserAgreement", comment: "")
     static let conditions = NSLocalizedString("Conditions", comment: "")
-    static let userAgreementURL = "https://practicum.yandex.ru"
+    static let userAgreementURL = "https://yandex.ru/legal/practicum_termsofuse"
     static let error = NSLocalizedString("PaymentError", comment: "")
     static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
     static let cancel = NSLocalizedString("Cancel", comment: "")
