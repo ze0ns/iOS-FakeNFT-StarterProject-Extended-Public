@@ -18,7 +18,8 @@ enum APIRequest: NetworkRequest {
     case currenciesByID(id: String)
     case currenciesSetBeforePay(id: String)
     case profile
-    case updateProfile(dto: ProfileModel)
+    /// Тело уже собрано в формате x-www-form-urlencoded: сервер принимает профиль только так
+    case updateProfile(dto: String)
     case orders
     case updateOrders(nfts: [String])
     case payOrders(dto: any Encodable)
