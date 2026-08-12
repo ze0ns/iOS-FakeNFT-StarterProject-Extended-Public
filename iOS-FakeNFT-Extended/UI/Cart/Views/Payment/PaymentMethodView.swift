@@ -39,7 +39,6 @@ struct PaymentMethodView: View {
             if viewModel.isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(.ultraThinMaterial)
             }
         }
         .toolbar(.hidden, for: .tabBar)
