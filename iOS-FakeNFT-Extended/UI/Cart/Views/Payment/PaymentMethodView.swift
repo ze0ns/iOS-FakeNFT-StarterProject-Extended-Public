@@ -66,16 +66,19 @@ struct PaymentMethodView: View {
                             GridItem(.flexible())],
                   spacing: 7) {
             ForEach(viewModel.items) { item in
-                
-                CryptoCurrencyCell(item: item,
-                                   imageLoader: imageLoader,
-                                   isSelected: selectedCurrency?.id == item.id)
-                .onTapGesture {
-                    selectedCurrency = item
+                        Button {
+                            selectedCurrency = item
+                        } label: {
+                            CryptoCurrencyCell(
+                                item: item,
+                                imageLoader: imageLoader,
+                                isSelected: selectedCurrency?.id == item.id
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-            }
-        }
-        .padding()
+                .padding()
     }
     
     private var bottom: some View {
