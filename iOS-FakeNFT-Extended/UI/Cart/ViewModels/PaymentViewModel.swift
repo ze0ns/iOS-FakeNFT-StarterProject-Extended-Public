@@ -7,54 +7,66 @@
 
 import Observation
 
+enum PaymentError: Error {
+    case currenciesLoadFailed
+    case paymentFailed
+    case paymentNetworkError
+}
 @MainActor
 @Observable
 final class PaymentViewModel {
     
-    private(set) var items: [CryptoCurrency] = []
-    private(set) var isLoading = false
-    private var hasLoadedCurrencies = false
-    
-    var showErrorAlert = false
+    var paymentError: PaymentError?
     var paymentSucceeded = false
+    
+    //MARK: - Private properties
+    private(set) var items: [CryptoCurrency] = []
+    private(set) var isLoadingCurrencies = false
+    private(set) var isPaying = false
+    private var hasLoadedCurrencies = false
     
     private let currencyService: CryptoCurrencyServiceProtocol
     private let cartService: CartServiceProtocol
     
+    //MARK: - Init
     init(currencyService: CryptoCurrencyServiceProtocol,
          cartService: CartServiceProtocol) {
         self.currencyService = currencyService
         self.cartService = cartService
     }
     
+    //MARK: - Methods
     func loadItems() async {
+        paymentError = nil
         guard !hasLoadedCurrencies else { return }
         
-        isLoading = true
-        defer { isLoading = false }
+        isLoadingCurrencies = true
+        defer { isLoadingCurrencies = false }
 
         do {
             items = try await currencyService.fetchCurrencies()
             hasLoadedCurrencies = true
         } catch {
-            showErrorAlert = true
+            paymentError = .currenciesLoadFailed
         }
     }
     
     func pay(currencyID: String) async {
-        
-        isLoading = true
-        defer { isLoading = false }
-        
-                do {
-                    let response = try await cartService.pay(
-                        currencyID: currencyID
-                    )
-                    if response.success {
-                        paymentSucceeded = true
-                    }
-                } catch {
-                    showErrorAlert = true
-                }
+        paymentSucceeded = false
+        paymentError = nil
+        isPaying = true
+        defer { isPaying = false }
+
+        do {
+            let response = try await cartService.pay(currencyID: currencyID)
+
+            if response.success {
+                paymentSucceeded = true
+            } else {
+                paymentError = .paymentFailed
             }
+        } catch {
+            paymentError = .paymentNetworkError
+        }
+    }
 }

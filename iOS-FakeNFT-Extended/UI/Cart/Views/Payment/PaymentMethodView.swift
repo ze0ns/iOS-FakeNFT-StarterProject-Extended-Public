@@ -6,10 +6,6 @@
 //
 import SwiftUI
 
-enum PaymentError: Error {
-    case paymentFailed
-}
-
 struct PaymentMethodView: View {
     
     @Environment(CartRouter.self) private var router
@@ -20,6 +16,17 @@ struct PaymentMethodView: View {
     
     private let imageLoader: ImageLoader
     
+    private var paymentErrorTitle: String {
+        switch viewModel.paymentError {
+        case .paymentFailed:
+            Constants.paymentError
+        case .currenciesLoadFailed, .paymentNetworkError:
+            Constants.networkError
+        case nil:
+            ""
+        }
+    }
+    
     // MARK: - Init
     init(imageLoader: ImageLoader, viewModel: PaymentViewModel) {
         self.imageLoader = imageLoader
@@ -29,14 +36,13 @@ struct PaymentMethodView: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            
             VStack {
                 grid
                 Spacer()
                 bottom
             }
             
-            if viewModel.isLoading {
+            if viewModel.isLoadingCurrencies || viewModel.isPaying {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -53,12 +59,29 @@ struct PaymentMethodView: View {
             }
         }
         .alert(
-            Constants.error,
-            isPresented: $viewModel.showErrorAlert
+            paymentErrorTitle,
+            isPresented: Binding(
+                get: { viewModel.paymentError != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        viewModel.paymentError = nil
+                    }
+                }
+            )
         ) {
-            Button(Constants.cancel, role: .cancel) { }
+            Button(Constants.cancel, role: .cancel) {
+                viewModel.paymentError = nil
+            }
+            
             Button(Constants.errorRepeat) {
-                pay()
+                switch viewModel.paymentError {
+                case .currenciesLoadFailed:
+                    reloadCurrencies()
+                case .paymentFailed, .paymentNetworkError:
+                    pay()
+                case nil:
+                    break
+                }
             }
         }
     }
@@ -133,11 +156,19 @@ struct PaymentMethodView: View {
     // MARK: - Methods
     private func pay() {
         guard let id = selectedCurrency?.id else { return }
-        
+    
         Task {
             await viewModel.pay(currencyID: id)
         }
     }
+    
+    private func reloadCurrencies() {
+      
+        Task {
+            await viewModel.loadItems()
+        }
+    }
+    
 }
 // MARK: - Constants
 private enum Constants {
@@ -145,10 +176,12 @@ private enum Constants {
     static let pay = NSLocalizedString("Pay", comment: "")
     static let userAgreement = NSLocalizedString("UserAgreement", comment: "")
     static let conditions = NSLocalizedString("PaymentConditions", comment: "")
-    static let userAgreementURL = "https://yandex.ru/legal/practicum_termsofuse"
-    static let error = NSLocalizedString("PaymentError", comment: "")
+    static let paymentError = NSLocalizedString("PaymentError", comment: "")
+    static let networkError = NSLocalizedString("Error.network", comment: "")
     static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
     static let cancel = NSLocalizedString("Cancel", comment: "")
+    
+    static let userAgreementURL = "https://yandex.ru/legal/practicum_termsofuse"
 }
 
 // MARK: - Preview
