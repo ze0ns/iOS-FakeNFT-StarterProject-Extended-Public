@@ -48,7 +48,7 @@ struct PaymentMethodView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
-        .navigationTitle(Constants.pay)
+        .navigationTitle(Constants.paymentMethod)
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.loadItems()
@@ -92,7 +92,7 @@ struct PaymentMethodView: View {
             GridItem(.flexible()),
             GridItem(.flexible())
         ],
-        spacing: 7
+                  spacing: 7
         ) {
             ForEach(viewModel.items) { item in
                 Button {
@@ -156,14 +156,13 @@ struct PaymentMethodView: View {
     // MARK: - Methods
     private func pay() {
         guard let id = selectedCurrency?.id else { return }
-    
+        
         Task {
             await viewModel.pay(currencyID: id)
         }
     }
     
     private func reloadCurrencies() {
-      
         Task {
             await viewModel.loadItems()
         }
