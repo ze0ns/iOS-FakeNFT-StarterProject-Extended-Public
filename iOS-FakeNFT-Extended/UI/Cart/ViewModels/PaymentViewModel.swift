@@ -12,6 +12,7 @@ enum PaymentError: Error {
     case paymentFailed
     case paymentNetworkError
 }
+
 @MainActor
 @Observable
 final class PaymentViewModel {
@@ -37,15 +38,15 @@ final class PaymentViewModel {
     
     //MARK: - Methods
     func loadItems() async {
-        paymentError = nil
         guard !hasLoadedCurrencies else { return }
         
         isLoadingCurrencies = true
         defer { isLoadingCurrencies = false }
-
+        
         do {
             items = try await currencyService.fetchCurrencies()
             hasLoadedCurrencies = true
+            paymentError = nil
         } catch {
             paymentError = .currenciesLoadFailed
         }
@@ -56,15 +57,17 @@ final class PaymentViewModel {
         paymentError = nil
         isPaying = true
         defer { isPaying = false }
-
+        
         do {
             let response = try await cartService.pay(currencyID: currencyID)
-
+            
             if response.success {
                 paymentSucceeded = true
             } else {
                 paymentError = .paymentFailed
             }
+        } catch is CancellationError {
+            return
         } catch {
             paymentError = .paymentNetworkError
         }
