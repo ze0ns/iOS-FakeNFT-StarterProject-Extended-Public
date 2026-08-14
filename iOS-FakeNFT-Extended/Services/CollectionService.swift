@@ -15,13 +15,9 @@ protocol CollectionService {
 
 @MainActor
 final class CollectionServiceImpl: CollectionService {
-<<<<<<< HEAD
-
-    private let storage: StorageService
-=======
     
-    private let storage: AppStorage
->>>>>>> develop
+    private let storage: StorageService
+
     private let networkClient: NetworkClient
     
     init(storage: StorageService, networkClient: NetworkClient) {

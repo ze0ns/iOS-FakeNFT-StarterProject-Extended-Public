@@ -5,22 +5,24 @@ import Observation
 final class ServicesAssembly {
     
     private let networkClient: NetworkClient
-<<<<<<< HEAD
     private let nftStorage: StorageService
-    
+    private let profileServiceImpl: ProfileService
+    private let myNftServiceImpl: MyNftService
+
     @ObservationIgnored
     private lazy var imageLoader = ImageLoader()
     
     @ObservationIgnored
     private lazy var nftService: NftService = {
-=======
-    private let nftStorage: AppStorage
-    private let profileServiceImpl: ProfileService
-    private let myNftServiceImpl: MyNftService
+        NftServiceImpl(
+            networkClient: networkClient,
+            storage: nftStorage
+        )
+    }()
 
     init(
         networkClient: NetworkClient,
-        nftStorage: AppStorage
+        nftStorage: StorageService
     ) {
         self.networkClient = networkClient
         self.nftStorage = nftStorage
@@ -33,14 +35,6 @@ final class ServicesAssembly {
             storage: nftStorage
         )
     }
-
-    var nftService: NftService {
->>>>>>> develop
-        NftServiceImpl(
-            networkClient: networkClient,
-            storage: nftStorage
-        )
-    }()
     
     @ObservationIgnored
     private lazy var ordersService: OrdersService = {
@@ -59,8 +53,8 @@ final class ServicesAssembly {
     }()
     
     @ObservationIgnored
-    private lazy var currencyService: CurrencyService = {
-        CurrencyServiceImpl(
+    private lazy var currencyService: CurrenciesServiceImpl = {
+        CurrenciesServiceImpl(
             networkClient: networkClient,
             storage: nftStorage,
         )
@@ -70,14 +64,6 @@ final class ServicesAssembly {
     private lazy var cryptoCurrencyService: CryptoCurrencyServiceProtocol = {
         CryptoCurrencyService(currencyService: currencyService)
     }()
-    
-    init(
-        networkClient: NetworkClient,
-        nftStorage: StorageService
-    ) {
-        self.networkClient = networkClient
-        self.nftStorage = nftStorage
-    }
     
     var nftServiceProvider: NftService {
         nftService

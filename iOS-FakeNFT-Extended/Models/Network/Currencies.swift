@@ -22,12 +22,3 @@ struct Currencies: Codable {
         case id = "id"
     }
 }
-<<<<<<< HEAD:iOS-FakeNFT-Extended/Models/Network/Currency.swift
-=======
-
-struct SetCurrenciesPay: Codable {
-    let success: Bool
-    let orderId: String
-    let id: String
-}
->>>>>>> develop:iOS-FakeNFT-Extended/Models/Network/Currencies.swift

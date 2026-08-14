@@ -1,52 +1,35 @@
 import SwiftUI
 
 struct TabBarView: View {
-<<<<<<< HEAD
-    @Environment(ServicesAssembly.self) var servicesAssembly
+
     @State private var cartRouter = CartRouter()
-    
-=======
     @Environment(ServicesAssembly.self) private var servicesAssembly
 
->>>>>>> develop
     var body: some View {
         TabView {
             ProfileView(
                 profileService: servicesAssembly.profileService,
                 myNftService: servicesAssembly.myNftService
             )
-<<<<<<< HEAD
+            
             .tabItem {
-                Label(
-                    NSLocalizedString("Tab.profile", comment: ""),
-                    systemImage: "person.crop.circle.fill"
-                )
+                tabLabel(for: .profile)
             }
             
-=======
-                .tabItem {
-                    tabLabel(for: .profile)
-                }
-
->>>>>>> develop
             TestCatalogView()
                 .tabItem {
                     tabLabel(for: .catalog)
                 }
                 .backgroundStyle(.background)
-<<<<<<< HEAD
             
             CartFlowView(cartViewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
                          paymentViewModel: PaymentViewModel(currencyService: servicesAssembly.currencyServiceProvider, cartService: servicesAssembly.cartServiceProvider),
                          imageLoader: servicesAssembly.imageLoaderProvider)
             
-                        .tabItem {
-                            Label(
-                                NSLocalizedString("Tab.cart", comment: ""),
-                                systemImage: "bag.fill"
-                            )
-                        }
-                        
+            .tabItem {
+                tabLabel(for: .cart)
+            }
+            
             TabPlaceholderView(
                 title: NSLocalizedString("Tab.statistics", comment: ""),
                 systemImage: "flag.2.crossed.fill"
@@ -56,17 +39,17 @@ struct TabBarView: View {
                     NSLocalizedString("Tab.statistics", comment: ""),
                     systemImage: "flag.2.crossed.fill"
                 )
-=======
-
-            placeholder(for: .cart)
-                .tabItem {
-                    tabLabel(for: .cart)
-                }
-
-            placeholder(for: .statistics)
-                .tabItem {
-                    tabLabel(for: .statistics)
-                }
+                
+                placeholder(for: .cart)
+                    .tabItem {
+                        tabLabel(for: .cart)
+                    }
+                
+                placeholder(for: .statistics)
+                    .tabItem {
+                        tabLabel(for: .statistics)
+                    }
+            }
         }
     }
 
@@ -113,7 +96,6 @@ struct TabBarView: View {
                 "bag.fill"
             case .statistics:
                 "flag.2.crossed.fill"
->>>>>>> develop
             }
         }
     }

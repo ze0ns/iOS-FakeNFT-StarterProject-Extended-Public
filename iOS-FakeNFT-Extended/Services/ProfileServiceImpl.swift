@@ -14,14 +14,8 @@ protocol ProfileService: Sendable {
     func updateLikes(_ likes: [String]) async throws -> ProfileDTO
 }
 
-<<<<<<< HEAD
-@MainActor
-final class ProfileServiceImpl: ProfileService {
-    
-=======
 actor ProfileServiceImpl: ProfileService {
 
->>>>>>> develop
     private let networkClient: NetworkClient
     private let storage: StorageService
     
@@ -29,13 +23,9 @@ actor ProfileServiceImpl: ProfileService {
         self.storage = storage
         self.networkClient = networkClient
     }
-<<<<<<< HEAD
-    
-    func loadProfile() async throws -> ProfileModel {
-=======
 
     func loadProfile() async throws -> ProfileDTO {
->>>>>>> develop
+
         let request = APIRequest.profile
         let profile: ProfileDTO = try await networkClient.send(request: request)
         await storage.saveProfile(profile)

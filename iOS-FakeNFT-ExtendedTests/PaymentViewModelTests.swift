@@ -16,11 +16,6 @@ final class PaymentViewModelTests: XCTestCase {
     private var viewModel: PaymentViewModel!
 
     private let currencyID = "BTC"
-    private let paymentResponse = PaymentResponse(
-        success: true,
-        orderId: "1",
-        id: "1"
-    )
     
     override func setUp() {
         super.setUp()
@@ -44,7 +39,11 @@ final class PaymentViewModelTests: XCTestCase {
     
     func testPay_whenResponseIsNotSuccessful_setsPaymentFailed() async {
         // Given
-        cartService.paymentResponse = paymentResponse
+        cartService.paymentResponse = PaymentResponse(
+            success: false,
+            orderId: "1",
+            id: "1"
+        )
 
         // When
         await viewModel.pay(currencyID: currencyID)
@@ -66,10 +65,13 @@ final class PaymentViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.paymentSucceeded)
     }
     
-    @MainActor
     func testPay_whenPaymentIsSuccessful_setsPaymentSucceeded() async {
         // Given
-        cartService.paymentResponse = paymentResponse
+        cartService.paymentResponse = PaymentResponse(
+            success: true,
+            orderId: "1",
+            id: "1"
+        )
 
         // When
         await viewModel.pay(currencyID: currencyID)
@@ -79,4 +81,8 @@ final class PaymentViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.paymentError)
     }
     
+   
+    func test() async {
+        
+    }
 }

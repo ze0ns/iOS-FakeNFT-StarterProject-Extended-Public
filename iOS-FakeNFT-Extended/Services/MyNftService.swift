@@ -15,9 +15,9 @@ protocol MyNftService: Sendable {
 actor MyNftServiceImpl: MyNftService {
 
     private let networkClient: NetworkClient
-    private let storage: AppStorage
+    private let storage: StorageService
 
-    init(networkClient: NetworkClient, storage: AppStorage) {
+    init(networkClient: NetworkClient, storage: StorageService) {
         self.networkClient = networkClient
         self.storage = storage
     }

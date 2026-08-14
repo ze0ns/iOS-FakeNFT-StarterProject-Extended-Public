@@ -16,15 +16,10 @@ protocol UsersInfoService {
 final class UsersInfoServiceImpl: UsersInfoService {
     
     private let networkClient: NetworkClient
-<<<<<<< HEAD
-    private let storage: StorageService
 
-    init(networkClient: NetworkClient, storage: StorageService) {
-=======
-    private let storage: AppStorage
+    private let storage: StorageService
     
-    init(networkClient: NetworkClient, storage: AppStorage) {
->>>>>>> develop
+    init(networkClient: NetworkClient, storage: StorageService) {
         self.storage = storage
         self.networkClient = networkClient
     }

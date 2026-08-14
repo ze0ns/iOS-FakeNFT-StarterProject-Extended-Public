@@ -69,11 +69,6 @@ enum APIRequest: NetworkRequest {
     var dto: Encodable? {
         switch self {
         case .updateProfile(let dto):
-<<<<<<< HEAD
-=======
-            return dto
-        case .payOrders(let dto):
->>>>>>> develop
             return dto
         case .updateOrders(let nfts):
             // Возвращаем структуру, а не сырую строку

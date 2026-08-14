@@ -12,9 +12,9 @@ protocol CryptoCurrencyServiceProtocol {
 
 final class CryptoCurrencyService: CryptoCurrencyServiceProtocol {
     
-    private let currencyService: CurrencyService
+    private let currencyService: CurrenciesServiceImpl
     
-    init(currencyService: CurrencyService) {
+    init(currencyService: CurrenciesServiceImpl) {
         self.currencyService = currencyService
     }
     

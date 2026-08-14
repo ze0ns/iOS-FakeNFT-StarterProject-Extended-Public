@@ -10,7 +10,7 @@ final class MockCryptoCurrencyService: CryptoCurrencyServiceProtocol {
     var currencies: [CryptoCurrency] = []
     var error: Error?
 
-    init(currencies: [CryptoCurrency], error: Error? = nil) {
+    init(currencies: [CryptoCurrency] = [], error: Error? = nil) {
         self.currencies = currencies
         self.error = error
     }
