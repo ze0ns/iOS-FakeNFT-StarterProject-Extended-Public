@@ -186,6 +186,15 @@ private enum Constants {
 // MARK: - Preview
 #Preview {
     PaymentMethodView(imageLoader: ImageLoader(),
-                      viewModel: PaymentViewModel(currencyService: MockCryptoCurrencyService(), cartService: MockCartService()))
+                      viewModel: PaymentViewModel(
+                        currencyService: MockCryptoCurrencyService(currencies: [.mockAda,
+                                                                                .mockApe,
+                                                                                .mockBtc,
+                                                                                .mockDoge,
+                                                                                .mockEth,
+                                                                                .mockShib,
+                                                                                .mockSol,
+                                                                                .mockUSdt]),
+                        cartService: MockCartService()))
     .environment(CartRouter())
 }
