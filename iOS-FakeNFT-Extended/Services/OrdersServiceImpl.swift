@@ -14,15 +14,17 @@ import Foundation
 protocol OrdersService {
     func loadOrders() async throws -> OrdersModel
     func updateOrders(orders: [String]) async throws -> OrdersModel
+    func pay(currencyID: String) async throws -> PaymentResponse
 }
 
 @MainActor
 final class OrdersServiceImpl: OrdersService {
-    
+
     private let networkClient: NetworkClient
-    private let storage: AppStorage
-    
-    init(networkClient: NetworkClient, storage: AppStorage) {
+    private let storage: StorageService
+
+    init(networkClient: NetworkClient, storage: StorageService) {
+
         self.storage = storage
         self.networkClient = networkClient
     }
@@ -45,5 +47,10 @@ final class OrdersServiceImpl: OrdersService {
             print("❌ Ошибка при загрузке из сети: \(error.localizedDescription)")
             throw error
         }
+    }
+    
+    func pay(currencyID: String) async throws -> PaymentResponse {
+        let request = APIRequest.payOrders(currencyID: currencyID)
+        return try await networkClient.send(request: request)
     }
 }

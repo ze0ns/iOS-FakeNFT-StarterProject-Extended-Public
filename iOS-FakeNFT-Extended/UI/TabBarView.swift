@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct TabBarView: View {
+
+    @State private var cartRouter = CartRouter()
     @Environment(ServicesAssembly.self) private var servicesAssembly
 
     var body: some View {
@@ -9,25 +11,45 @@ struct TabBarView: View {
                 profileService: servicesAssembly.profileService,
                 myNftService: servicesAssembly.myNftService
             )
-                .tabItem {
-                    tabLabel(for: .profile)
-                }
-
+            
+            .tabItem {
+                tabLabel(for: .profile)
+            }
+            
             TestCatalogView()
                 .tabItem {
                     tabLabel(for: .catalog)
                 }
                 .backgroundStyle(.background)
-
-            placeholder(for: .cart)
-                .tabItem {
-                    tabLabel(for: .cart)
-                }
-
-            placeholder(for: .statistics)
-                .tabItem {
-                    tabLabel(for: .statistics)
-                }
+            
+            CartFlowView(cartViewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
+                         paymentViewModel: PaymentViewModel(currencyService: servicesAssembly.currencyServiceProvider, cartService: servicesAssembly.cartServiceProvider),
+                         imageLoader: servicesAssembly.imageLoaderProvider)
+            
+            .tabItem {
+                tabLabel(for: .cart)
+            }
+            
+            TabPlaceholderView(
+                title: NSLocalizedString("Tab.statistics", comment: ""),
+                systemImage: "flag.2.crossed.fill"
+            )
+            .tabItem {
+                Label(
+                    NSLocalizedString("Tab.statistics", comment: ""),
+                    systemImage: "flag.2.crossed.fill"
+                )
+                
+                placeholder(for: .cart)
+                    .tabItem {
+                        tabLabel(for: .cart)
+                    }
+                
+                placeholder(for: .statistics)
+                    .tabItem {
+                        tabLabel(for: .statistics)
+                    }
+            }
         }
     }
 
@@ -87,4 +109,5 @@ struct TabBarView: View {
                 nftStorage: AppStorageImpl()
             )
         )
+    
 }

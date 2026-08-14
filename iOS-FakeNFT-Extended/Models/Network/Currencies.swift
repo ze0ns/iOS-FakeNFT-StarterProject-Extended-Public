@@ -22,9 +22,3 @@ struct Currencies: Codable {
         case id = "id"
     }
 }
-
-struct SetCurrenciesPay: Codable {
-    let success: Bool
-    let orderId: String
-    let id: String
-}

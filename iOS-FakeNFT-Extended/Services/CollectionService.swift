@@ -16,10 +16,11 @@ protocol CollectionService {
 @MainActor
 final class CollectionServiceImpl: CollectionService {
     
-    private let storage: AppStorage
+    private let storage: StorageService
+
     private let networkClient: NetworkClient
     
-    init(storage: AppStorage, networkClient: NetworkClient) {
+    init(storage: StorageService, networkClient: NetworkClient) {
         self.storage = storage
         self.networkClient = networkClient
     }
