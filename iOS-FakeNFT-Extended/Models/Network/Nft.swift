@@ -1,8 +1,28 @@
 import Foundation
 
-struct Nft: Codable {
+/// Объект передачи данных, описывающий NFT, получаемый от сервера.
+struct Nft: Codable, Sendable {
+
+    /// Идентификатор NFT.
     let id: String
+
+    /// Название NFT.
+    let name: String
+
+    /// Ссылки на изображения NFT.
     let images: [URL]
+
+    /// Рейтинг NFT от 1 до 5.
+    let rating: Int
+
+    /// Цена NFT в ETH.
+    let price: Double
+
+    /// Имя автора NFT.
+    let author: String
+
+    /// Первое изображение NFT, используется как обложка в списках.
+    var coverURL: URL? { images.first }
 }
 
 struct NftArrayElement: Codable {

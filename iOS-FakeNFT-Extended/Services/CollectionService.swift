@@ -15,8 +15,13 @@ protocol CollectionService {
 
 @MainActor
 final class CollectionServiceImpl: CollectionService {
+<<<<<<< HEAD
 
     private let storage: StorageService
+=======
+    
+    private let storage: AppStorage
+>>>>>>> develop
     private let networkClient: NetworkClient
     
     init(storage: StorageService, networkClient: NetworkClient) {
@@ -26,28 +31,16 @@ final class CollectionServiceImpl: CollectionService {
     
     func loadCollections() async throws -> CollectionModel {
         let request = APIRequest.collections
-        
-        do {
-            let collections: CollectionModel = try await networkClient.send(request: request)
-            print("✅ Данные успешно скачаны из сети")
-            await storage.saveCollections(collections)
-            return collections
-        } catch {
-            print("❌ Ошибка при загрузке из сети: \(error.localizedDescription)")
-            throw error
-        }
+        let collections: CollectionModel = try await networkClient.send(request: request)
+        await storage.saveCollections(collections)
+        return collections
     }
     func loadCollectionByID(id: String) async throws -> CollectionModelElement {
         let request = APIRequest.collectionsByID(id: id)
+        let collection: CollectionModelElement = try await networkClient.send(request: request)
+        await storage.saveCollection(collection)
+        return collection
         
-        do {
-            let collection: CollectionModelElement = try await networkClient.send(request: request)
-            print("✅ Данные успешно скачаны из сети")
-            await storage.saveCollection(collection)
-            return collection
-        } catch {
-            print("❌ Ошибка при загрузке из сети: \(error.localizedDescription)")
-            throw error
-        }
     }
 }
+
