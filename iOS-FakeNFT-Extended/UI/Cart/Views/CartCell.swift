@@ -13,7 +13,7 @@ struct CartCell: View {
     var onDeleteTap: (() -> Void)? = nil
     @State private var isFavorite = false
   
-    
+    // MARK: - Body
     var body: some View {
         HStack(spacing: 16) {
             CachedAsyncImage(url: item.imageURL, imageLoader: imageLoader)
@@ -46,7 +46,7 @@ struct CartCell: View {
         }
     }
     
-    
+    // MARK: - Rating view
     private var ratingView: some View {
         HStack(spacing: 2) {
             ForEach(0..<5, id: \.self) { index in
@@ -57,6 +57,7 @@ struct CartCell: View {
         }
     }
     
+    // MARK: - Delete Button
     private var deleteButton: some View {
         Button {
             onDeleteTap?()
@@ -69,13 +70,13 @@ struct CartCell: View {
     }
 }
 
+// MARK: - Constants
 private enum Constants {
     static let price = NSLocalizedString("Price", comment: "")
 }
 
 
 // MARK: - Preview
-
 #Preview {
     List {
         CartCell(item: .mockOlaf, imageLoader: ImageLoader())

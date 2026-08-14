@@ -9,6 +9,7 @@ import Foundation
 protocol CartServiceProtocol {
     func fetchCartItems() async throws -> [NFTItem]
     func removeItem(id: String) async throws -> [NFTItem]
+    func pay(currencyID: String) async throws -> PaymentResponse
 }
 
 final class CartService: CartServiceProtocol {
@@ -32,14 +33,15 @@ final class CartService: CartServiceProtocol {
         
         return nfts
             .filter { ids.contains($0.id) }
+        
             .map { nft in
-                NFTItem(
+                return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
                     rating: nft.rating,
                     price: Decimal(nft.price),
-                    currency: .btc,
+                    currency: .mockEth, // используется mock по умолчанию
                     sellerName: nft.author
                 )
             }
@@ -64,15 +66,20 @@ final class CartService: CartServiceProtocol {
         return nfts
             .filter { ids.contains($0.id) }
             .map { nft in
-                NFTItem(
+                
+                return NFTItem(
                     id: nft.id,
                     name: nft.name,
                     imageURL: URL(string: nft.images.first ?? ""),
                     rating: nft.rating,
                     price: Decimal(nft.price),
-                    currency: .btc,
+                    currency: .mockEth, // используется mock по умолчанию
                     sellerName: nft.author
                 )
-            }
+        }
     }
+    
+    func pay(currencyID: String) async throws -> PaymentResponse {
+            try await ordersService.pay(currencyID: currencyID)
+        }
 }

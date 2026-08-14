@@ -11,7 +11,8 @@ struct DeleteAlertView: View {
     let imageLoader: ImageLoader
     let onDelete: () -> Void
     let onCancel: () -> Void
-
+    
+    // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
             CachedAsyncImage(url: url, imageLoader: imageLoader)
@@ -21,7 +22,7 @@ struct DeleteAlertView: View {
             Text("Вы уверены, что хотите\nудалить объект из корзины?")
                 .font(.system(size: 17))
                 .multilineTextAlignment(.center)
-
+            
             HStack(spacing: 8) {
                 Button {
                     onDelete()
@@ -34,7 +35,7 @@ struct DeleteAlertView: View {
                         .background(Color.blackPrimary)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-
+                
                 Button {
                     onCancel()
                 } label: {
@@ -53,4 +54,12 @@ struct DeleteAlertView: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 24)
     }
+}
+
+// MARK: - Constants
+private enum Constants {
+    static let delete = NSLocalizedString("Delete", comment: "")
+    static let back = NSLocalizedString("Back", comment: "")
+    static let deleteConfirmation = NSLocalizedString("DeleteConfirmation", comment: "")
+    
 }

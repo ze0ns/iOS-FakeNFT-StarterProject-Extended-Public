@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TabBarView: View {
     @Environment(ServicesAssembly.self) var servicesAssembly
+    @State private var cartRouter = CartRouter()
     
     var body: some View {
         TabView {
@@ -25,15 +26,17 @@ struct TabBarView: View {
                 }
                 .backgroundStyle(.background)
             
-            CartView(viewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
-                     imageLoader: servicesAssembly.imageLoaderProvider)
-            .tabItem {
-                Label(
-                    NSLocalizedString("Tab.cart", comment: ""),
-                    systemImage: "bag.fill"
-                )
-            }
+            CartFlowView(cartViewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
+                         paymentViewModel: PaymentViewModel(currencyService: servicesAssembly.currencyServiceProvider, cartService: servicesAssembly.cartServiceProvider),
+                         imageLoader: servicesAssembly.imageLoaderProvider)
             
+                        .tabItem {
+                            Label(
+                                NSLocalizedString("Tab.cart", comment: ""),
+                                systemImage: "bag.fill"
+                            )
+                        }
+                        
             TabPlaceholderView(
                 title: NSLocalizedString("Tab.statistics", comment: ""),
                 systemImage: "flag.2.crossed.fill"

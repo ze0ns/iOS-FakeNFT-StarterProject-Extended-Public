@@ -26,7 +26,7 @@ struct NFTItem: Identifiable, Sendable {
     
     var formattedPrice: String {
         let number = NSDecimalNumber(decimal: price)
-        return "\(Self.priceFormatter.string(from: number) ?? "\(price)") \(currency.rawValue)"
+        return "\(Self.priceFormatter.string(from: number) ?? "\(price)") \(currency.title)"
     }
 }
 
@@ -37,7 +37,7 @@ extension NFTItem {
                                     imageURL: nil,
                                     rating: 2,
                                     price: 1.78,
-                                    currency: .eth,
+                                    currency: .mockEth,
                                     sellerName: "John Doe")
     
     static let mockHelga = NFTItem(id: "mockHelga",
@@ -45,7 +45,7 @@ extension NFTItem {
                                    imageURL: nil,
                                    rating: 5,
                                    price: 1.22,
-                                   currency: .eth,
+                                   currency: .mockEth,
                                    sellerName: "John Doe")
     
     static let mockFlorine = NFTItem(id: "mockFlorine",
@@ -53,7 +53,7 @@ extension NFTItem {
                                      imageURL: nil,
                                      rating: 4,
                                      price: 1.65,
-                                     currency: .eth,
+                                     currency: .mockEth,
                                      sellerName: "John Doe")
     
     static let mockOlaf = NFTItem(id: "mockOlaf",
@@ -61,7 +61,7 @@ extension NFTItem {
                                   imageURL: nil,
                                   rating: 2,
                                   price: 1.78,
-                                  currency: .eth,
+                                  currency: .mockEth,
                                   sellerName: "John Doe")
     
     static let mockWillow = NFTItem(id: "mockWillow",
@@ -69,7 +69,7 @@ extension NFTItem {
                                     imageURL: nil,
                                     rating: 5,
                                     price: 1.22,
-                                    currency: .eth,
+                                    currency: .mockEth,
                                     sellerName: "John Doe")
     
     static let mockPumpkin = NFTItem(id: "mockPumpkin",
@@ -77,7 +77,7 @@ extension NFTItem {
                                      imageURL: nil,
                                      rating: 4,
                                      price: 1.65,
-                                     currency: .eth,
+                                     currency: .mockEth,
                                      sellerName: "John Doe")
     
 }

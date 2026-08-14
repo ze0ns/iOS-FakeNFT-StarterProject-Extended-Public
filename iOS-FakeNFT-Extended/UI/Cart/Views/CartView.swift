@@ -8,6 +8,8 @@ import SwiftUI
 
 struct CartView: View {
     
+    @Environment(CartRouter.self) private var router
+    
     @State private var viewModel: CartViewModel
     @State private var showSortDialog = false
     @State private var showDeleteAlert = false
@@ -19,6 +21,7 @@ struct CartView: View {
     
     private let imageLoader: ImageLoader
     
+    // MARK: - Init
     init(
         viewModel: CartViewModel,
         imageLoader: ImageLoader
@@ -27,9 +30,11 @@ struct CartView: View {
         self.imageLoader = imageLoader
     }
     
+    // MARK: - Body
     var body: some View {
         ZStack {
             cartViewContent
+            
             if showDeleteAlert {
                 blur
                 deleteAlert
@@ -39,6 +44,7 @@ struct CartView: View {
                 ProgressView()
                     .scaleEffect(1.3)
             }
+            
         }
     }
     // MARK: - Blur
@@ -170,12 +176,9 @@ struct CartView: View {
                 
                 Spacer()
                 
-                PrimaryButton(title: Constants.pay,
-                              isEnabled: true) {
-                    
+                PrimaryButton(title: Constants.toPay) {
+                    router.openPayment()
                 }
-                              .frame(width: 240, height: 44)
-                
             }
             .padding()
             .background(.lightGrayPrimary)
@@ -187,7 +190,7 @@ struct CartView: View {
         VStack {
             Spacer()
             Text(Constants.emptyCart)
-                .font(.system(size: 17))
+                .font(.system(size: 17, weight: .bold))
                 .foregroundColor(.blackPrimary)
             Spacer()
         }
@@ -203,8 +206,9 @@ struct CartView: View {
     }
 }
 
+// MARK: - Constants
 private enum Constants {
-    static let pay = NSLocalizedString("Pay", comment: "")
+    static let toPay = NSLocalizedString("toPay", comment: "")
     static let emptyCart = NSLocalizedString("EmptyCart", comment: "")
     static let failed = NSLocalizedString("Error.network", comment: "")
     static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
@@ -217,9 +221,11 @@ private enum Constants {
 
 // MARK: - Preview
 #Preview {
-    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
+    CartView(viewModel: CartViewModel(service: MockCartService(items: [.mockFlorine, .mockHelga, .mockOlaf, .mockPumpkin, .mockVulcan, .mockWillow])), imageLoader: ImageLoader())
+        .environment(CartRouter())
 }
 
-#Preview {
-    CartView(viewModel: CartViewModel(service: FailingCartService()), imageLoader: ImageLoader())
+#Preview("Empty cart") {
+    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
+        .environment(CartRouter())
 }
