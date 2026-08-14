@@ -91,13 +91,7 @@ struct CartView: View {
                 bottomBar
             }
         }
-        .confirmationDialog(
-            Constants.sort,
-            isPresented: $showSortDialog,
-            titleVisibility: .visible
-        ) {
-            sortDialog
-        }
+        
         .alert(Constants.failed, isPresented: $viewModel.showErrorAlert) {
             Button(Constants.cancel, role: .cancel) { }
             Button(Constants.errorRepeat) {
@@ -135,6 +129,13 @@ struct CartView: View {
                 Image(.sortButton)
                     .frame(width: 42, height: 42)
             }
+            .confirmationDialog(
+                Constants.sort,
+                isPresented: $showSortDialog,
+                titleVisibility: .visible
+            ) {
+                sortDialog
+            }
         }
         .padding(.horizontal, 9)
         .padding(.bottom, 20)
@@ -157,7 +158,7 @@ struct CartView: View {
             viewModel.sort(by: .name)
         }
         
-        Button(Constants.cancel, role: .cancel) { }
+        Button(Constants.cancel) { }
     }
     
     // MARK: Bottom bar
