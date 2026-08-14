@@ -221,11 +221,11 @@ private enum Constants {
 
 // MARK: - Preview
 #Preview {
-    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
+    CartView(viewModel: CartViewModel(service: MockCartService(items: [.mockFlorine, .mockHelga, .mockOlaf, .mockPumpkin, .mockVulcan, .mockWillow])), imageLoader: ImageLoader())
         .environment(CartRouter())
 }
 
-#Preview {
-    CartView(viewModel: CartViewModel(service: FailingCartService()), imageLoader: ImageLoader())
+#Preview("Empty cart") {
+    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
         .environment(CartRouter())
 }

@@ -34,18 +34,3 @@ final class CryptoCurrencyService: CryptoCurrencyServiceProtocol {
     
 }
 
-final class MockCryptoCurrencyService: CryptoCurrencyServiceProtocol {
-    
-    func fetchCurrencies() async throws -> [CryptoCurrency] {
-        [
-            .mockAda,
-            .mockApe,
-            .mockBtc,
-            .mockEth,
-            .mockDoge,
-            .mockShib,
-            .mockSol,
-            .mockUSdt
-        ]
-    }
-}
