@@ -8,32 +8,25 @@
 
 import Foundation
 
-protocol CurrencyService {
-    func loadCourrencies() async throws -> [Currency]
+protocol CurrenciesService {
+    func loadCurrencies() async throws -> [Currencies]
 }
 
 @MainActor
-final class CurrencyServiceImpl: CurrencyService {
-
+final class CurrenciesServiceImpl: CurrenciesService {
+    
     private let networkClient: NetworkClient
-    private let storage: AppStorage
-
-    init(networkClient: NetworkClient, storage: AppStorage) {
+    private let storage: StorageService
+    
+    init(networkClient: NetworkClient, storage: StorageService) {
         self.storage = storage
         self.networkClient = networkClient
     }
-
-    func loadCourrencies() async throws -> [Currency] {
+    
+    func loadCurrencies() async throws -> [Currencies] {
         let request = APIRequest.currencies
-        
-        do {
-            let currencies: [Currency] = try await networkClient.send(request: request)
-            print("✅ Данные успешно скачаны из сети")
-            await storage.saveCurrency(currencies)
-            return currencies
-        } catch {
-            print("❌ Ошибка при загрузке из сети: \(error.localizedDescription)")
-            throw error
-        }
+        let currencies: [Currencies] = try await networkClient.send(request: request)
+        await storage.saveArrayCurrencies(currencies)
+        return currencies
     }
 }

@@ -1,0 +1,232 @@
+//
+//  CartView.swift
+//  iOS-FakeNFT-Extended
+//
+//  Created by Svetlana on 2026/7/29.
+//
+import SwiftUI
+
+struct CartView: View {
+    
+    @Environment(CartRouter.self) private var router
+    
+    @State private var viewModel: CartViewModel
+    @State private var showSortDialog = false
+    @State private var showDeleteAlert = false
+    @State private var itemToDelete: NFTItem?
+    @State private var isDeleting = false
+    
+    @AppStorage(StorageKeys.sortOption)
+    private var selectedSortOption = ""
+    
+    private let imageLoader: ImageLoader
+    
+    // MARK: - Init
+    init(
+        viewModel: CartViewModel,
+        imageLoader: ImageLoader
+    ) {
+        self.viewModel = viewModel
+        self.imageLoader = imageLoader
+    }
+    
+    // MARK: - Body
+    var body: some View {
+        ZStack {
+            cartViewContent
+            
+            if showDeleteAlert {
+                blur
+                deleteAlert
+            }
+            
+            if isDeleting {
+                ProgressView()
+                    .scaleEffect(1.3)
+            }
+            
+        }
+    }
+    // MARK: - Blur
+    private var blur: some View {
+        Rectangle()
+            .fill(.ultraThinMaterial)
+            .ignoresSafeArea()
+    }
+    
+    // MARK: - Delete alert
+    private var deleteAlert: some View {
+        DeleteAlertView(
+            url: itemToDelete?.imageURL,
+            imageLoader: imageLoader,
+            onDelete: {
+                guard let item = itemToDelete else { return }
+                
+                Task {
+                    isDeleting = true
+                    await viewModel.removeItem(item)
+                    if let option = SortOption(rawValue: selectedSortOption) {
+                        viewModel.sort(by: option)
+                    }
+                    isDeleting = false
+                    showDeleteAlert = false
+                }
+            },
+            onCancel: {
+                showDeleteAlert = false
+            }
+        )
+    }
+    
+    // MARK: - Cart content
+    private var cartViewContent: some View {
+        VStack(spacing: 0) {
+            if viewModel.isLoading {
+                ProgressView()
+            } else if viewModel.items.isEmpty {
+                emptyStateView
+            } else {
+                sortButton
+                list
+                bottomBar
+            }
+        }
+        
+        .alert(Constants.failed, isPresented: $viewModel.showErrorAlert) {
+            Button(Constants.cancel, role: .cancel) { }
+            Button(Constants.errorRepeat) {
+                Task {
+                    await reloadItems()
+                }
+            }
+        }
+        .background(Color(.whitePrimary))
+        .task {
+            await reloadItems()
+        }
+    }
+    
+    // MARK: List
+    private var list: some View {
+        List(viewModel.items) { item in
+            CartCell(item: item, imageLoader: imageLoader) {
+                itemToDelete = item
+                showDeleteAlert = true
+            }
+            .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
+    }
+    
+    // MARK: - Sort
+    private var sortButton: some View {
+        HStack {
+            Spacer()
+            
+            Button {
+                showSortDialog = true
+            } label: {
+                Image(.sortButton)
+                    .frame(width: 42, height: 42)
+            }
+            .confirmationDialog(
+                Constants.sort,
+                isPresented: $showSortDialog,
+                titleVisibility: .visible
+            ) {
+                sortDialog
+            }
+        }
+        .padding(.horizontal, 9)
+        .padding(.bottom, 20)
+    }
+    
+    @ViewBuilder
+    private var sortDialog: some View {
+        Button(Constants.sortByPrice) {
+            selectedSortOption = SortOption.price.rawValue
+            viewModel.sort(by: .price)
+        }
+        
+        Button(Constants.sortByRating) {
+            selectedSortOption = SortOption.rating.rawValue
+            viewModel.sort(by: .rating)
+        }
+        
+        Button(Constants.sortByName) {
+            selectedSortOption = SortOption.name.rawValue
+            viewModel.sort(by: .name)
+        }
+        
+        Button(Constants.cancel) { }
+    }
+    
+    // MARK: Bottom bar
+    private var bottomBar: some View {
+        VStack(spacing: 0) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("\(viewModel.items.count) NFT")
+                        .font(.system(size: 15))
+                        .foregroundColor(.secondary)
+                    
+                    Text(viewModel.totalPriceText)
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(.greenUniversal)
+                }
+                
+                Spacer()
+                
+                PrimaryButton(title: Constants.toPay) {
+                    router.openPayment()
+                }
+            }
+            .padding()
+            .background(.lightGrayPrimary)
+        }
+    }
+    
+    // MARK: - EmptyStateView
+    private var emptyStateView: some View {
+        VStack {
+            Spacer()
+            Text(Constants.emptyCart)
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(.blackPrimary)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+    }
+    
+    private func reloadItems() async {
+        await viewModel.loadItems()
+        
+        if let option = SortOption(rawValue: selectedSortOption) {
+            viewModel.sort(by: option)
+        }
+    }
+}
+
+// MARK: - Constants
+private enum Constants {
+    static let toPay = NSLocalizedString("toPay", comment: "")
+    static let emptyCart = NSLocalizedString("EmptyCart", comment: "")
+    static let failed = NSLocalizedString("Error.network", comment: "")
+    static let errorRepeat = NSLocalizedString("Error.repeat", comment: "")
+    static let cancel = NSLocalizedString("Cancel", comment: "")
+    static let sort = NSLocalizedString("Sort", comment: "")
+    static let sortByPrice = NSLocalizedString("SortByPrice", comment: "")
+    static let sortByRating = NSLocalizedString("SortByRating", comment: "")
+    static let sortByName = NSLocalizedString("SortByName", comment: "")
+}
+
+// MARK: - Preview
+#Preview {
+    CartView(viewModel: CartViewModel(service: MockCartService(items: [.mockFlorine, .mockHelga, .mockOlaf, .mockPumpkin, .mockVulcan, .mockWillow])), imageLoader: ImageLoader())
+        .environment(CartRouter())
+}
+
+#Preview("Empty cart") {
+    CartView(viewModel: CartViewModel(service: MockCartService()), imageLoader: ImageLoader())
+        .environment(CartRouter())
+}

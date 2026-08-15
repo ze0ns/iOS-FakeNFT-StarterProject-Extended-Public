@@ -5,8 +5,6 @@
 //  Created by Oschepkov Aleksandr on 28.07.2026.
 //
 
-
-
 import Foundation
 
 // MARK: - UserModelElement
@@ -31,3 +29,4 @@ struct UserModelElement: Codable, Identifiable, Hashable  {
 }
 
 typealias UsersModel = [UserModelElement]
+
