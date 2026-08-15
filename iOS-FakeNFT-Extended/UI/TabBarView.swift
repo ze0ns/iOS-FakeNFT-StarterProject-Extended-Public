@@ -29,16 +29,9 @@ struct TabBarView: View {
             .tabItem {
                 tabLabel(for: .cart)
             }
-<<<<<<< HEAD
 
-            StatisticsView()
-=======
-            
-            TabPlaceholderView(
-                title: NSLocalizedString("Tab.statistics", comment: ""),
-                systemImage: "flag.2.crossed.fill"
-            )
->>>>>>> 131f01b7e2dc96008539d9efa818f7c5dc61e7b2
+        //   StatisticsView()
+
             .tabItem {
                 Label(
                     NSLocalizedString("Tab.statistics", comment: ""),

@@ -83,7 +83,7 @@ struct StatisticsView: View {
                                 showSortPopup.toggle()
                             }
                         } label: {
-                            Image(systemName: "list.dash.badge.ellipsis")
+                            Image(.sortButton)
                         }
                         .background(Color(.systemBackground))
                     }
