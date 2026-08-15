@@ -64,9 +64,9 @@ struct StatisticsNftCellView: View {
 #Preview {
     let previewCell = Nft(
         id: "1464520d-1659-4055-8a79-4593b9569e48",
-        name: "Lilo",
+        name: "Zeus",
         images: [
-            URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Yellow/Helga/1.png")
+            URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Yellow/Helga/2.png")
         ].compactMap { $0 },
         rating: 3,
         price: 1.78,
