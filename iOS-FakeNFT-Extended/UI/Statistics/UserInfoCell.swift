@@ -5,7 +5,6 @@
 //  Created by Oschepkov Aleksandr on 28.07.2026.
 //
 
-
 import SwiftUI
 
 struct UserInfoCell: View {

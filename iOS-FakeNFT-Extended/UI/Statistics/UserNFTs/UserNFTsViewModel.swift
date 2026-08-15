@@ -4,26 +4,20 @@
 //
 //  Created by Oschepkov Aleksandr on 15.08.2026.
 //
-//
-//  UserNFTsViewModel.swift
-//  iOS-FakeNFT-Extended
-//
-//  Created by Oschepkov Aleksandr on 15.08.2026.
-//
-
 import Foundation
-import SwiftUI
 
 @MainActor
 final class UserNFTsViewModel: ObservableObject {
     
-    // Источники истины для View — должны быть @Published
-    @Published var nfts: [Nft] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+    // Единый State для View
+    enum ViewState {
+        case loading
+        case loaded([Nft])
+        case empty
+        case error(String)
+    }
     
-    // Внутренний state (если используется где-то в логике)
-    private(set) var state: NftListState = .loading
+    @Published private(set) var state: ViewState = .loading
     
     private let service: MyNftService
     private let profileService: ProfileService
@@ -42,49 +36,42 @@ final class UserNFTsViewModel: ObservableObject {
         self.onProfileUpdated = onProfileUpdated
     }
     
-    // MARK: - Public API
+    // MARK: - Public API (Intents)
     
     func onAppear() {
-        // Загружаем только если список пуст и не идёт загрузка
-        guard nfts.isEmpty, !isLoading else { return }
+        if case .loaded = state { return }
         Task { await loadNfts() }
     }
     
     func loadNfts() async {
-        isLoading = true
         state = .loading
-        errorMessage = nil
         
         do {
             let loadedNfts = try await service.loadNfts(ids: likeIds)
-            self.nfts = loadedNfts          // <-- обновляем @Published
-            self.state = .success(loadedNfts)
+            state = loadedNfts.isEmpty ? .empty : .loaded(loadedNfts)
         } catch {
-            let message = ProfileErrorMessage.text(for: error)
-            self.errorMessage = message
-            self.state = .error(message)
+            state = .error(ProfileErrorMessage.text(for: error))
         }
-        
-        isLoading = false                    // <-- обновляем @Published
     }
     
-    // MARK: - Actions
-    
     func toggleFavorite(for nft: Nft) {
-        // Удаляем/добавляем id в likeIds и уведомляем через callback
+        guard case var .loaded(currentNfts) = state else { return }
         if let index = likeIds.firstIndex(of: nft.id) {
             likeIds.remove(at: index)
+            currentNfts.removeAll { $0.id == nft.id }
         } else {
             likeIds.append(nft.id)
         }
+        state = .loaded(currentNfts)
         
         Task {
-            // Обновляем профиль на сервере и уведомляем родителя
-            // await profileService.updateLikes(likeIds)
-            // onProfileUpdated(updatedProfile)
-            
-            // Перезагружаем список, чтобы UI был актуален
-            await loadNfts()
+            do {
+                // let updatedProfile = try await profileService.updateLikes(likeIds)
+                // onProfileUpdated(updatedProfile)
+            } catch {
+                // Если сервер упал, откатываем изменения
+                await loadNfts()
+            }
         }
     }
 }

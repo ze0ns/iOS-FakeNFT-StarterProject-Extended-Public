@@ -9,10 +9,8 @@ import SwiftUI
 
 struct UserCollectionsNFTView: View {
     
-    // @StateObject — View является владельцем ViewModel
     @StateObject private var viewModel: UserNFTsViewModel
     
-    // Инициализатор с правильной обёрткой StateObject
     init(
         likeIds: [String],
         service: MyNftService,
@@ -29,34 +27,20 @@ struct UserCollectionsNFTView: View {
         )
     }
     
-    // Настройка адаптивной сетки
-    private let columns = [
-        GridItem(.adaptive(minimum: 108), spacing: 16)
-    ]
+    private let columns = [GridItem(.adaptive(minimum: 108), spacing: 16)]
     
     var body: some View {
-        ZStack {
-            if viewModel.isLoading && viewModel.nfts.isEmpty {
+        Group {
+            switch viewModel.state {
+            case .loading:
                 ProgressView()
                     .frame(maxWidth: .infinity, minHeight: 200)
-            } else if let error = viewModel.errorMessage {
-                errorView(error)
-            } else if viewModel.nfts.isEmpty {
+            case .error(let message):
+                errorView(message)
+            case .empty:
                 emptyStateView
-            } else {
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.nfts) { nft in
-                            StatisticsNftCellView(
-                                nft: nft,
-                                onFavoriteTap: {
-                                    viewModel.toggleFavorite(for: nft)
-                                }
-                            )
-                        }
-                    }
-                    .padding(16)
-                }
+            case .loaded(let nfts):
+                nftListView(nfts)
             }
         }
         .navigationTitle("Коллекция")
@@ -66,6 +50,24 @@ struct UserCollectionsNFTView: View {
     }
     
     // MARK: - Subviews
+    
+    private func nftListView(_ nfts: [Nft]) -> some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(nfts) { nft in
+                    StatisticsNftCellView(
+                        nft: nft,
+                        onFavoriteTap: { viewModel.toggleFavorite(for: nft) },
+                        onCartTap: { /* Передать намерение в VM */ }
+                    )
+                }
+            }
+            .padding(16)
+        }
+        .refreshable {
+            await viewModel.loadNfts()
+        }
+    }
     
     private func errorView(_ message: String) -> some View {
         VStack(spacing: 12) {

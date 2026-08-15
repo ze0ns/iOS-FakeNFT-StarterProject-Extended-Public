@@ -9,10 +9,11 @@ import Kingfisher
 import SwiftUI
 
 struct StatisticsNftCellView: View {
-
+    
     let nft: Nft
     let onFavoriteTap: () -> Void
-
+    let onCartTap: () -> Void
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             KFImage(nft.coverURL)
@@ -27,28 +28,33 @@ struct StatisticsNftCellView: View {
                 .overlay(alignment: .topTrailing) {
                     favoriteButton
                 }
-
+            
             NftRatingView(rating: nft.rating)
-            HStack(){
-                VStack(alignment: .leading) {
+            
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(nft.name)
                         .font(.system(size: 17, weight: .bold))
                         .foregroundStyle(Color(.blackPrimary))
                         .lineLimit(2)
                         .truncationMode(.tail)
                     
-                    
                     Text(nft.price.nftPriceText)
                         .font(.system(size: 15))
                         .foregroundStyle(Color(.blackPrimary))
                 }
-                /// Button to add to cart
-                Image(.cartAdd)
+                
+                Spacer()
+                
+                Button(action: onCartTap) {
+                    Image(.cartAdd)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Добавить в корзину")
             }
-            Spacer(minLength: .zero)
         }
     }
-
+    
     private var favoriteButton: some View {
         Button(action: onFavoriteTap) {
             Image(.like)
@@ -59,8 +65,10 @@ struct StatisticsNftCellView: View {
         }
         .buttonStyle(.plain)
         .padding(4)
+        .accessibilityLabel("Добавить в избранное")
     }
 }
+
 #Preview {
     let previewCell = Nft(
         id: "1464520d-1659-4055-8a79-4593b9569e48",
@@ -72,5 +80,5 @@ struct StatisticsNftCellView: View {
         price: 1.78,
         author: "John Doe"
     )
-    StatisticsNftCellView(nft: previewCell, onFavoriteTap: {})
+    StatisticsNftCellView(nft: previewCell, onFavoriteTap: {}, onCartTap: {})
 }

@@ -7,26 +7,24 @@
 
 
 import Foundation
-import SwiftUI
 
 @MainActor
 final class UserCardViewModel: ObservableObject {
     
-    // MARK: - Published States
+    enum State {
+        case loading
+        case loaded(UserModelElement)
+        case error(String)
+    }
     
-    @Published var userInfo: UserModelElement?
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+    @Published private(set) var state: State = .loading
     
-    // MARK: - Dependencies
-    
-     let userId: String
-     let usersInfoService: UsersInfoService
-     let nftService: MyNftService
-     let profileService: ProfileService
-     let onProfileUpdated: (ProfileDTO) -> Void
-    
-    // MARK: - Init
+    private let userId: String
+    private let usersInfoService: UsersInfoService
+  
+    let nftService: MyNftService
+    let profileService: ProfileService
+    let onProfileUpdated: (ProfileDTO) -> Void
     
     init(
         userId: String,
@@ -42,26 +40,14 @@ final class UserCardViewModel: ObservableObject {
         self.onProfileUpdated = onProfileUpdated
     }
     
-    // MARK: - Public API
-    
     func loadUserInfo() async {
-        guard !isLoading else { return }
-        
-        isLoading = true
-        errorMessage = nil
+        state = .loading
         
         do {
             let info = try await usersInfoService.loadUserInfoById(id: userId)
-            self.userInfo = info
+            state = .loaded(info)
         } catch {
-            self.errorMessage = "Не удалось загрузить данные пользователя"
-            print("Error loading user info: \(error)")
+            state = .error("Не удалось загрузить данные пользователя")
         }
-        
-        isLoading = false
-    }
-    
-    func refresh() async {
-        await loadUserInfo()
     }
 }

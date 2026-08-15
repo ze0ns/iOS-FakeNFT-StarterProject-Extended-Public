@@ -7,21 +7,20 @@
 
 
 import Foundation
-import SwiftUI
 
 @MainActor
 final class StatisticsViewModel: ObservableObject {
+
+    enum ViewState {
+        case loading
+        case loaded([UserModelElement])
+        case error(String)
+    }
     
-    // MARK: - Published States
+    @Published private(set) var state: ViewState = .loading
+    @Published private(set) var isLoadingMore: Bool = false
     
-    @Published var users: [UserModelElement] = []
-    @Published var isLoading: Bool = false
-    @Published var isLoadingMore: Bool = false  // Для пагинации
-    @Published var errorMessage: String?
-    
-    // MARK: - Private
-    
-    private let usersInfoService: UsersInfoService
+    let usersInfoService: UsersInfoService
     private var currentPage: Int = 1
     private var hasMorePages: Bool = true
     private var sortOption: SortOption?
@@ -31,43 +30,38 @@ final class StatisticsViewModel: ObservableObject {
         case rating
     }
     
-    // MARK: - Init
-    
     init(usersInfoService: UsersInfoService) {
         self.usersInfoService = usersInfoService
     }
     
-    // MARK: - Public API
+    // MARK: - Public API (Intents)
     
-    /// Первичная загрузка (сбрасывает пагинацию)
+    func onAppear() async {
+        if case .loaded = state { return } 
+        await loadUsers()
+    }
+    
     func loadUsers() async {
-        guard !isLoading else { return }
-        
+        state = .loading
         currentPage = 1
         hasMorePages = true
-        isLoading = true
-        errorMessage = nil
         
         do {
             let response = try await usersInfoService.loadUsersInfo(page: String(currentPage))
-            self.users = applySortingIfNeeded(to: response)
-            self.hasMorePages = !response.isEmpty
+            state = .loaded(applySortingIfNeeded(to: response))
+            hasMorePages = !response.isEmpty
         } catch {
-            self.errorMessage = "Не удалось загрузить пользователей"
-            print("Error loading users: \(error)")
+            state = .error("Не удалось загрузить пользователей")
         }
-        
-        isLoading = false
     }
     
-    /// Подгрузка следующей страницы (вызывается при скролле вниз)
-    func loadMoreIfNeeded(currentUser: UserModelElement) async {
+    func loadMoreIfNeeded(currentIndex: Int) async {
+        guard case let .loaded(users) = state else { return }
         guard !isLoadingMore, hasMorePages else { return }
         
-        // Загружаем следующую страницу, когда пользователь доскроллил до последних 3 элементов
+        // Триггер подгрузки за 3 элемента до конца
         let thresholdIndex = users.index(users.endIndex, offsetBy: -3, limitedBy: users.startIndex) ?? users.startIndex
-        guard let userIndex = users.firstIndex(where: { $0.id == currentUser.id }),
-              userIndex >= thresholdIndex else { return }
+        guard currentIndex >= thresholdIndex else { return }
         
         isLoadingMore = true
         
@@ -78,8 +72,9 @@ final class StatisticsViewModel: ObservableObject {
             if response.isEmpty {
                 hasMorePages = false
             } else {
-                self.users.append(contentsOf: applySortingIfNeeded(to: response))
-                self.currentPage = nextPage
+                let newUsers = users + response
+                state = .loaded(applySortingIfNeeded(to: newUsers))
+                currentPage = nextPage
             }
         } catch {
             print("Error loading more users: \(error)")
@@ -88,15 +83,11 @@ final class StatisticsViewModel: ObservableObject {
         isLoadingMore = false
     }
     
-    /// Сортировка с сохранением выбора
     func sortUsers(by option: SortOption) {
         sortOption = option
-        users = applySortingIfNeeded(to: users)
-    }
-    
-    /// Принудительное обновление (pull-to-refresh)
-    func refresh() async {
-        await loadUsers()
+        if case let .loaded(currentUsers) = state {
+            state = .loaded(applySortingIfNeeded(to: currentUsers))
+        }
     }
     
     // MARK: - Private
