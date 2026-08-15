@@ -5,12 +5,28 @@
 //  Created by Oschepkov Aleksandr on 01.08.2026.
 //
 
-
 import SwiftUI
 
 struct UserCardView: View {
     
     let userInfo: UserModelElement
+    
+    // Зависимости для создания следующего экрана (DI)
+    private let nftService: MyNftService
+    private let profileService: ProfileService
+    private let onProfileUpdated: (ProfileDTO) -> Void
+    
+    init(
+        userInfo: UserModelElement,
+        nftService: MyNftService,
+        profileService: ProfileService,
+        onProfileUpdated: @escaping (ProfileDTO) -> Void
+    ) {
+        self.userInfo = userInfo
+        self.nftService = nftService
+        self.profileService = profileService
+        self.onProfileUpdated = onProfileUpdated
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -42,7 +58,6 @@ struct UserCardView: View {
                         Text(userInfo.name)
                             .font(.system(size: 22, weight: .semibold))
                             .foregroundColor(.black)
-                        
                     }
                     
                     // Описание
@@ -50,11 +65,8 @@ struct UserCardView: View {
                         .font(.system(size: 15))
                         .foregroundColor(.black)
                         .lineSpacing(4)
-                    
-                    
                 }
-                .padding(.top,40)
-                
+                .padding(.top, 40)
                 
                 Button(action: {
                     print("Показать все NFT")
@@ -73,26 +85,31 @@ struct UserCardView: View {
                 }
                 .padding(.bottom, 20)
                 
-                
-                
-                HStack() {
-                    Button(action: {
-                        print("Коллекция NFT ")
-                    }) {
-                        HStack {
-                            Text("Коллекция NFT " + "(\(userInfo.nfts.count))")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(.black)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(Color.black)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
+                // Переход на коллекцию NFT
+                NavigationLink {
+                    UserCollectionsNFTView(
+                        likeIds: userInfo.nfts,
+                        service: nftService,
+                        profileService: profileService,
+                        onProfileUpdated: onProfileUpdated
+                    )
+                } label: {
+                    HStack {
+                        Text("Коллекция NFT (\(userInfo.nfts.count))")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(.black)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(Color.black)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 16)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
                 }
+                .buttonStyle(.plain) // Убирает стандартный синий tint у NavigationLink
+                
                 Spacer()
             }
             .padding(.horizontal, 20)
@@ -101,17 +118,19 @@ struct UserCardView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 }
-
 #Preview {
-    let userInfo = UserModelElement(name: "Алексей Бузикин",
-                                            avatar: "https://i.pravatar.cc/150?img=1",
-                                            description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
-                                            website: "https://practicum.yandex.ru/devops/",
-                                            nfts: [
-                                                "ca34d35a-4507-47d9-9312-5ea7053994c0",
-                                                "1464520d-1659-4055-8a79-4593b9569e48"
-                                            ],
-                                            rating: "1543",
-                                            id: "7057c681-037f-4391-8ba5-4268d1a9d2b0")
-    UserCardView(userInfo: userInfo)
+    NavigationStack {
+        UserCardView(
+            userInfo:UserModelElement(name: "user-1",
+                                      avatar: "Helga Storm",
+                                      description: "https://code.s3.yandex.net/Mobile/iOS/NFT/Default/Avatar.png",
+                                      website: "Digital artist & NFT collector. Creating unique pieces of art.",
+                                      nfts: ["nft-1", "nft-2", "nft-3", "nft-4", "nft-5"],
+                                      rating: "3",
+                                      id: "1111"),
+            nftService:  MyNftServicePreviewStub(),
+            profileService: ProfileServicePreviewStub(),
+            onProfileUpdated: { _ in }
+        )
+    }
 }

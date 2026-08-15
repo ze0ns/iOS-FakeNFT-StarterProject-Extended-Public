@@ -89,7 +89,10 @@ struct StatisticsView: View {
                     }
                 }
                 .navigationDestination(item: $selectedUser) { user in
-                    UserCardView(userInfo: user)
+                    UserCardView(userInfo: user,
+                                 nftService:  MyNftServicePreviewStub(),
+                                 profileService: ProfileServicePreviewStub(),
+                                 onProfileUpdated: { _ in })
                 }
             }
             
