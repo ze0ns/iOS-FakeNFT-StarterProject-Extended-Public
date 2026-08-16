@@ -27,7 +27,7 @@ struct UserCollectionsNFTView: View {
         )
     }
     
-    private let columns = [GridItem(.adaptive(minimum: 108), spacing: 16)]
+    private let columns = [GridItem(.adaptive(minimum: 108), spacing: 16, alignment: .top)]
     
     var body: some View {
         Group {
@@ -57,7 +57,7 @@ struct UserCollectionsNFTView: View {
                 ForEach(nfts) { nft in
                     StatisticsNftCellView(
                         nft: nft,
-                        isLiked: viewModel.likeIds.contains(nft.id), // Проверяем, есть ли NFT в массиве лайков
+                        isLiked: viewModel.likeIds.contains(nft.id), 
                         onFavoriteTap: {
                             viewModel.toggleFavorite(for: nft)
                         },

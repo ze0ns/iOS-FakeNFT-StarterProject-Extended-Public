@@ -8,8 +8,6 @@ import Foundation
 
 @MainActor
 final class UserNFTsViewModel: ObservableObject {
-    
-    // Единый State для View
     enum ViewState {
         case loading
         case loaded([Nft])
@@ -55,7 +53,6 @@ final class UserNFTsViewModel: ObservableObject {
     }
     
     func toggleFavorite(for nft: Nft) {
-        // Только переключаем состояние лайка, не трогая сам массив NFT в state
         if let index = likeIds.firstIndex(of: nft.id) {
             likeIds.remove(at: index)
         } else {
@@ -64,8 +61,7 @@ final class UserNFTsViewModel: ObservableObject {
         
         Task {
             do {
-                // let updatedProfile = try await profileService.updateLikes(likeIds)
-                // onProfileUpdated(updatedProfile)
+               //  отправляем на серер что мы лакнули NFT
             } catch {
                 // Если сервер упал, можно откатить изменения лайка,
                 // но пока просто оставляем визуальное изменение

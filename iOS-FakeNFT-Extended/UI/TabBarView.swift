@@ -4,7 +4,7 @@ struct TabBarView: View {
     
     @State private var cartRouter = CartRouter()
     @Environment(ServicesAssembly.self) private var servicesAssembly
-
+    
     var body: some View {
         TabView {
             ProfileView(
@@ -36,22 +36,10 @@ struct TabBarView: View {
                 profileService: servicesAssembly.profileService
             )
             
-                .tabItem {
-                    Label(
-                        NSLocalizedString("Tab.statistics", comment: ""),
-                        systemImage: "flag.2.crossed.fill"
-                    )
-                    
-                    placeholder(for: .cart)
-                        .tabItem {
-                            tabLabel(for: .cart)
-                        }
-                    
-                    placeholder(for: .statistics)
-                        .tabItem {
-                            tabLabel(for: .statistics)
-                        }
-                }
+            
+            .tabItem {
+                tabLabel(for: .statistics)
+            }
         }
     }
     
