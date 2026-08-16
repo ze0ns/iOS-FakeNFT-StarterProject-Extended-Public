@@ -52,6 +52,7 @@ struct StatisticsView: View {
                     profileService: profileService,
                     onProfileUpdated: { _ in }
                 )
+                .toolbar(.hidden, for: .tabBar)
             }
             .task {
                 await viewModel.onAppear()
