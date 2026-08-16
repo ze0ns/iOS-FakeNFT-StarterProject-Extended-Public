@@ -18,11 +18,11 @@ final class UserNFTsViewModel: ObservableObject {
     }
     
     @Published private(set) var state: ViewState = .loading
+    @Published private(set) var likeIds: [String]
     
     private let service: MyNftService
     private let profileService: ProfileService
     private let onProfileUpdated: (ProfileDTO) -> Void
-    private var likeIds: [String]
     
     init(
         likeIds: [String],
@@ -55,22 +55,20 @@ final class UserNFTsViewModel: ObservableObject {
     }
     
     func toggleFavorite(for nft: Nft) {
-        guard case var .loaded(currentNfts) = state else { return }
+        // Только переключаем состояние лайка, не трогая сам массив NFT в state
         if let index = likeIds.firstIndex(of: nft.id) {
             likeIds.remove(at: index)
-            currentNfts.removeAll { $0.id == nft.id }
         } else {
             likeIds.append(nft.id)
         }
-        state = .loaded(currentNfts)
         
         Task {
             do {
                 // let updatedProfile = try await profileService.updateLikes(likeIds)
                 // onProfileUpdated(updatedProfile)
             } catch {
-                // Если сервер упал, откатываем изменения
-                await loadNfts()
+                // Если сервер упал, можно откатить изменения лайка,
+                // но пока просто оставляем визуальное изменение
             }
         }
     }

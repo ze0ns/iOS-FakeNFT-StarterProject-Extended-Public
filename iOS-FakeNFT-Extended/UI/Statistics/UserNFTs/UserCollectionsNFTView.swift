@@ -57,8 +57,13 @@ struct UserCollectionsNFTView: View {
                 ForEach(nfts) { nft in
                     StatisticsNftCellView(
                         nft: nft,
-                        onFavoriteTap: { viewModel.toggleFavorite(for: nft) },
-                        onCartTap: { /* Передать намерение в VM */ }
+                        isLiked: viewModel.likeIds.contains(nft.id), // Проверяем, есть ли NFT в массиве лайков
+                        onFavoriteTap: {
+                            viewModel.toggleFavorite(for: nft)
+                        },
+                        onCartTap: {
+                            // Логика корзины
+                        }
                     )
                 }
             }

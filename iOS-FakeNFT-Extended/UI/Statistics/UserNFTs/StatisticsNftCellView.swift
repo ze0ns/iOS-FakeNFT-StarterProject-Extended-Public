@@ -11,6 +11,7 @@ import SwiftUI
 struct StatisticsNftCellView: View {
     
     let nft: Nft
+    let isLiked: Bool // Новое свойство для отслеживания состояния лайка
     let onFavoriteTap: () -> Void
     let onCartTap: () -> Void
     
@@ -57,15 +58,15 @@ struct StatisticsNftCellView: View {
     
     private var favoriteButton: some View {
         Button(action: onFavoriteTap) {
-            Image(.like)
-                .foregroundStyle(Color(.redUniversal))
+            // В зависимости от isLiked показываем красное или серое сердечко
+            Image(isLiked ? .like : .noLike) 
+                .foregroundStyle(isLiked ? Color(.redUniversal) : Color(.grayUniversal))
                 .padding(6)
-                .background(Color(.whiteUniversal).opacity(0.6))
-                .clipShape(.circle)
+
         }
         .buttonStyle(.plain)
         .padding(4)
-        .accessibilityLabel("Добавить в избранное")
+        .accessibilityLabel(isLiked ? "Убрать из избранного" : "Добавить в избранное")
     }
 }
 
@@ -80,5 +81,6 @@ struct StatisticsNftCellView: View {
         price: 1.78,
         author: "John Doe"
     )
-    StatisticsNftCellView(nft: previewCell, onFavoriteTap: {}, onCartTap: {})
+    // В превью передаем isLiked: true или false
+    StatisticsNftCellView(nft: previewCell, isLiked: true, onFavoriteTap: {}, onCartTap: {})
 }
