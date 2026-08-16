@@ -22,10 +22,11 @@ struct TabBarView: View {
                 }
                 .backgroundStyle(.background)
             
-            CartFlowView(cartViewModel: CartViewModel(service: servicesAssembly.cartServiceProvider),
-                         paymentViewModel: PaymentViewModel(currencyService: servicesAssembly.currencyServiceProvider, cartService: servicesAssembly.cartServiceProvider),
-                         imageLoader: servicesAssembly.imageLoaderProvider)
-            
+            CartFlowView(
+                cartService: servicesAssembly.cartServiceProvider,
+                currencyService: servicesAssembly.currencyServiceProvider,
+                imageLoader: servicesAssembly.imageLoaderProvider
+            )
             .tabItem {
                 tabLabel(for: .cart)
             }

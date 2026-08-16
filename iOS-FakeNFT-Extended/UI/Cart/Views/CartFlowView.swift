@@ -9,30 +9,48 @@ import SwiftUI
 struct CartFlowView: View {
     
     @State private var router = CartRouter()
+    @State private var cartViewModel: CartViewModel
+    @State private var paymentViewModel: PaymentViewModel
     
-    private let cartViewModel: CartViewModel
-    private let paymentViewModel: PaymentViewModel
     private let imageLoader: ImageLoader
     
-    // MARK: - Init
-    init(cartViewModel: CartViewModel, paymentViewModel: PaymentViewModel, imageLoader: ImageLoader) {
-        self.cartViewModel = cartViewModel
-        self.paymentViewModel = paymentViewModel
+    init(
+        cartService: CartServiceProtocol,
+        currencyService: CryptoCurrencyServiceProtocol,
+        imageLoader: ImageLoader
+    ) {
+        _cartViewModel = State(
+            initialValue: CartViewModel(service: cartService)
+        )
+        
+        _paymentViewModel = State(
+            initialValue: PaymentViewModel(
+                currencyService: currencyService,
+                cartService: cartService
+            )
+        )
+        
         self.imageLoader = imageLoader
     }
     
-    // MARK: - Body
     var body: some View {
         NavigationStack(path: $router.path) {
-            CartView(viewModel: cartViewModel, imageLoader: imageLoader)
-                .navigationDestination(for: Route.self) { route in
-                    switch route {
-                    case .payment:
-                        PaymentMethodView(imageLoader: imageLoader, viewModel: paymentViewModel)
-                    case .success:
-                        SuccessPaymentView()
-                    }
+            CartView(
+                viewModel: cartViewModel,
+                imageLoader: imageLoader
+            )
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .payment:
+                    PaymentMethodView(
+                        imageLoader: imageLoader,
+                        viewModel: paymentViewModel
+                    )
+                    
+                case .success:
+                    SuccessPaymentView()
                 }
+            }
         }
         .environment(router)
     }
