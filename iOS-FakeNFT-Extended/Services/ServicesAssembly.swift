@@ -53,6 +53,14 @@ final class ServicesAssembly {
     }()
     
     @ObservationIgnored
+    private lazy var userService: UsersInfoService = {
+        UsersInfoServiceImpl(
+            networkClient: networkClient,
+            storage: nftStorage
+        )
+    }()
+    
+    @ObservationIgnored
     private lazy var currencyService: CurrenciesServiceImpl = {
         CurrenciesServiceImpl(
             networkClient: networkClient,
@@ -75,6 +83,10 @@ final class ServicesAssembly {
     
     var imageLoaderProvider: ImageLoader {
         imageLoader
+    }
+    
+    var usersInfoProvider: UsersInfoService {
+        userService
     }
     
     var ordersServiceProvider: OrdersService {
