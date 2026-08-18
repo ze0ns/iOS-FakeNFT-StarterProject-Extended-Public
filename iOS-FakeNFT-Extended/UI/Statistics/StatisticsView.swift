@@ -98,7 +98,7 @@ struct StatisticsView: View {
                         UserInfoCell(
                             name: user.name,
                             score: Int(user.rating) ?? 0,
-                            avatarUrl: user.avatar
+                            avatarUrlString: user.avatar
                         )
                     }
                 }
@@ -128,7 +128,7 @@ struct StatisticsView: View {
     }
 }
 
-struct SortPopupView: View {
+private struct SortPopupView: View {
     @Binding var isPresented: Bool
     let onSelect: (StatisticsViewModel.SortOption) -> Void
     
@@ -156,10 +156,9 @@ struct SortPopupView: View {
                         .padding(.vertical, 16)
                         .frame(maxWidth: .infinity)
                         .background(Color(.systemBackground))
-                        .cornerRadius(14)
+                        .clipShape(.rect(cornerRadius: 14))
                 }
-                .padding(.horizontal, 8)
-                .padding(.bottom, 8)
+                .padding([.bottom, .horizontal], 8)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }

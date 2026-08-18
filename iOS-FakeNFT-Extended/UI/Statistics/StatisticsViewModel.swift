@@ -56,8 +56,7 @@ final class StatisticsViewModel: ObservableObject {
     }
     
     func loadMoreIfNeeded(currentIndex: Int) async {
-        guard case let .loaded(users) = state else { return }
-        guard !isLoadingMore, hasMorePages else { return }
+        guard case let .loaded(users) = state, !isLoadingMore, hasMorePages else { return }
         
         // Триггер подгрузки за 3 элемента до конца
         let thresholdIndex = users.index(users.endIndex, offsetBy: -3, limitedBy: users.startIndex) ?? users.startIndex

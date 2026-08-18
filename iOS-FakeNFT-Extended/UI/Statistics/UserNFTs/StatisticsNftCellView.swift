@@ -5,7 +5,6 @@
 //  Created by Oschepkov Aleksandr on 15.08.2026.
 //
 
-import Kingfisher
 import SwiftUI
 
 struct StatisticsNftCellView: View {
@@ -17,18 +16,19 @@ struct StatisticsNftCellView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            KFImage(nft.coverURL)
-                .resizable()
-                .placeholder {
-                    Rectangle()
-                        .fill(Color(.lightGrayPrimary))
-                }
-                .scaledToFill()
-                .frame(width: 108, height: 108)
-                .clipShape(.rect(cornerRadius: 12))
-                .overlay(alignment: .topTrailing) {
-                    favoriteButton
-                }
+            AsyncImage(url: nft.coverURL) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                Rectangle()
+                    .fill(Color(.lightGrayPrimary))
+            }
+            .frame(width: 108, height: 108)
+            .clipShape(.rect(cornerRadius: 12))
+            .overlay(alignment: .topTrailing) {
+                favoriteButton
+            }
             
             NftRatingView(rating: nft.rating)
             

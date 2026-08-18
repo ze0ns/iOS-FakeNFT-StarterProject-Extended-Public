@@ -1,5 +1,5 @@
 //
-//  LeaderboardCell.swift
+//  UserInfoCell.swift
 //  iOS-FakeNFT-Extended
 //
 //  Created by Oschepkov Aleksandr on 28.07.2026.
@@ -10,11 +10,11 @@ import SwiftUI
 struct UserInfoCell: View {
     let name: String
     let score: Int
-    let avatarUrl: String
+    let avatarUrlString: String
     
     var body: some View {
         HStack(spacing: 16) {
-            AsyncImage(url: URL(string: avatarUrl)) { phase in
+            AsyncImage(url: URL(string: avatarUrlString)) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
