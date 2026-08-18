@@ -1,7 +1,7 @@
 import Foundation
 
 /// Объект передачи данных, описывающий NFT, получаемый от сервера.
-struct Nft: Codable, Sendable {
+struct Nft: Codable, Sendable, Identifiable {
 
     /// Идентификатор NFT.
     let id: String

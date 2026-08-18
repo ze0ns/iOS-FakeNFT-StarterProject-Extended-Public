@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct TabBarView: View {
-
+    
     @State private var cartRouter = CartRouter()
     @Environment(ServicesAssembly.self) private var servicesAssembly
-
+    
     var body: some View {
         TabView {
             ProfileView(
@@ -30,49 +30,39 @@ struct TabBarView: View {
                 tabLabel(for: .cart)
             }
             
-            TabPlaceholderView(
-                title: NSLocalizedString("Tab.statistics", comment: ""),
-                systemImage: "flag.2.crossed.fill"
+            StatisticsView(
+                usersInfoService: servicesAssembly.usersInfoProvider,
+                nftService:servicesAssembly.myNftService,
+                profileService: servicesAssembly.profileService
             )
+            
+            
             .tabItem {
-                Label(
-                    NSLocalizedString("Tab.statistics", comment: ""),
-                    systemImage: "flag.2.crossed.fill"
-                )
-                
-                placeholder(for: .cart)
-                    .tabItem {
-                        tabLabel(for: .cart)
-                    }
-                
-                placeholder(for: .statistics)
-                    .tabItem {
-                        tabLabel(for: .statistics)
-                    }
+                tabLabel(for: .statistics)
             }
         }
     }
-
+    
     private func tabLabel(for tab: Tab) -> some View {
         Label(
             NSLocalizedString(tab.titleKey, comment: ""),
             systemImage: tab.systemImage
         )
     }
-
+    
     private func placeholder(for tab: Tab) -> some View {
         TabPlaceholderView(
             title: NSLocalizedString(tab.titleKey, comment: ""),
             systemImage: tab.systemImage
         )
     }
-
+    
     private enum Tab {
         case profile
         case catalog
         case cart
         case statistics
-
+        
         var titleKey: String {
             switch self {
             case .profile:
@@ -85,7 +75,7 @@ struct TabBarView: View {
                 "Tab.statistics"
             }
         }
-
+        
         var systemImage: String {
             switch self {
             case .profile:

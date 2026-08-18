@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - UserModelElement
-struct UserModelElement: Codable {
+struct UserModelElement: Codable, Identifiable, Hashable  {
     let name: String
     let avatar: String
     let description: String?
